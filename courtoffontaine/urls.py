@@ -21,4 +21,5 @@ from . import views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.home),
+    path("uid/<int:uid>", views.inspect),
 ]

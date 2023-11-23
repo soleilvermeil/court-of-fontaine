@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Grenze+Gotisch"> <!-- Nice but too complex capital letters -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Texturina"> <!-- Very nice but not centered vertically -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Labrada"> <!-- Not centered too -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -29,7 +30,12 @@
                     event.stopPropagation();
                     var targetId = this.getAttribute('data-popover-target');
                     var popover = document.getElementById(targetId);
-                    // First hide all popovers
+                    // Check if the popover is already visible
+                    if (popover.style.display === 'block') {
+                        popover.style.display = 'none';
+                        return;
+                    }
+                    // If it is not the case, hide all popovers
                     hideAllPopovers();
                     // Then toggle the clicked popover
                     popover.style.display = popover.style.display === 'block' ? 'none' : 'block';
@@ -40,10 +46,14 @@
                 hideAllPopovers();
             });
         });
+        function search() {
+            var uid = document.getElementById("uid").value;
+            window.location.href = "/uid/" + uid;
+        }
     </script>
     <style>
         body {
-            font-family: "Averia Serif Libre", serif;
+            font-family: "Montserrat", serif;
         }
 
         .popover {
@@ -57,26 +67,25 @@
 <body>
     <main
         style="background-image: url({% static 'background.jpg' %}); background-size:cover; background-position:center; height: 100vh;">
-        <div style="background-color: rgba(255, 255, 255, 0.0);  height: 100vh;">
-            <div class="p-20">
+        <div class="flex justify-center" style="background-color: rgba(255, 255, 255, 0.0);  height: 100vh;">
+            <div class="p-20 lg:w-2/3">
                 <div class="bg-white p-10 rounded-md outline outline-1 shadow-xl"
                     style="backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.3); outline-color: rgba(255, 255, 255, 0.5);">
-                    <div class="flex mb-10">
-                        <div class="w-1/2 text-white">
-                            <h1 class="text-6xl">Court of Fontaine</h1>
+                    <div class="mb-10 grid grid-cols-1 lg:grid-cols-2">
+                        <div class="text-white">
+                            <h1 class="text-6xl" style="font-family: 'Grenze Gotisch';">Court of Fontaine</h1>
                             <p class="text-s">Let yourself be judged!</p>
                         </div>
-                        <div class="w-1/2 flex mb-10">
+                        <div class="flex items-end mt-10">
                             <input
-                                class="shadow-xl rounded-l-md w-3/4 p-2 text-gray-700 focus:outline-none focus:shadow-outline text-s outline outline-1"
+                                class="shadow-xl rounded-l-md w-3/4 p-2 text-gray-700 text-s outline outline-1"
                                 id="uid" type="text" style="outline-color: rgba(255, 255, 255, 0.8);"
                                 placeholder="Enter UID...">
-                            <button class="bg-green-500 rounded-r-md px-1 py-0 text-s w-1/4 shadow-xl outline outline-1"
+                            <button class="bg-green-500 rounded-r-md p-2 text-s w-1/4 shadow-xl outline outline-1" type="submit" onClick="search()"
                                 style="background-color: rgba(255, 255, 255, 0.5); outline-color: rgba(255, 255, 255, 0.8);">Search</button>
                         </div>
                     </div>
-                    <div class="overflow-visible rounded-t-md shadow-xl  outline outline-1"
-                        style="outline-color: rgba(255, 255, 255, 0.8);">
+                    <div>
                         {% block content %}
                         CONTENT
                         {% endblock %}

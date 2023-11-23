@@ -1,64 +1,17 @@
 from django.shortcuts import render
+from django.http import HttpResponse, Http404
+from scripts import get_infos, reformat_infos, rate
 
 def home(request):
-    return render(request, "base_table.html", {
-        "BGAUTHORNAME": "Hello world",
-        "BGAUTHORLINK": "google.com",
-        "uid": "703047530",
-        "datetime": "2023-11-21T17:48:27.420307",
-        "characters": [
-            {
-                "name": "Furina",
-                "artifacts": {
-                    "flower": {
-                        "rating": {
-                            "text": "Excellent",
-                            "textcolor": "green-900",
-                            "bgcolor": "green-500",
-                        },
-                        "tooltips": [
-                            {
-                                "text": "Good CRIT value",
-                                "textcolor": "green-700",
-                                "textweight": "bold",
-                            },
-                            {
-                                "text": "Excellent substats",
-                                "textcolor": "green-700",
-                                "textweight": "normal",
-                            },
-                            {
-                                "text": "Bad rolls",
-                                "textcolor": "red-700",
-                                "textweight": "normal",
-                            },
-                        ]
-                    },
-                    "feather": {
-                        "rating": {
-                            "text": "Bad",
-                            "textcolor": "red-700",
-                            "bgcolor": "red-200",
-                        },
-                        "tooltips": [
-                            {
-                                "text": "Good CRIT value",
-                                "textcolor": "green-700",
-                                "textweight": "bold",
-                            },
-                            {
-                                "text": "Excellent substats",
-                                "textcolor": "green-700",
-                                "textweight": "normal",
-                            },
-                            {
-                                "text": "Bad rolls",
-                                "textcolor": "red-700",
-                                "textweight": "normal",
-                            },
-                        ]
-                    },
-                }
-            }
-        ]
-    })
+    return render(request, "base_page.html", {})
+
+def inspect(request, uid):
+    
+    infos = get_infos(uid)
+    try:
+        infos = reformat_infos(infos)
+        rating = rate(infos)
+    except KeyError:
+        raise Http404("Invalid UID")
+    else:
+        return render(request, "base_table.html", rating)
