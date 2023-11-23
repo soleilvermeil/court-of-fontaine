@@ -1,6 +1,6 @@
 <tr style="border-bottom-width: 1px; border-color: rgba(255, 255, 255, 0.5)">
-    <th class="p-2">{{ NAME }}</th>
-    {% for artifact in artifacts %}
+    <th class="p-2">{{ character.name }}</th>
+    {% for artifacttype, artifact in character.artifacts.items %}
     {% include "base_cell.html" %}
     {% endfor %}
 </tr>

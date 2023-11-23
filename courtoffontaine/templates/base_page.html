@@ -1,3 +1,5 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
 
@@ -5,7 +7,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Court of Fontaine</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre"> <!-- Too few contrast between light and bold -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro"> <!-- Too bold -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Grenze+Gotisch"> <!-- Nice but too complex capital letters -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Texturina"> <!-- Very nice but not centered vertically -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Labrada"> <!-- Not centered too -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -37,7 +43,7 @@
     </script>
     <style>
         body {
-            font-family: "Averia Serif Libre";
+            font-family: "Averia Serif Libre", serif;
         }
 
         .popover {
@@ -50,7 +56,7 @@
 
 <body>
     <main
-        style="background-image: url('../src/background.jpg'); background-size:cover; background-position:center; height: 100vh;">
+        style="background-image: url({% static 'background.jpg' %}); background-size:cover; background-position:center; height: 100vh;">
         <div style="background-color: rgba(255, 255, 255, 0.0);  height: 100vh;">
             <div class="p-20">
                 <div class="bg-white p-10 rounded-md outline outline-1 shadow-xl"
@@ -76,7 +82,7 @@
                         {% endblock %}
                     </div>
                 </div>
-                <div class="text-right text-white mt-2">Art by <a class="underline underline-offset-4" href={{ BGAUTHORLINK }}>{{ BGAUTHORNAME }}</a></div>
+                <div class="text-right text-white mt-2">Art by <a class="underline underline-offset-4" href=https://www.pixiv.net/en/users/21454383>Minty0</a></div>
             </div>
         </div>
     </main>
