@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Court of Fontaine</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var buttons = document.querySelectorAll('.popover-button');
+            // Function to hide all popovers
+            function hideAllPopovers() {
+                document.querySelectorAll('.popover').forEach(function (popover) {
+                    popover.style.display = 'none';
+                });
+            }
+            // Button click handler that toggles the associated popover
+            buttons.forEach(function (button) {
+                button.addEventListener('click', function (event) {
+                    // Prevent the click from being registered on the document
+                    event.stopPropagation();
+                    var targetId = this.getAttribute('data-popover-target');
+                    var popover = document.getElementById(targetId);
+                    // First hide all popovers
+                    hideAllPopovers();
+                    // Then toggle the clicked popover
+                    popover.style.display = popover.style.display === 'block' ? 'none' : 'block';
+                });
+            });
+            // Document click handler to hide all popovers if clicking outside of them
+            document.addEventListener('click', function () {
+                hideAllPopovers();
+            });
+        });
+    </script>
+    <style>
+        body {
+            font-family: "Averia Serif Libre";
+        }
+
+        .popover {
+            display: none;
+            background-color: rgba(255, 255, 255, 1.0);
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <main
+        style="background-image: url('6731912_image.jpg'); background-size:cover; background-position:center; height: 100vh;">
+        <div style="background-color: rgba(255, 255, 255, 0.0);  height: 100vh;">
+            <div class="p-20">
+                <div class="bg-white p-10 rounded-md outline outline-1 shadow-xl"
+                    style="backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.3); outline-color: rgba(255, 255, 255, 0.5);">
+                    <div class="flex mb-10">
+                        <div class="w-1/2 text-white">
+                            <h1 class="text-6xl">Court of Fontaine</h1>
+                            <p class="text-s">Let yourself be judged!</p>
+                        </div>
+                        <div class="w-1/2 flex mb-10">
+                            <input
+                                class="shadow-xl rounded-l-md w-3/4 p-2 text-gray-700 focus:outline-none focus:shadow-outline text-s outline outline-1"
+                                id="uid" type="text" style="outline-color: rgba(255, 255, 255, 0.8);"
+                                placeholder="Enter UID...">
+                            <button class="bg-green-500 rounded-r-md px-1 py-0 text-s w-1/4 shadow-xl outline outline-1"
+                                style="background-color: rgba(255, 255, 255, 0.5); outline-color: rgba(255, 255, 255, 0.8);">Search</button>
+                        </div>
+                    </div>
+                    <div class="overflow-visible rounded-t-md shadow-xl  outline outline-1"
+                        style="outline-color: rgba(255, 255, 255, 0.8);">
+                        {% CONTENT %}
+                    </div>
+                </div>
+                <div class="text-right text-white mt-2">Art by <a class="underline underline-offset-4" href={% BGAUTHORLINK %}>{% BGAUTHORNAME %}</a></div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
