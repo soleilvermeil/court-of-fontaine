@@ -1,3 +1,6 @@
+{% extends "base_page.html" %}
+
+{% block content %}
 <table class="table-fixed w-full text-s text-left rounded-md">
     <thead>
         <tr style="background-color: rgba(255, 255, 255, 0.8);">
@@ -10,6 +13,9 @@
         </tr>
     </thead>
     <tbody class="bg-white" style="background-color: rgba(255, 255, 255, 0.5);">
-        {% ROW %}
+        {% for character in characters %}
+        {% include "base_row.html" %}
+        {% endfor %}
     </tbody>
 </table>
+{% endblock %}
