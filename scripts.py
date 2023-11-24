@@ -103,11 +103,11 @@ def rating2emoji(rating: float) -> str:
     else: return "😍"
 
 def rating2colors(rating: float) -> dict:
-    if rating < RATINGS[0]: return {"textcolor": "red-900", "bgcolor": "red-500", "tttextcolor": "red-700", "tttextweight": "bold"}
+    if rating < RATINGS[0]: return {"textcolor": "white", "bgcolor": "red-600", "tttextcolor": "red-700", "tttextweight": "bold"}
     elif rating < RATINGS[1]: return {"textcolor": "red-700", "bgcolor": "red-200", "tttextcolor": "red-700", "tttextweight": "normal"}
     elif rating < RATINGS[2]: return {"textcolor": "black", "bgcolor": "transparent", "tttextcolor": "black", "tttextweight": "normal"}
     elif rating < RATINGS[3]: return {"textcolor": "green-700", "bgcolor": "green-200", "tttextcolor": "green-700", "tttextweight": "normal"}
-    else: return {"textcolor": "green-900", "bgcolor": "green-500", "tttextcolor": "green-700", "tttextweight": "bold"}
+    else: return {"textcolor": "white", "bgcolor": "green-600", "tttextcolor": "green-700", "tttextweight": "bold"}
 
 def rate(data: dict) -> dict:
     """Rate the artifacts of a player"""
