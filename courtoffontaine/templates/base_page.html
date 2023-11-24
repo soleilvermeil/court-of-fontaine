@@ -48,7 +48,17 @@
                 hideAllPopovers();
             });
         });
+
         function search() {
+
+            // Save search query to local storage
+            function saveSearchQuery(query) {
+                const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+                searchHistory.unshift(query); // Add the new query to the beginning of the array
+                localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+            }
+
+
             var uid = document.getElementById("uid").value;
             window.location.href = "/uid/" + uid;
         }

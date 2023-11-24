@@ -24,7 +24,7 @@ def inspect(request, uid):
 
 def badquery(request, query):
     return render(request, "base_page_simpletext.html", {
-        "title": "You made Furina wheeze",
+        "title": "Furina is making fun of you >v<",
         "body": "Please learn how to use a computer.",
         "image": "lol.webp",
     })

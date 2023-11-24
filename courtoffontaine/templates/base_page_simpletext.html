@@ -5,7 +5,7 @@
 <div class="flex space-x-10">
     {% if image %}
     <div>
-        <img class="rounded-xl" src={% get_static_prefix %}{{ image }} />
+        <img class="rounded-md" src={% get_static_prefix %}{{ image }} />
     </div>
     {% endif %}
     {% if title or body %}
