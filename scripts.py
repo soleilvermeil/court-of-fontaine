@@ -128,15 +128,16 @@ def rate(data: dict) -> dict:
             },
             "artifacts": {}
         })
+        scores = [0] * len(EQUIPTYPE)
         for artifact_type in EQUIPTYPE.values():
             BAD_SUBSTATS = ["Flat HP", "Flat ATK", "Flat DEF"]
             AVERAGE_SUBSTATS = ["HP%", "DEF%", "Elemental Mastery", "Energy Recharge"]
             GOOD_SUBSTATS = ["ATK%", "Crit DMG", "Crit RATE"]
             artifact_obj = character["artifacts"][artifact_type.lower()]
             artifact_substats = artifact_obj["substats"]
-            # --------------
-            # Compute scores
-            # --------------
+            # ----------------
+            # Computing scores
+            # ----------------
             bad_substats_count = len([bad_substat for bad_substat in BAD_SUBSTATS if get_substat_value(substat_name=bad_substat, artifact_substats=artifact_substats) > 0])
             average_substats_count = len([average_substat for average_substat in AVERAGE_SUBSTATS if get_substat_value(substat_name=average_substat, artifact_substats=artifact_substats) > 0])
             good_substats_count = len([good_substat for good_substat in GOOD_SUBSTATS if get_substat_value(substat_name=good_substat, artifact_substats=artifact_substats) > 0])
@@ -150,7 +151,8 @@ def rate(data: dict) -> dict:
             cv = cd + 2 * cr
             cv_score = map_range(cv, 0, 50 if artifact_type != 'Circlet' else 25, 0, 1)
             score = 1 / 3 * (substats_score + rolls_score + cv_score)
-            # --------------
+            scores[list(EQUIPTYPE.values()).index(artifact_type)] = score
+            # ----------------
             tooltips = []
             if rating2colors(rolls_score)["tttextcolor"] is not None:
                 tooltips.append({
@@ -170,7 +172,7 @@ def rate(data: dict) -> dict:
                     "textcolor": rating2colors(cv_score)["tttextcolor"],
                     "textweight": rating2colors(cv_score)["tttextweight"],
                 })
-            # --------------
+            # ----------------
             rating["characters"][-1]["artifacts"][artifact_type.lower()] = {
                 "rating": {
                     "text": rating2str(score).capitalize(),
@@ -179,8 +181,13 @@ def rate(data: dict) -> dict:
                 },
                 "tooltips": tooltips,
             }
-            rating["characters"][-1]["progress"]["value"] += score
-        rating["characters"][-1]["progress"]["value"] = round_to_multiple(map_range(rating["characters"][-1]["progress"]["value"], 1, 4, 0, 100, True), 25)
+        progress = 0
+        progress += sum([2 if score >= RATINGS[-1] else 0 for score in scores])
+        progress += sum([1 if RATINGS[-1] > score >= RATINGS[-2] else 0 for score in scores])
+        progress -= sum([1 if RATINGS[0] <= score < RATINGS[1] else 0 for score in scores])
+        progress -= sum([2 if score < RATINGS[0] else 0 for score in scores])
+        progress = map_range(progress, -5, 5, 0, 100, True)
+        rating["characters"][-1]["progress"]["value"] = round_to_multiple(progress, 10)
         rating["characters"][-1]["progress"]["color"] = "indigo-600"
     return rating
 
@@ -200,22 +207,27 @@ def print_rating(data: dict, character_index: int) -> None:
         BAD_SUBSTATS = ["Flat HP", "Flat ATK", "Flat DEF"]
         AVERAGE_SUBSTATS = ["HP%", "DEF%", "Elemental Mastery", "Energy Recharge"]
         GOOD_SUBSTATS = ["ATK%", "Crit DMG", "Crit RATE"]
+        # ----------------
+        # Computing scores
+        # ----------------
         bad_substats_count = len([bad_substat for bad_substat in BAD_SUBSTATS if get_substat_value(substat_name=bad_substat, artifact_substats=artifact_substats) > 0])
         average_substats_count = len([average_substat for average_substat in AVERAGE_SUBSTATS if get_substat_value(substat_name=average_substat, artifact_substats=artifact_substats) > 0])
         good_substats_count = len([good_substat for good_substat in GOOD_SUBSTATS if get_substat_value(substat_name=good_substat, artifact_substats=artifact_substats) > 0])
+        substats_score = good_substats_count + min(1, average_substats_count) - bad_substats_count
+        print(f" - {bad_substats_count} bad substats")
+        print(f" - {average_substats_count} average substats")
+        print(f" - {good_substats_count} good substats")
+        # ----------------
         bad_substats_rolls = sum([0] + [artifact_substat['rolls'] for artifact_substat in artifact_substats if artifact_substat['name'] in BAD_SUBSTATS])
         average_substats_rolls = max([0] + [artifact_substat['rolls'] for artifact_substat in artifact_substats if artifact_substat['name'] in AVERAGE_SUBSTATS])
         good_substats_rolls = sum([0] + [artifact_substat['rolls'] for artifact_substat in artifact_substats if artifact_substat['name'] in GOOD_SUBSTATS])
-        substats_score = good_substats_count + min(1, average_substats_count) - bad_substats_count
         rolls_score = good_substats_rolls + average_substats_rolls - bad_substats_rolls
-        # print(f" - {bad_substats_count} bad substats")
-        # print(f" - {average_substats_count} average substats")
-        # print(f" - {good_substats_count} good substats")
-        # print(f"=> {rating2emoji(map_range(substats_score, 0, 4, 0, 1))} {rating2str(map_range(substats_score, 0, 4, 0, 1)).upper()}")
+        print(f"=> {rating2emoji(map_range(substats_score, 0, 4, 0, 1))} {rating2str(map_range(substats_score, 0, 4, 0, 1)).upper()}")
         print(f" - {bad_substats_rolls} bad substats rolls")
         print(f" - {average_substats_rolls} average (effective) substats rolls")
         print(f" - {good_substats_rolls} good substats rolls")
         print(f"=> {rating2emoji(map_range(rolls_score, 0, 9, 0, 1))} {rating2str(map_range(rolls_score, 0, 9, 0, 1)).upper()}")
+        # ----------------
         cd = get_substat_value(substat_name="Crit DMG", artifact_substats=artifact_substats)
         cr = get_substat_value(substat_name="Crit RATE", artifact_substats=artifact_substats)
         cv = cd + 2 * cr
@@ -223,6 +235,7 @@ def print_rating(data: dict, character_index: int) -> None:
         print(f" - {cr:0>4.1f}% of Crit RATE")
         print(f" - {cv:0>4.1f}% of Crit VALUE")
         print(f"=> {rating2emoji(map_range(cv, 0, 50, 0, 1))} {rating2str(map_range(cv, 0, 50, 0, 1)).upper()}")
+        # ----------------
         score = 1/2 * (map_range(cv, 0, 50, 0, 1) + map_range(rolls_score, 0, 9, 0, 1))
         print(f"Overall {rating2emoji(score)} {rating2str(score).upper()}")
         scores.append(score)

@@ -1,0 +1,14 @@
+{% extends "base_page.html" %}
+{% load static %}
+
+{% block content %}
+<div class="flex space-x-10">
+    <div>
+        <img src={% static 'sad.webp' %} />
+    </div>
+    <div class="text-white flex-auto">
+        <div class="font-bold text-3xl">{{ title }}</div>
+        <div>{{ body }}</div>
+    </div>
+</div>
+{% endblock %}

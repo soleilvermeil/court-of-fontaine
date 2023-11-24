@@ -70,12 +70,12 @@
     <main
         style="background-image: url({% static 'background.jpg' %}); background-size:cover; background-position:center; height: 100vh;">
         <div class="flex justify-center" style="background-color: rgba(255, 255, 255, 0.0);  height: 100vh;">
-            <div class="p-20 lg:w-3/4">
-                <div class="bg-white p-10 rounded-md outline outline-1 shadow-xl"
-                    style="backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); background-color: rgba(255, 255, 255, 0.3); outline-color: rgba(255, 255, 255, 0.5);">
+            <div class="p-0 w-full md:p-20 lg:w-3/4">
+                <div class="bg-white p-10 md:rounded-md outline outline-1 shadow-xl"
+                    style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background-color: rgba(255, 255, 255, 0.1); outline-color: rgba(255, 255, 255, 0.5);">
                     <div class="mb-10 grid grid-cols-1 lg:grid-cols-2">
                         <div class="text-white">
-                            <h1 class="text-6xl" style="font-family: 'Grenze Gotisch';">Court of Fontaine</h1>
+                            <h1 class="text-6xl" style="font-family: 'Grenze Gotisch';"><a href="/">Court of<br>Fontaine</a></h1>
                             <p class="text-s">Let yourself be judged!</p>
                         </div>
                         <div class="flex items-end mt-10">
@@ -87,13 +87,21 @@
                                 style="background-color: rgba(255, 255, 255, 0.5); outline-color: rgba(255, 255, 255, 0.8);">Search</button>
                         </div>
                     </div>
+                    <hr class="mb-10 opacity-50">
                     <div>
                         {% block content %}
-                        CONTENT
+                        <div class="text-white">
+                            Nothing to see here...
+                        </div>
                         {% endblock %}
                     </div>
                 </div>
+                <!--
                 <div class="text-right text-white mt-2">Art by <a class="underline underline-offset-4" href=https://www.pixiv.net/en/users/21454383>Minty0</a></div>
+                -->
+                <div class="text-center text-white mt-2">
+                    Website by <a class="underline underline-offset-4" href="https://github.com/SoleilVermeil/">SoleilVermeil</a>. No affiliation with HoYoverse.
+                </div>
             </div>
         </div>
     </main>

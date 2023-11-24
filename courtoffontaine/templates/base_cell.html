@@ -1,5 +1,5 @@
 <td class="p-2">
-    <button class="bg-{{ artifact.rating.bgcolor }} rounded px-1 py-0 text-{{ artifact.rating.textcolor }} relative popover-button"  data-popover-target="popover-{{ character.name|lower }}-{{ artifacttype }}">
+    <button class="bg-{{ artifact.rating.bgcolor }} rounded px-1 py-0 text-{{ artifact.rating.textcolor }} relative popover-button text-xs lg:text-base" style="white-space: nowrap;" data-popover-target="popover-{{ character.name|lower }}-{{ artifacttype }}">
         {{ artifact.rating.text }}
         <div id="popover-{{ character.name|lower }}-{{ artifacttype }}"
             class="popover rounded-md shadow-xl text-s text-left p-2  w-48 absolute bottom-7 left-1/2 transform -translate-x-1/2">
