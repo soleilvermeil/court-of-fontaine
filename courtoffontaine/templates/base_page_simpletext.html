@@ -3,12 +3,16 @@
 
 {% block content %}
 <div class="flex space-x-10">
+    {% if image %}
     <div>
-        <img src={% static 'sad.webp' %} />
+        <img class="rounded-md" src={% get_static_prefix %}{{ image }} />
     </div>
+    {% endif %}
+    {% if title or body %}
     <div class="text-white flex-auto">
         <div class="font-bold text-3xl">{{ title }}</div>
         <div>{{ body }}</div>
     </div>
+    {% endif %}
 </div>
 {% endblock %}
