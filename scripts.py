@@ -9,8 +9,14 @@ import shutil
 
 LINE_WIDTH = 40
 
-def map_range(x, x1, x2, y1, y2):
-    return (x - x1) * (y2 - y1) / (x2 - x1) + y1
+def map_range(x, x1, x2, y1, y2, clamp=False):
+    result = (x - x1) * (y2 - y1) / (x2 - x1) + y1
+    if clamp:
+        result = min(max(result, y1), y2)
+    return result
+
+def round_to_multiple(x, multiple):
+    return multiple * round(x / multiple)
 
 def get_infos(uid: int) -> dict:
     """Get the informations from Enka.Network"""
@@ -116,6 +122,10 @@ def rate(data: dict) -> dict:
     for character in data["characters"]:
         rating["characters"].append({
             "name": character["name"],
+            "progress": {
+                "value": 0,
+                "color": "",
+            },
             "artifacts": {}
         })
         for artifact_type in EQUIPTYPE.values():
@@ -169,6 +179,9 @@ def rate(data: dict) -> dict:
                 },
                 "tooltips": tooltips,
             }
+            rating["characters"][-1]["progress"]["value"] += score
+        rating["characters"][-1]["progress"]["value"] = round_to_multiple(map_range(rating["characters"][-1]["progress"]["value"], 1, 4, 0, 100, True), 25)
+        rating["characters"][-1]["progress"]["color"] = "indigo-600"
     return rating
 
 def print_rating(data: dict, character_index: int) -> None:
