@@ -1,0 +1,1206 @@
+{
+    "uid": "700583214",
+    "datetime": "2023-11-25T15:31:35.850705",
+    "characters": [
+        {
+            "name": "Raiden Shogun",
+            "artifacts": {
+                "flower": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat HP",
+                        "value": 4780
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit RATE",
+                            "value": 2.7,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Flat ATK",
+                            "value": 56,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 16.8,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 11.7,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "feather": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat ATK",
+                        "value": 311
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit DMG",
+                            "value": 12.4,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 58,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 11.1,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 9.1,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "sands": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Energy Recharge",
+                        "value": 51.8
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat HP",
+                            "value": 209,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 9.7,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "DEF%",
+                            "value": 12.4,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 10.5,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "goblet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "ATK%",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit RATE",
+                            "value": 6.2,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 23.3,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 49,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "DEF%",
+                            "value": 5.8,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "circlet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Crit DMG",
+                        "value": 62.2
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat HP",
+                            "value": 269,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 7,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Flat ATK",
+                            "value": 27,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 16.2,
+                            "rolls": 3
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Yae Miko",
+            "artifacts": {
+                "flower": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat HP",
+                        "value": 4780
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit RATE",
+                            "value": 7,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 21,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 15.2,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 11,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "feather": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat ATK",
+                        "value": 311
+                    },
+                    "substats": [
+                        {
+                            "name": "ATK%",
+                            "value": 16.3,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 2.7,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 6.2,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 63,
+                            "rolls": 3
+                        }
+                    ]
+                },
+                "sands": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "ATK%",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 51,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 5.8,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 5.8,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 20.2,
+                            "rolls": 3
+                        }
+                    ]
+                },
+                "goblet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Electro DMG Bonus",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat HP",
+                            "value": 747,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 44,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 7,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 9.9,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "circlet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Crit DMG",
+                        "value": 62.2
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat DEF",
+                            "value": 16,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 15.5,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 42,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 9.7,
+                            "rolls": 3
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Keqing",
+            "artifacts": {
+                "flower": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat HP",
+                        "value": 4780
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat DEF",
+                            "value": 42,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 14,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 40,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 8.7,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "feather": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat ATK",
+                        "value": 311
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit RATE",
+                            "value": 3.1,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 20.4,
+                            "rolls": 4
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 5.8,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 17.1,
+                            "rolls": 3
+                        }
+                    ]
+                },
+                "sands": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "ATK%",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit RATE",
+                            "value": 8.9,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 21,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Flat ATK",
+                            "value": 16,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 21,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "goblet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Electro DMG Bonus",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "DEF%",
+                            "value": 14.6,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Flat DEF",
+                            "value": 16,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 12.4,
+                            "rolls": 4
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 13.2,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "circlet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Crit RATE",
+                        "value": 31.1
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat ATK",
+                            "value": 31,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 6.2,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 19.2,
+                            "rolls": 4
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 4.5,
+                            "rolls": 1
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Kujou Sara",
+            "artifacts": {
+                "flower": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat HP",
+                        "value": 4780
+                    },
+                    "substats": [
+                        {
+                            "name": "Energy Recharge",
+                            "value": 13,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 9.3,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 12.1,
+                            "rolls": 4
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 21,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "feather": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat ATK",
+                        "value": 311
+                    },
+                    "substats": [
+                        {
+                            "name": "Energy Recharge",
+                            "value": 17.5,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 13.2,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 5.8,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 6.2,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "sands": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Energy Recharge",
+                        "value": 51.8
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat DEF",
+                            "value": 19,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 9.7,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 8.2,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "DEF%",
+                            "value": 11.7,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "goblet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Electro DMG Bonus",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat ATK",
+                            "value": 35,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 11.7,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 8.7,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 13.2,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "circlet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Crit DMG",
+                        "value": 62.2
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat DEF",
+                            "value": 16,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 5.2,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 14.6,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Flat ATK",
+                            "value": 54,
+                            "rolls": 3
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Fischl",
+            "artifacts": {
+                "flower": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat HP",
+                        "value": 4780
+                    },
+                    "substats": [
+                        {
+                            "name": "Energy Recharge",
+                            "value": 9.7,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 10.5,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 18.7,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "DEF%",
+                            "value": 7.3,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "feather": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat ATK",
+                        "value": 311
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit DMG",
+                            "value": 13.2,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 14,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 11,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "DEF%",
+                            "value": 7.3,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "sands": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "ATK%",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat HP",
+                            "value": 687,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "DEF%",
+                            "value": 10.9,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 5.2,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Flat DEF",
+                            "value": 42,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "goblet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Electro DMG Bonus",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit DMG",
+                            "value": 28.8,
+                            "rolls": 4
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 40,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 6.6,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 4.1,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "circlet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "HP%",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat HP",
+                            "value": 747,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Flat ATK",
+                            "value": 35,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 6.5,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 18.7,
+                            "rolls": 3
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Mona",
+            "artifacts": {
+                "flower": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat HP",
+                        "value": 4780
+                    },
+                    "substats": [
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 21,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 11.1,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 5.4,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 22.5,
+                            "rolls": 3
+                        }
+                    ]
+                },
+                "feather": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat ATK",
+                        "value": 311
+                    },
+                    "substats": [
+                        {
+                            "name": "Energy Recharge",
+                            "value": 16.8,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 4.7,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Flat HP",
+                            "value": 508,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 10.1,
+                            "rolls": 3
+                        }
+                    ]
+                },
+                "sands": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Energy Recharge",
+                        "value": 51.8
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat HP",
+                            "value": 239,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 17.1,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 9.3,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Flat ATK",
+                            "value": 27,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "goblet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Hydro DMG Bonus",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "DEF%",
+                            "value": 7.3,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 13.2,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 12.8,
+                            "rolls": 4
+                        },
+                        {
+                            "name": "Flat DEF",
+                            "value": 16,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "circlet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Crit DMG",
+                        "value": 62.2
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat DEF",
+                            "value": 23,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Flat ATK",
+                            "value": 33,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 22.7,
+                            "rolls": 4
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 5.3,
+                            "rolls": 1
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Nahida",
+            "artifacts": {
+                "flower": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat HP",
+                        "value": 4780
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit RATE",
+                            "value": 11.3,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 11.7,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Flat DEF",
+                            "value": 16,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 33,
+                            "rolls": 2
+                        }
+                    ]
+                },
+                "feather": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat ATK",
+                        "value": 311
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat DEF",
+                            "value": 37,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 5.2,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 12.8,
+                            "rolls": 4
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 7.8,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "sands": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Elemental Mastery",
+                        "value": 187
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit DMG",
+                            "value": 14.8,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Flat HP",
+                            "value": 598,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "HP%",
+                            "value": 4.1,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 11.3,
+                            "rolls": 3
+                        }
+                    ]
+                },
+                "goblet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Elemental Mastery",
+                        "value": 187
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit DMG",
+                            "value": 20.2,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 6.6,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 9.3,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Flat HP",
+                            "value": 299,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "circlet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Crit DMG",
+                        "value": 62.2
+                    },
+                    "substats": [
+                        {
+                            "name": "HP%",
+                            "value": 4.1,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 2.7,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 17.5,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 65,
+                            "rolls": 3
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Jean",
+            "artifacts": {
+                "flower": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat HP",
+                        "value": 4780
+                    },
+                    "substats": [
+                        {
+                            "name": "Crit RATE",
+                            "value": 3.9,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 13.2,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 18.1,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 15.7,
+                            "rolls": 3
+                        }
+                    ]
+                },
+                "feather": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Flat ATK",
+                        "value": 311
+                    },
+                    "substats": [
+                        {
+                            "name": "Flat HP",
+                            "value": 478,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 10.4,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 18.7,
+                            "rolls": 4
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 3.9,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "sands": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "ATK%",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "Energy Recharge",
+                            "value": 5.2,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 14,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 13.6,
+                            "rolls": 4
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 19,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "goblet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Anemo DMG Bonus",
+                        "value": 46.6
+                    },
+                    "substats": [
+                        {
+                            "name": "ATK%",
+                            "value": 11.7,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Energy Recharge",
+                            "value": 5.2,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 26.4,
+                            "rolls": 4
+                        },
+                        {
+                            "name": "Flat HP",
+                            "value": 239,
+                            "rolls": 1
+                        }
+                    ]
+                },
+                "circlet": {
+                    "level": 20,
+                    "mainstat": {
+                        "name": "Crit DMG",
+                        "value": 62.2
+                    },
+                    "substats": [
+                        {
+                            "name": "ATK%",
+                            "value": 8.7,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Crit RATE",
+                            "value": 10.9,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "Flat ATK",
+                            "value": 51,
+                            "rolls": 3
+                        },
+                        {
+                            "name": "HP%",
+                            "value": 5.8,
+                            "rolls": 1
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

@@ -47,21 +47,64 @@
             document.addEventListener('click', function () {
                 hideAllPopovers();
             });
-        });
 
-        function search() {
-
-            // Save search query to local storage
-            function saveSearchQuery(query) {
-                const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-                searchHistory.unshift(query); // Add the new query to the beginning of the array
-                localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+            const searchbar = document.getElementById("uid");
+            const searchHistoryDisplay = document.getElementById("searchHistoryDisplay");
+            searchbar.addEventListener("focus", function () {
+                searchHistoryDisplay.style.display = "block";
+            });
+            searchbar.addEventListener("blur", function () {
+                if (searchHistoryDisplay.querySelector(":hover") == null) {
+                    searchHistoryDisplay.style.display = 'none';
+                } else {
+                    // // set value of searchbar
+                    // const searchwords = searchHistoryDisplay.getElementsByTagName("p");
+                    // // get the one that is hovered
+                    // var searchword = "";
+                    // for (var i = 0; i < searchwords.length; i++) {
+                    //     if (searchwords[i].querySelector(":hover") != null) {
+                    //         searchword = searchwords[i].innerHTML;
+                    //         break;
+                    //     }
+                    // }
+                    // searchbar.value = searchword;
+                }
+            });
+            // Write the search history to the page
+            function writeSeachHistory() {
+                //alert("Writing search history to page");
+                const searchHistory = getSearchHistory();
+                document.getElementsByName('searchHistory')[0].innerHTML = searchHistory;
             }
 
+            // get a string of the concatenated values of search history
+            function getSearchHistory() {
+                const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+                return searchHistory.join(',');
+            }
 
-            var uid = document.getElementById("uid").value;
-            window.location.href = "/uid/" + uid;
+    
+        });
+        function search() {
+
+        // Save search query to local storage
+        function saveSearchQuery(query) {
+            //alert("Saving search query: " + query);
+            const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+            searchHistory.unshift(query); // Add the new query to the beginning of the array
+            localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
         }
+
+        saveSearchQuery(document.getElementById("uid").value);
+        var uid = document.getElementById("uid").value;
+        window.location.href = "/uid/" + uid;
+        }
+
+        function hideseach() {
+            const searchHistoryDisplay = document.getElementById("searchHistoryDisplay");
+            searchHistoryDisplay.style.display = 'none';
+        }
+        
     </script>
     <style>
         body {
@@ -76,7 +119,7 @@
     </style>
 </head>
 
-<body style="background-image: url({% static 'background.jpg' %}); background-size:cover; background-position:center; background-attachment: fixed;">
+<body onload="writeSeachHistory()" style="background-image: url({% static 'background.jpg' %}); background-size:cover; background-position:center; background-attachment: fixed;">
     <main>
         <div class="flex justify-center" style="background-color: rgba(255, 255, 255, 0.0);  height: 100vh;">
             <div class="p-0 w-full md:p-20 lg:w-3/4">
@@ -87,13 +130,22 @@
                             <h1 class="text-6xl" style="font-family: 'Grenze Gotisch';"><a href="/">Court of<br>Fontaine</a></h1>
                             <p class="text-s">Let yourself be judged!</p>
                         </div>
-                        <div class="flex items-end mt-10">
+                        <div class="flex items-end mt-10 relative">
+                            <!--<div><p name="searchHistory"></p></div>-->
                             <input
-                                class="shadow-xl rounded-l-md w-3/4 p-2 text-gray-700 text-s outline outline-1"
+                                class="shadow-xl rounded-l-md focus:rounded-none focus:rounded-tl-md w-3/4 p-2 text-gray-700 text-s outline outline-1"
                                 id="uid" type="text" style="outline-color: rgba(255, 255, 255, 0.8);"
                                 placeholder="Enter UID...">
                             <button class="bg-green-500 rounded-r-md p-2 text-s w-1/4 shadow-xl outline outline-1" type="submit" onClick="search()"
                                 style="background-color: rgba(255, 255, 255, 0.5); outline-color: rgba(255, 255, 255, 0.8);">Search</button>
+                            <div class="absolute bg-white top-full w-3/4 z-10 shadow-xl" style="display: none;" id="searchHistoryDisplay">
+                                <table class="table-fixed w-full outline outline-1" style="outline-color: rgba(255, 255, 255, 0.8);">
+                                    <tr class="hover:bg-gray-200"><td><a onclick="hideseach();" href="/uid/703047530"><p class="p-2" style="display:block flex justify-end">703047530</p></a></td></tr>
+                                    <tr class="hover:bg-gray-200"><td><a onclick="hideseach();" href="/uid/705357577"><p class="p-2" style="display:block flex justify-end">705357577</p></a></td></tr>
+                                    <tr class="hover:bg-gray-200"><td><a onclick="hideseach();" href="/uid/606062036"><p class="p-2" style="display:block flex justify-end">606062036</p></a></td></tr>
+                                    <tr class="hover:bg-gray-200"><td><a onclick="hideseach();" href="/uid/700392142"><p class="p-2" style="display:block flex justify-end">700392142</p></a></td></tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <hr class="my-5 opacity-50">
@@ -114,6 +166,8 @@
             </div>
         </div>
     </main>
+    <script>
+    </script>
 </body>
 
 </html>
