@@ -8,10 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Court of Fontaine</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre"> <!-- Too few contrast between light and bold -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre">
+    <!-- Too few contrast between light and bold -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Crimson+Pro"> <!-- Too bold -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Grenze+Gotisch"> <!-- Nice but too complex capital letters -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Texturina"> <!-- Very nice but not centered vertically -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Grenze+Gotisch">
+    <!-- Nice but too complex capital letters -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Texturina">
+    <!-- Very nice but not centered vertically -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Labrada"> <!-- Not centered too -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;700&display=swap" rel="stylesheet">
@@ -83,28 +86,28 @@
                 return searchHistory.join(',');
             }
 
-    
+
         });
         function search() {
 
-        // Save search query to local storage
-        function saveSearchQuery(query) {
-            //alert("Saving search query: " + query);
-            const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
-            searchHistory.unshift(query); // Add the new query to the beginning of the array
-            localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-        }
+            // Save search query to local storage
+            function saveSearchQuery(query) {
+                //alert("Saving search query: " + query);
+                const searchHistory = JSON.parse(localStorage.getItem('searchHistory')) || [];
+                searchHistory.unshift(query); // Add the new query to the beginning of the array
+                localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+            }
 
-        saveSearchQuery(document.getElementById("uid").value);
-        var uid = document.getElementById("uid").value;
-        window.location.href = "/uid/" + uid;
+            saveSearchQuery(document.getElementById("uid").value);
+            var uid = document.getElementById("uid").value;
+            window.location.href = "/uid/" + uid;
         }
 
         function hideseach() {
             const searchHistoryDisplay = document.getElementById("searchHistoryDisplay");
             searchHistoryDisplay.style.display = 'none';
         }
-        
+
     </script>
     <style>
         body {
@@ -119,7 +122,8 @@
     </style>
 </head>
 
-<body onload="writeSeachHistory()" style="background-image: url({% static 'background.jpg' %}); background-size:cover; background-position:center; background-attachment: fixed;">
+<body onload="writeSeachHistory()"
+    style="background-image: url({% static 'background.jpg' %}); background-size:cover; background-position:center; background-attachment: fixed;">
     <main>
         <div class="flex justify-center" style="background-color: rgba(255, 255, 255, 0.0);  height: 100vh;">
             <div class="p-0 w-full md:p-20 lg:w-3/4">
@@ -127,7 +131,8 @@
                     style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background-color: rgba(255, 255, 255, 0.1); outline-color: rgba(255, 255, 255, 0.5);">
                     <div class="grid grid-cols-1 lg:grid-cols-2">
                         <div class="text-white">
-                            <h1 class="text-6xl" style="font-family: 'Grenze Gotisch';"><a href="/">Court of<br>Fontaine</a></h1>
+                            <h1 class="text-6xl" style="font-family: 'Grenze Gotisch';"><a href="/">Court
+                                    of<br>Fontaine</a></h1>
                             <p class="text-s">Let yourself be judged!</p>
                         </div>
                         <div class="flex items-end mt-10 relative">
@@ -136,14 +141,33 @@
                                 class="shadow-xl rounded-l-md focus:rounded-none focus:rounded-tl-md w-3/4 p-2 text-gray-700 text-s outline outline-1"
                                 id="uid" type="text" style="outline-color: rgba(255, 255, 255, 0.8);"
                                 placeholder="Enter UID...">
-                            <button class="bg-green-500 rounded-r-md p-2 text-s w-1/4 shadow-xl outline outline-1" type="submit" onClick="search()"
+                            <button class="bg-green-500 rounded-r-md p-2 text-s w-1/4 shadow-xl outline outline-1"
+                                type="submit" onClick="search()"
                                 style="background-color: rgba(255, 255, 255, 0.5); outline-color: rgba(255, 255, 255, 0.8);">Search</button>
-                            <div class="absolute bg-white top-full w-3/4 z-10 shadow-xl" style="display: none;" id="searchHistoryDisplay">
-                                <table class="table-fixed w-full outline outline-1" style="outline-color: rgba(255, 255, 255, 0.8);">
-                                    <tr class="hover:bg-gray-200"><td><a onclick="hideseach();" href="/uid/703047530"><p class="p-2" style="display:block flex justify-end">703047530</p></a></td></tr>
-                                    <tr class="hover:bg-gray-200"><td><a onclick="hideseach();" href="/uid/705357577"><p class="p-2" style="display:block flex justify-end">705357577</p></a></td></tr>
-                                    <tr class="hover:bg-gray-200"><td><a onclick="hideseach();" href="/uid/606062036"><p class="p-2" style="display:block flex justify-end">606062036</p></a></td></tr>
-                                    <tr class="hover:bg-gray-200"><td><a onclick="hideseach();" href="/uid/700392142"><p class="p-2" style="display:block flex justify-end">700392142</p></a></td></tr>
+                            <div class="absolute bg-white top-full w-3/4 z-10 shadow-xl" style="display: none;"
+                                id="searchHistoryDisplay">
+                                <table class="table-fixed w-full outline outline-1"
+                                    style="outline-color: rgba(255, 255, 255, 0.8);">
+                                    <tr class="hover:bg-gray-200">
+                                        <td><a onclick="hideseach();" href="/uid/703047530">
+                                                <p class="p-2" style="display:block flex justify-end">703047530</p>
+                                            </a></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-200">
+                                        <td><a onclick="hideseach();" href="/uid/705357577">
+                                                <p class="p-2" style="display:block flex justify-end">705357577</p>
+                                            </a></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-200">
+                                        <td><a onclick="hideseach();" href="/uid/606062036">
+                                                <p class="p-2" style="display:block flex justify-end">606062036</p>
+                                            </a></td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-200">
+                                        <td><a onclick="hideseach();" href="/uid/700392142">
+                                                <p class="p-2" style="display:block flex justify-end">700392142</p>
+                                            </a></td>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
@@ -161,7 +185,8 @@
                 <div class="text-right text-white mt-2">Art by <a class="underline underline-offset-4" href=https://www.pixiv.net/en/users/21454383>Minty0</a></div>
                 -->
                 <div class="text-center text-white my-5 pb-5">
-                    Website by <a class="underline underline-offset-4" href="https://github.com/SoleilVermeil/">SoleilVermeil</a>. No affiliation with HoYoverse.
+                    Website by <a class="underline underline-offset-4"
+                        href="https://github.com/SoleilVermeil/">SoleilVermeil</a>. No affiliation with HoYoverse.
                 </div>
             </div>
         </div>
