@@ -1,6 +1,13 @@
 {% extends "base_page.html" %}
 
 {% block content %}
+    {% if image %}
+    <img src="{{ image }}">
+    {% endif %}
+    <div class="text-white flex-auto mb-5">
+        <div class="font-bold text-3xl">{{ title }}</div>
+        <div>{{ body }}</div>
+    </div>
     <table class="table-fixed w-full text-s text-left outline outline-1 shadow-xl rounded-t-md" style="outline-color: rgba(255, 255, 255, 0.8);">
         <thead class="rounded-md">
             <tr style="background-color: rgba(255, 255, 255, 0.8); ">

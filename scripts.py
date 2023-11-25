@@ -7,7 +7,9 @@ import os
 import shutil
 
 
-LINE_WIDTH = 40
+RATINGS = [0.30, 0.50, 0.70, 0.90]
+SAVE_FOLDER = "saved"
+
 
 def map_range(x, x1, x2, y1, y2, clamp=False):
     result = (x - x1) * (y2 - y1) / (x2 - x1) + y1
@@ -25,6 +27,25 @@ def get_infos(uid: int) -> dict:
     data = requests.get(f"{BASE_URL}/{uid}").json()
     logging.debug(f"Informations received!")
     return data
+
+def get_avatar(data: dict) -> str:
+    """Get the avatar of a player from Enka.Network"""
+    CHARACTERS = json.load(open('constants/characters.json'))
+    LOC = json.load(open('constants/loc.json', encoding="utf8"))
+    PFPS = json.load(open('constants/pfps.json'))
+    LANG = "en"
+    if "id" in data["playerInfo"]["profilePicture"]:
+        avatar_id = str(data["playerInfo"]["profilePicture"]["id"])
+        avatar_name = PFPS[avatar_id]["iconPath"]
+        avatar_name = avatar_name.replace("_Circle", "")
+        return f"https://enka.network/ui/{avatar_name}.png"
+    elif "avatarId" in data["playerInfo"]["profilePicture"]:
+        # TODO: Currently not working.
+        avatar_id = str(data["playerInfo"]["profilePicture"]["avatarId"])
+        avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")[-1]
+        return f"https://enka.network/ui/UI_AvatarIcon_{avatar_name}.png"
+    else:
+        return ""
 
 def get_substat_value(substat_name: str, artifact_substats: list) -> int:
     """Get the value of a substat from a list of substats"""
@@ -89,10 +110,20 @@ def reformat_infos(old_data: dict) -> dict:
                     "value": artifact_substat[1],
                     'rolls': len([roll for roll in rolls if roll == artifact_substat[0]]),
                 })
-            
     return better_data
 
-RATINGS = [0.30, 0.50, 0.70, 0.90]
+def combine_infos(data: dict) -> dict:
+    """Combine the (reformatted) data from Enka.Network and the saved data"""
+    uid = data["uid"]
+    filename = os.path.join(SAVE_FOLDER, f'data_{uid}.json')
+    if not os.path.exists(filename):
+        return data
+    else:
+        saved_data = json.load(open(filename))
+        for saved_character in saved_data["characters"]:
+            if not any([saved_character["name"] == character["name"] for character in data["characters"]]):
+                data["characters"].append(saved_character)
+        return data
 
 def rating2str(rating: float) -> str:
     if rating < RATINGS[0]: return "terrible"
@@ -187,114 +218,15 @@ def rate(data: dict) -> dict:
         progress -= sum([1 if RATINGS[0] <= score < RATINGS[1] else 0 for score in scores])
         progress -= sum([2 if score < RATINGS[0] else 0 for score in scores])
         progress = map_range(progress, -5, 5, 0, 100, True)
-        rating["characters"][-1]["progress"]["value"] = round_to_multiple(progress, 10)
+        rating["characters"][-1]["progress"]["value"] = round_to_multiple(progress, 25)
         rating["characters"][-1]["progress"]["color"] = "indigo-600"
     return rating
 
-def print_rating(data: dict, character_index: int) -> None:
-    """Print the rating of a character in a human-readable format"""
-    EQUIPTYPE: dict = json.load(open('constants/EquipType.json'))
-    character_name = data["characters"][character_index]["name"]
-    print("=" * LINE_WIDTH)
-    print(f"{character_name}")
-    print("=" * LINE_WIDTH)
-    scores = []
-    for artifact_type in EQUIPTYPE.values():
-        if artifact_type.lower() == "circlet": continue
-        artifact_obj = data["characters"][character_index]["artifacts"][artifact_type.lower()]
-        print(artifact_type)
-        artifact_substats = artifact_obj["substats"]
-        BAD_SUBSTATS = ["Flat HP", "Flat ATK", "Flat DEF"]
-        AVERAGE_SUBSTATS = ["HP%", "DEF%", "Elemental Mastery", "Energy Recharge"]
-        GOOD_SUBSTATS = ["ATK%", "Crit DMG", "Crit RATE"]
-        # ----------------
-        # Computing scores
-        # ----------------
-        bad_substats_count = len([bad_substat for bad_substat in BAD_SUBSTATS if get_substat_value(substat_name=bad_substat, artifact_substats=artifact_substats) > 0])
-        average_substats_count = len([average_substat for average_substat in AVERAGE_SUBSTATS if get_substat_value(substat_name=average_substat, artifact_substats=artifact_substats) > 0])
-        good_substats_count = len([good_substat for good_substat in GOOD_SUBSTATS if get_substat_value(substat_name=good_substat, artifact_substats=artifact_substats) > 0])
-        substats_score = good_substats_count + min(1, average_substats_count) - bad_substats_count
-        print(f" - {bad_substats_count} bad substats")
-        print(f" - {average_substats_count} average substats")
-        print(f" - {good_substats_count} good substats")
-        # ----------------
-        bad_substats_rolls = sum([0] + [artifact_substat['rolls'] for artifact_substat in artifact_substats if artifact_substat['name'] in BAD_SUBSTATS])
-        average_substats_rolls = max([0] + [artifact_substat['rolls'] for artifact_substat in artifact_substats if artifact_substat['name'] in AVERAGE_SUBSTATS])
-        good_substats_rolls = sum([0] + [artifact_substat['rolls'] for artifact_substat in artifact_substats if artifact_substat['name'] in GOOD_SUBSTATS])
-        rolls_score = good_substats_rolls + average_substats_rolls - bad_substats_rolls
-        print(f"=> {rating2emoji(map_range(substats_score, 0, 4, 0, 1))} {rating2str(map_range(substats_score, 0, 4, 0, 1)).upper()}")
-        print(f" - {bad_substats_rolls} bad substats rolls")
-        print(f" - {average_substats_rolls} average (effective) substats rolls")
-        print(f" - {good_substats_rolls} good substats rolls")
-        print(f"=> {rating2emoji(map_range(rolls_score, 0, 9, 0, 1))} {rating2str(map_range(rolls_score, 0, 9, 0, 1)).upper()}")
-        # ----------------
-        cd = get_substat_value(substat_name="Crit DMG", artifact_substats=artifact_substats)
-        cr = get_substat_value(substat_name="Crit RATE", artifact_substats=artifact_substats)
-        cv = cd + 2 * cr
-        print(f" - {cd:0>4.1f}% of Crit DMG")
-        print(f" - {cr:0>4.1f}% of Crit RATE")
-        print(f" - {cv:0>4.1f}% of Crit VALUE")
-        print(f"=> {rating2emoji(map_range(cv, 0, 50, 0, 1))} {rating2str(map_range(cv, 0, 50, 0, 1)).upper()}")
-        # ----------------
-        score = 1/2 * (map_range(cv, 0, 50, 0, 1) + map_range(rolls_score, 0, 9, 0, 1))
-        print(f"Overall {rating2emoji(score)} {rating2str(score).upper()}")
-        scores.append(score)
-        print(f"-" * LINE_WIDTH)
-    print(f"Overall {rating2emoji(sum(scores) / len(scores))} {rating2str(sum(scores) / len(scores)).upper():<9}")
-    
-
-if __name__ == "__main__":
-
-    # Setting up logging
-    # ------------------
-
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format="%(asctime)s [%(levelname)s] %(message)s",
-        datefmt="%y-%m-%d %H:%M:%S"
-    )
-
-    # Setting up arguments
-    # --------------------
-
-    parser = argparse.ArgumentParser(description="Enka.Network CLI")
-    parser.add_argument("--uid", type=int, help="UID of the player", required=True)
-    parser.add_argument("--save", help="Save the data to a file", action="store_true")
-    parser.add_argument('--reset', help='Reset the data', action='store_true')
-    uid = parser.parse_args().uid
-    save = parser.parse_args().save
-    reset = parser.parse_args().reset
-
-    # Getting infos
-    # -------------
-
-    infos = get_infos(uid)
-    data = reformat_infos(infos)
-
-    # Rating
-    # ------
-
-    for character_index in range(len(data["characters"])):
-        print_rating(data=data, character_index=character_index)
-    rating = rate(data=data)
-
-    # Resetting
-    # ---------
-
-    if reset:
-        try:
-            shutil.rmtree(os.path.join('data', str(uid)))
-        except FileNotFoundError:
-            pass
-
-    # Saving
-    # ------
-
-    if save:
-        if not os.path.exists(os.path.join('data', str(uid))):
-            os.makedirs(os.path.join('data', str(uid)))
-        identifier = datetime.datetime.now().strftime("%y%m%d%H%M%S")
-        with open(os.path.join('data', str(uid), f'data_{identifier}.json'), "w") as f:
-            json.dump(data, f, indent=4)
-        with open(os.path.join('data', str(uid),f'rating_{identifier}.json' ), "w") as f:
-            json.dump(rating, f, indent=4)
+def save(data: dict) -> None:
+    """Save the passed data to a file"""
+    uid = data["uid"]    
+    if not os.path.exists(SAVE_FOLDER):
+        os.makedirs(SAVE_FOLDER)
+    filename = os.path.join(SAVE_FOLDER, f'data_{uid}.json')
+    with open(filename, "w") as f:
+        json.dump(data, f, indent=4)
