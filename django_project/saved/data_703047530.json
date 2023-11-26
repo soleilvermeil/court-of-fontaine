@@ -1,6 +1,6 @@
 {
     "uid": "703047530",
-    "datetime": "2023-11-26T21:53:27.676908",
+    "datetime": "2023-11-26T22:50:40.422347",
     "characters": [
         {
             "name": "Diluc",
@@ -1242,24 +1242,24 @@
                     },
                     "substats": [
                         {
-                            "name": "Flat HP",
-                            "value": 1105,
-                            "rolls": 4
-                        },
-                        {
-                            "name": "ATK%",
-                            "value": 4.7,
+                            "name": "Crit DMG",
+                            "value": 6.2,
                             "rolls": 1
                         },
                         {
-                            "name": "Energy Recharge",
-                            "value": 18.8,
-                            "rolls": 3
+                            "name": "Elemental Mastery",
+                            "value": 35,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Flat HP",
+                            "value": 538,
+                            "rolls": 2
                         },
                         {
                             "name": "Crit RATE",
-                            "value": 3.1,
-                            "rolls": 1
+                            "value": 10.5,
+                            "rolls": 3
                         }
                     ]
                 },
@@ -1329,24 +1329,24 @@
                     },
                     "substats": [
                         {
-                            "name": "Crit RATE",
-                            "value": 8.9,
+                            "name": "HP%",
+                            "value": 14.6,
                             "rolls": 3
                         },
                         {
-                            "name": "Flat HP",
-                            "value": 538,
+                            "name": "Energy Recharge",
+                            "value": 13,
                             "rolls": 2
                         },
                         {
-                            "name": "ATK%",
-                            "value": 4.7,
-                            "rolls": 1
+                            "name": "Crit RATE",
+                            "value": 5.8,
+                            "rolls": 2
                         },
                         {
-                            "name": "Flat DEF",
-                            "value": 58,
-                            "rolls": 3
+                            "name": "Flat HP",
+                            "value": 299,
+                            "rolls": 1
                         }
                     ]
                 }
@@ -1479,24 +1479,24 @@
                     },
                     "substats": [
                         {
-                            "name": "HP%",
-                            "value": 14.6,
+                            "name": "Crit RATE",
+                            "value": 8.9,
                             "rolls": 3
                         },
                         {
-                            "name": "Energy Recharge",
-                            "value": 13,
-                            "rolls": 2
-                        },
-                        {
-                            "name": "Crit RATE",
-                            "value": 5.8,
-                            "rolls": 2
-                        },
-                        {
                             "name": "Flat HP",
-                            "value": 299,
+                            "value": 538,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "ATK%",
+                            "value": 4.7,
                             "rolls": 1
+                        },
+                        {
+                            "name": "Flat DEF",
+                            "value": 58,
+                            "rolls": 3
                         }
                     ]
                 }

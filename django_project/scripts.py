@@ -31,6 +31,13 @@ def map_range(x, x1, x2, y1, y2, clamp: bool = False):
     return result
 
 
+def median(l: list) -> float:
+    if len(l) % 2 == 1:
+        return sorted(l)[(len(l) - 1) // 2]
+    else:
+        return (sorted(l)[len(l) // 2 - 1] + sorted(l)[len(l) // 2]) / 2
+
+
 def round_to_multiple(x, multiple):
     """Round a value to the nearest multiple"""
     return multiple * round(x / multiple)
@@ -144,9 +151,9 @@ def rating2str(rating: float) -> str:
     elif rating < RATINGS[2]:
         return "decent"
     elif rating < RATINGS[3]:
-        return "very good"
+        return ("good")
     else:
-        return "jewel"
+        return "excellent"
 
 
 def rating2emoji(rating: float) -> str:
@@ -265,7 +272,7 @@ def rate(data: dict) -> dict:
             cv_score = map_range(cv, 0, 50 if artifact_type != 'Circlet' else 25, 0, 1)
             # ----------------
             # score = 1 / 3 * (substats_score + rolls_score + cv_score)
-            score = sorted([substats_score, rolls_score, cv_score])[1]
+            score = median([substats_score, rolls_score, cv_score])
             # score = 0
             # score += sum([2 if s >= RATINGS[-1] else 0 for s in [substats_score, rolls_score, cv_score]])
             # score += sum([1 if RATINGS[-1] > s >= RATINGS[-2] else 0 for s in [substats_score, rolls_score, cv_score]])
