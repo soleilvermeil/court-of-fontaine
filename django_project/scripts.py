@@ -3,6 +3,8 @@ import requests
 import logging
 import datetime
 import os
+import math
+
 
 RATINGS = [0.30, 0.50, 0.70, 0.90]
 SAVE_FOLDER = "saved"
@@ -125,13 +127,13 @@ def combine_infos(data: dict) -> dict:
     uid = data["uid"]
     filename = os.path.join(SAVE_FOLDER, f'data_{uid}.json')
     if not os.path.exists(filename):
-        return data
+        return sort_infos(data)
     else:
         saved_data = json.load(open(filename))
         for saved_character in saved_data["characters"]:
             if not any([saved_character["name"] == character["name"] for character in data["characters"]]):
                 data["characters"].append(saved_character)
-        return data
+        return sort_infos(data)
 
 
 def rating2str(rating: float) -> str:
@@ -261,23 +263,31 @@ def rate(data: dict) -> dict:
             cr = get_substat_value(substat_name="Crit RATE", artifact_substats=artifact_substats)
             cv = cd + 2 * cr
             cv_score = map_range(cv, 0, 50 if artifact_type != 'Circlet' else 25, 0, 1)
-            score = 1 / 3 * (substats_score + rolls_score + cv_score)
+            # ----------------
+            # score = 1 / 3 * (substats_score + rolls_score + cv_score)
+            score = sorted([substats_score, rolls_score, cv_score])[1]
+            # score = 0
+            # score += sum([2 if s >= RATINGS[-1] else 0 for s in [substats_score, rolls_score, cv_score]])
+            # score += sum([1 if RATINGS[-1] > s >= RATINGS[-2] else 0 for s in [substats_score, rolls_score, cv_score]])
+            # score -= sum([1 if RATINGS[0] <= s < RATINGS[1] else 0 for s in [substats_score, rolls_score, cv_score]])
+            # score -= sum([2 if s < RATINGS[0] else 0 for s in [substats_score, rolls_score, cv_score]])
+            # score = map_range(score, -6, 6, 0, 1, True)
             scores[list(EQUIPTYPE.values()).index(artifact_type)] = score
             # ----------------
             # Writing tooltips
             # ----------------
             tooltips = []
-            if rating2colors(rolls_score)["tttextcolor"] is not None:
-                tooltips.append({
-                    "text": f"{rating2str(rolls_score).capitalize()} rolls",
-                    "textcolor": rating2colors(rolls_score)["tttextcolor"],
-                    "textweight": rating2colors(rolls_score)["tttextweight"],
-                })
             if rating2colors(substats_score)["tttextcolor"] is not None:
                 tooltips.append({
                     "text": f"{rating2str(substats_score).capitalize()} substats",
                     "textcolor": rating2colors(substats_score)["tttextcolor"],
                     "textweight": rating2colors(substats_score)["tttextweight"],
+                })
+            if rating2colors(rolls_score)["tttextcolor"] is not None:
+                tooltips.append({
+                    "text": f"{rating2str(rolls_score).capitalize()} rolls",
+                    "textcolor": rating2colors(rolls_score)["tttextcolor"],
+                    "textweight": rating2colors(rolls_score)["tttextweight"],
                 })
             if rating2colors(cv_score)["tttextcolor"] is not None:
                 tooltips.append({
@@ -304,6 +314,11 @@ def rate(data: dict) -> dict:
         progress = map_range(progress, -5, 5, 0, 100, True)
         rating["characters"][-1]["progress"]["value"] = round_to_multiple(progress, 25)
         rating["characters"][-1]["progress"]["color"] = "indigo-600"
+    return rating
+
+def sort_infos(rating: dict) -> dict:
+    """Sort infos alphabetically"""
+    rating["characters"] = sorted(rating["characters"], key=lambda x: x["name"])
     return rating
 
 

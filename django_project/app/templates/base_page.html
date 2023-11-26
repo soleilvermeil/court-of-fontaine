@@ -26,31 +26,34 @@
             // ------------------
             // Popovers show/hide
             // ------------------
-            const buttons = document.querySelectorAll('.popover-button');
+            const clickable_tooltips = false
+            if (clickable_tooltips) {
+                const buttons = document.querySelectorAll('.popover-button');
 
-            function hide_all_popovers() {
-                document.querySelectorAll('.popover').forEach(function (popover) {
-                    popover.style.display = 'none';
+                function hide_all_popovers() {
+                    document.querySelectorAll('.popover').forEach(function (popover) {
+                        popover.style.display = 'none';
+                    });
+                }
+
+                buttons.forEach(function (button) {
+                    button.addEventListener('click', function (event) {
+                        event.stopPropagation();
+                        let targetId = this.getAttribute('data-popover-target');
+                        let popover = document.getElementById(targetId);
+                        // Check if the popover is already visible
+                        if (popover.style.display === 'block') {
+                            popover.style.display = 'none';
+                            return;
+                        }
+                        hide_all_popovers();
+                        popover.style.display = popover.style.display === 'block' ? 'none' : 'block';
+                    });
+                });
+                document.addEventListener('click', function () {
+                    hide_all_popovers();
                 });
             }
-
-            buttons.forEach(function (button) {
-                button.addEventListener('click', function (event) {
-                    event.stopPropagation();
-                    var targetId = this.getAttribute('data-popover-target');
-                    var popover = document.getElementById(targetId);
-                    // Check if the popover is already visible
-                    if (popover.style.display === 'block') {
-                        popover.style.display = 'none';
-                        return;
-                    }
-                    hide_all_popovers();
-                    popover.style.display = popover.style.display === 'block' ? 'none' : 'block';
-                });
-            });
-            document.addEventListener('click', function () {
-                hide_all_popovers();
-            });
             // -------------------------
             // Searchbar history display
             // -------------------------
@@ -67,37 +70,79 @@
             // ------------------------
             // Search history load/save
             // ------------------------
-            function display_search_history() {
-                const search_history = load_search_history();
-                document.getElementsByName('search_history')[0].innerHTML = search_history;
-            }
-
             function load_search_history() {
-                const search_history = JSON.parse(localStorage.getItem('search_history')) || [];
-                return search_history.join(',');
+                let history = JSON.parse(localStorage.getItem('search_history')) || []
+                history.reverse()
+                return history
             }
+            // --------------
+            // Generate table
+            // --------------
+            function generateTable(stringList) {
+                // Create a table element
+                let table = document.createElement('table');
+                table.className = 'table-fixed w-full outline outline-1';
+                table.style.outlineColor = 'rgba(255, 255, 255, 0.8)';
+
+                // Iterate over the stringList and create a row for each string
+                for (let i = 0; i < stringList.length; i++) {
+                    let row = table.insertRow(i);
+                    row.className = 'hover:bg-gray-200';
+                    let cell = row.insertCell(0);
+                    let link = document.createElement('a');
+                    link.setAttribute('onclick', `hide_searchbar_history("${stringList[i]}")`);
+                    // link.setAttribute('href', '/uid/' + stringList[i]);
+                    let paragraph = document.createElement('p');
+                    paragraph.className = 'p-2 cursor-pointer';
+                    paragraph.style.display = 'block';
+                    paragraph.textContent = stringList[i];
+                    link.appendChild(paragraph);
+                    cell.appendChild(link);
+                }
+                // Append the table to the body or any other container element
+                let tableContainer = document.getElementById('searchbar_history_display');
+                tableContainer.appendChild(table);
+            }
+            // Example usage:
+            const stringList = load_search_history();
+            generateTable(stringList);
         });
         // ------------------------
         // Functions called by HTML
         // ------------------------
         function search() {
+            function unique(value, index, array) {
+                return array.indexOf(value) === index;
+            }
             function save_to_search_history(query) {
                 console.log("Saving " + query + " to search history.")
-                const search_history = JSON.parse(localStorage.getItem('search_history')) || [];
-                search_history.unshift(query); // add the new query to the beginning of the array
+                let search_history = JSON.parse(localStorage.getItem('search_history')) || [];
+                if (search_history.includes(query)) {
+                    let index = search_history.indexOf(query)
+                    search_history.splice(index, 1)
+                }
+                search_history.push(query); // add the new query to the beginning of the array
+                // search_history = search_history.filter(unique)
+                if (search_history.length > 5) {
+                    search_history = search_history.slice(-5);
+                }
                 localStorage.setItem('search_history', JSON.stringify(search_history));
             }
-
-            save_to_search_history(document.getElementById("uid").value);
-            const uid = document.getElementById("uid").value;
-            window.location.href = "/uid/" + uid;
+            const query = document.getElementById("uid").value
+            if (query !== "") {
+                save_to_search_history(query);
+                const uid = document.getElementById("uid").value;
+                window.location.href = "/uid/" + uid;
+            }
         }
 
         function hide_searchbar_history(uid) {
+            console.log("Clicked on " + uid)
             const searchbar_history_display = document.getElementById("searchbar_history_display");
             searchbar_history_display.style.display = 'none';
             const searchbar = document.getElementById("uid");
             searchbar.value = uid;
+            search()
         }
     </script>
     <style>
@@ -109,6 +154,15 @@
             display: none;
             background-color: rgba(255, 255, 255, 1.0);
             z-index: 1;
+        }
+
+        .POPOVER {
+            display: none;
+        }
+
+        .BADGE:hover + .POPOVER {
+          display: block;
+          color: red;
         }
     </style>
 </head>
@@ -125,40 +179,23 @@
                             of<br>Fontaine</a></h1>
                         <p class="text-s">Let yourself be judged!</p>
                     </div>
-                    <div class="flex items-end mt-10 relative">
-                        <input class="shadow-xl rounded-l-md focus:rounded-none focus:rounded-tl-md w-3/4 p-2 text-gray-700 text-s outline outline-1"
-                               id="uid" type="text" style="outline-color: rgba(255, 255, 255, 0.8);"
-                               placeholder="Enter UID...">
-                        <button class="bg-green-500 rounded-r-md p-2 text-s w-1/4 shadow-xl outline outline-1"
-                                type="submit" onClick="search()"
-                                style="background-color: rgba(255, 255, 255, 0.5); outline-color: rgba(255, 255, 255, 0.8);">
-                            Search
-                        </button>
+                    <div class="flex flex-col relative justify-between">
+                        <div class="text-right text-white">
+                            <a class="underline underline-offset-4" href="/how/">How does it work?</a>
+                        </div>
+                        <div class="flex">
+                            <input class="shadow-xl rounded-l-md focus:rounded-none focus:rounded-tl-md w-3/4 p-2 text-gray-700 text-s outline outline-1"
+                                   id="uid" type="text" style="outline-color: rgba(255, 255, 255, 0.8);"
+                                   placeholder="Enter UID...">
+                            <button class="bg-green-500 rounded-r-md p-2 text-s w-1/4 shadow-xl outline outline-1"
+                                    type="submit" onClick="search()"
+                                    style="background-color: rgba(255, 255, 255, 0.5); outline-color: rgba(255, 255, 255, 0.8);">
+                                Search
+                            </button>
+                        </div>
                         <div class="absolute bg-white top-full w-3/4 z-10 shadow-xl" style="display: none;"
                              id="searchbar_history_display">
-                            <table class="table-fixed w-full outline outline-1"
-                                   style="outline-color: rgba(255, 255, 255, 0.8);">
-                                <tr class="hover:bg-gray-200">
-                                    <td><a onclick="hide_searchbar_history(703047530)" href="/uid/703047530">
-                                        <p class="p-2" style="display:block">703047530</p>
-                                    </a></td>
-                                </tr>
-                                <tr class="hover:bg-gray-200">
-                                    <td><a onclick="hide_searchbar_history(705357577)" href="/uid/705357577">
-                                        <p class="p-2" style="display:block">705357577</p>
-                                    </a></td>
-                                </tr>
-                                <tr class="hover:bg-gray-200">
-                                    <td><a onclick="hide_searchbar_history(606062036)" href="/uid/606062036">
-                                        <p class="p-2" style="display:block">606062036</p>
-                                    </a></td>
-                                </tr>
-                                <tr class="hover:bg-gray-200">
-                                    <td><a onclick="hide_searchbar_history(700392142)" href="/uid/700392142">
-                                        <p class="p-2" style="display:block">700392142</p>
-                                    </a></td>
-                                </tr>
-                            </table>
+                            <!-- Searchbar history comes here -->
                         </div>
                     </div>
                 </div>

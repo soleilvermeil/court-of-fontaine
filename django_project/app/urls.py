@@ -6,6 +6,7 @@ urlpatterns = [
     path("", views.home),
     re_path("^" + "uid/(?P<uid>[0-9]{9})/" + "$", views.inspect),
     path("uid/<slug:query>/", views.badquery),
+    path("how/", views.how),
 
     # -------------------------
     # /!\ Easter eggs below /!\

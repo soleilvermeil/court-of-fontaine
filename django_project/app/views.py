@@ -31,6 +31,14 @@ def badquery(request, query):
         "image": "lol.webp",
     })
 
+def how(request):
+    return render(request, "base_page_simpletext.html", {
+        "title": "How are we judged?",
+        "body": "You'll know soon enough...",
+        "image": "knife.webp",
+    })
+
+
 # -------------------------
 # /!\ Easter eggs below /!\
 # -------------------------
