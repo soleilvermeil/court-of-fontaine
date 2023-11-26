@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.http import HttpResponse, Http404
 import scripts
 
 def home(request):
@@ -36,7 +35,7 @@ def badquery(request, query):
 # /!\ Easter eggs below /!\
 # -------------------------
 
-def easteregg_sex(request):
+def easteregg_53x(request):
     return render(request, "base_page_simpletext.html", {
-        "image": "secret.png",
+        "image": "easteregg_53x.png",
     })

@@ -1,23 +1,23 @@
 import json
 import requests
 import logging
-import argparse
 import datetime
 import os
-import shutil
-
 
 RATINGS = [0.30, 0.50, 0.70, 0.90]
 SAVE_FOLDER = "saved"
 
-
-def map_range(x, x1, x2, y1, y2, clamp=False):
+def map_range(x, x1, x2, y1, y2, clamp: bool = False):
+    """Map a value from a range to another"""
+    if x1 == x2:
+        return (y1 + y2) / 2
     result = (x - x1) * (y2 - y1) / (x2 - x1) + y1
     if clamp:
         result = min(max(result, y1), y2)
     return result
 
 def round_to_multiple(x, multiple):
+    """Round a value to the nearest multiple"""
     return multiple * round(x / multiple)
 
 def get_infos(uid: int) -> dict:
