@@ -3,8 +3,7 @@ import requests
 import logging
 import datetime
 import os
-import math
-
+import glob
 
 RATINGS = [0.30, 0.50, 0.70, 0.90]
 SAVE_FOLDER = "saved"
@@ -72,13 +71,14 @@ def get_substat_value(substat_name: str, artifact_substats: list) -> int:
     for element in artifact_substats:
         if element['name'] == substat_name:
             return element["value"]
-    return 0  
+    return 0
 
 
 def reformat_infos(old_data: dict) -> dict:
     """Reformat the data from Enka.Network to a more usable format"""
     better_data = {
         "uid": old_data['uid'],
+        "nickname": old_data['playerInfo']['nickname'],
         "datetime": datetime.datetime.now().isoformat(),
         "characters": [],
     }
@@ -209,12 +209,18 @@ def rating2colors(rating: float) -> dict:
 
 def rate(data: dict) -> dict:
     """Rate the artifacts of a player"""
-    rating = {"characters": []}
+    rating = {
+        "uid": data['uid'],
+        "nickname": data['nickname'],
+        "datetime": data['datetime'],
+        "characters": [],
+    }
     for character in data["characters"]:
         rating["characters"].append({
             "name": character["name"],
             "progress": {
                 "value": 0,
+                "exact": 0,
                 "color": "",
             },
             "artifacts": {}
@@ -319,9 +325,11 @@ def rate(data: dict) -> dict:
         progress -= sum([1 if RATINGS[0] <= score < RATINGS[1] else 0 for score in scores])
         progress -= sum([2 if score < RATINGS[0] else 0 for score in scores])
         progress = map_range(progress, -5, 5, 0, 100, True)
-        rating["characters"][-1]["progress"]["value"] = round_to_multiple(progress, 25)
+        rating["characters"][-1]["progress"]["value"] = round_to_multiple(progress, 10)
+        rating["characters"][-1]["progress"]["exact"] = progress
         rating["characters"][-1]["progress"]["color"] = "indigo-600"
     return rating
+
 
 def sort_infos(rating: dict) -> dict:
     """Sort infos alphabetically"""
@@ -329,11 +337,35 @@ def sort_infos(rating: dict) -> dict:
     return rating
 
 
-def save(data: dict) -> None:
+def save(data: dict, prefix: str) -> None:
     """Save the passed data to a file"""
-    uid = data["uid"]    
+    uid = data["uid"]
     if not os.path.exists(SAVE_FOLDER):
         os.makedirs(SAVE_FOLDER)
-    filename = os.path.join(SAVE_FOLDER, f'data_{uid}.json')
+    filename = os.path.join(SAVE_FOLDER, f'{prefix}_{uid}.json')
     with open(filename, "w") as f:
         json.dump(data, f, indent=4)
+
+
+def get_ratings_of_character(name: str) -> list[dict]:
+    paths = glob.glob(os.path.join(SAVE_FOLDER, 'rating_*.json'))
+    ratings = []
+    for path in paths:
+        rating = json.load(open(path, "r"))
+        character_rating = [char for char in rating["characters"] if char["name"].lower().replace(" ", "_") == name]
+        if len(character_rating) > 0:
+            rating["characters"] = character_rating
+            ratings.append(rating)
+    ratings = sorted(ratings, key=lambda x: x['characters'][0]['progress']['value'], reverse=True)
+
+    infos = []
+    for rating in ratings:
+        uid = rating['uid']
+        info = json.load(open(os.path.join(SAVE_FOLDER, f"infos_{uid}.json")))
+        character_info = [char for char in info["characters"] if char["name"].lower().replace(" ", "_") == name]
+        if len(character_info) > 0:
+            info["characters"] = character_info
+            infos.append(info)
+
+    return ratings, infos
+
