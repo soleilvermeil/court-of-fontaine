@@ -1,6 +1,6 @@
 {
     "uid": "700392142",
-    "datetime": "2023-11-26T22:47:47.094972",
+    "datetime": "2023-11-27T11:29:41.186726",
     "characters": [
         {
             "name": "Cyno",
@@ -1015,24 +1015,24 @@
                     },
                     "substats": [
                         {
-                            "name": "Crit RATE",
-                            "value": 10.9,
+                            "name": "DEF%",
+                            "value": 19.7,
                             "rolls": 3
                         },
                         {
-                            "name": "ATK%",
-                            "value": 4.1,
-                            "rolls": 1
+                            "name": "Crit RATE",
+                            "value": 7.4,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Elemental Mastery",
+                            "value": 37,
+                            "rolls": 2
                         },
                         {
                             "name": "Crit DMG",
-                            "value": 22.5,
-                            "rolls": 3
-                        },
-                        {
-                            "name": "Energy Recharge",
-                            "value": 5.2,
-                            "rolls": 1
+                            "value": 13.2,
+                            "rolls": 2
                         }
                     ]
                 },
@@ -1074,22 +1074,22 @@
                     "substats": [
                         {
                             "name": "Crit DMG",
-                            "value": 27.2,
-                            "rolls": 4
-                        },
-                        {
-                            "name": "Crit RATE",
-                            "value": 7,
+                            "value": 13.2,
                             "rolls": 2
                         },
                         {
-                            "name": "Flat DEF",
-                            "value": 21,
-                            "rolls": 1
+                            "name": "Energy Recharge",
+                            "value": 9.1,
+                            "rolls": 2
                         },
                         {
-                            "name": "HP%",
-                            "value": 9.3,
+                            "name": "Crit RATE",
+                            "value": 6.6,
+                            "rolls": 2
+                        },
+                        {
+                            "name": "Flat HP",
+                            "value": 568,
                             "rolls": 2
                         }
                     ]

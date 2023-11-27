@@ -14,7 +14,7 @@ def inspect(request, uid):
         infos = scripts.reformat_infos(infos)
         infos = scripts.combine_infos(infos)
         rating = scripts.rate(infos)
-    except KeyError:
+    except TypeError:
         return render(request, "base_page_simpletext.html", {
             "title": "You made Furina sad T-T",
             "body": "No informations found for this UID.",
@@ -23,6 +23,44 @@ def inspect(request, uid):
     else:
         scripts.save(infos)
         return render(request, "base_table.html", rating | {"title": nickname, "body": uid})
+
+def duel(request, uid1, uid2):
+    infos_1 = scripts.get_infos(uid1)
+    infos_2 = scripts.get_infos(uid2)
+    ratings = {"player_1": {}, "player_2": {}}
+    nicknames = [None] * 2
+    uids = [None] * 2
+    for i, infos_ in enumerate([infos_1, infos_2]):
+        try:
+            nickname = infos_["playerInfo"]["nickname"]
+            nicknames[i] = nickname
+            infos = scripts.reformat_infos(infos_)
+            infos = scripts.combine_infos(infos)
+            rating = scripts.rate(infos)
+        except TypeError:
+            return render(request, "base_page_simpletext.html", {
+                "title": "You made Furina sad T-T",
+                "body": "No informations found for one of those UIDs.",
+                "image": "sad.webp",
+            })
+        else:
+            scripts.save(infos)
+            ratings[f"player_{i + 1}"] = rating
+    names_1 = [character["name"] for character in ratings["player_1"]["characters"]]
+    names_2 = [character["name"] for character in ratings["player_2"]["characters"]]
+    names_intersection = list(set(names_1) & set(names_2))
+    ratings["player_1"]["characters"] = [character for character in ratings["player_1"]["characters"] if character["name"] in names_intersection]
+    ratings["player_2"]["characters"] = [character for character in ratings["player_2"]["characters"] if character["name"] in names_intersection]
+    print(f"{len(names_intersection)} characters in common")
+    print(ratings)
+    return render(request, "base_table_duel.html", {
+        "characters": zip(ratings["player_1"]["characters"], ratings["player_2"]["characters"]),
+        "nickname_1": nicknames[0],
+        "nickname_2": nicknames[1],
+        "uid_1": uid1,
+        "uid_2": uid2,
+    })
+    
 
 def badquery(request, query):
     return render(request, "base_page_simpletext.html", {

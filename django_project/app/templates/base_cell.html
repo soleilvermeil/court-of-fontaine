@@ -1,10 +1,21 @@
 <td class="p-2 text-center">
     <div class="relative">
-        <button class="BADGE bg-{{ artifact.rating.bgcolor }} rounded px-1 py-0 text-{{ artifact.rating.textcolor }} popover-button text-xs lg:text-base cursor-default" style="white-space: nowrap;" data-popover-target="popover-{{ character.name|lower }}-{{ artifacttype }}">
+        <button class="BADGE bg-{{ artifact.rating.bgcolor }} rounded px-1 py-0 text-{{ artifact.rating.textcolor }} popover-button cursor-default hidden lg:inline-block" style="white-space: nowrap;" data-popover-target="popover-{{ character.name|lower }}-{{ artifacttype }}">
             {{ artifact.rating.text }}
         </button>
         <div id="popover-{{ character.name|lower }}-{{ artifacttype }}"
             class="POPOVER popover rounded-md shadow-xl text-s text-left p-2 w-32  lg:w-48 absolute bottom-7 left-1/2 transform -translate-x-1/2">
+            <ul>
+                {% for tooltip in artifact.tooltips %}
+                {% include "base_tooltip.html" %}
+                {% endfor %}
+            </ul>
+        </div>
+        <button class="BADGE bg-{{ artifact.rating.bgcolor }} rounded-full px-3 py-0 text-{{ artifact.rating.textcolor }} popover-button cursor-default inline-block lg:hidden" style="white-space: nowrap;" data-popover-target="popover-{{ character.name|lower }}-{{ artifacttype }}">
+            &zwnj;
+        </button>
+        <div id="popover-{{ character.name|lower }}-{{ artifacttype }}"
+            class="POPOVER popover rounded-md shadow-xl text-s text-left p-2 w-32 lg:w-48 absolute bottom-7 left-1/2 transform -translate-x-1/2 text-xs">
             <ul>
                 {% for tooltip in artifact.tooltips %}
                 {% include "base_tooltip.html" %}

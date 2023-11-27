@@ -11,17 +11,13 @@
     <table class="table-fixed w-full text-s text-left border border-1 shadow-xl rounded-t-md" style="border-color: rgba(255, 255, 255, 0.8);">
         <thead class="rounded-md">
             <tr style="background-color: rgba(255, 255, 255, 0.8); ">
-                <th class="p-2 truncate text-center rounded-tl-md"></th>
-                <th class="p-2 truncate text-center">Flower</th>
-                <th class="p-2 truncate text-center">Feather</th>
-                <th class="p-2 truncate text-center">Sands</th>
-                <th class="p-2 truncate text-center">Goblet</th>
-                <th class="p-2 truncate text-center rounded-tr-md">Circlet</th>
+                <th class="p-2 truncate text-center rounded-tl-md">{{ nickname_1 }}</th>
+                <th class="p-2 truncate text-center rounded-tr-md">{{ nickname_2 }}</th>
             </tr>
         </thead>
         <tbody class="bg-white" style="background-color: rgba(255, 255, 255, 0.3);">
-            {% for character in characters %}
-            {% include "base_row.html" %}
+            {% for char1, char2 in characters %}
+            {% include "base_row_duel.html" %}
             {% endfor %}
         </tbody>
     </table>
