@@ -156,7 +156,7 @@ def easteregg_53x(request):
     return render(request, "base_page_simpletext.html", {
         "title": f"This one was easy...",
         "body": f"...but can you find the other ones?",
-        "image": "eastereggs/53x.jpg",
+        "image": "eastereggs/53x.png",
         "imagewidth": "1/3",
         "nsfw": True,
     })
@@ -184,7 +184,7 @@ def easteregg_b1rth(request):
     return render(request, "base_page_simpletext.html", {
         "title": "You remembered Furina's birthday!",
         "body": "However today's gift is for you.",
-        "image": "eastereggs/b1rth.jpg",
+        "image": "eastereggs/b1rth.png",
         "imagewidth": "1/3",
         "nsfw": True,
     })
