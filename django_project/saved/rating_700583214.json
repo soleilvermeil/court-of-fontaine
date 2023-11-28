@@ -1,7 +1,7 @@
 {
     "uid": "700583214",
     "nickname": "Lumine",
-    "datetime": "2023-11-27T23:11:47.570907",
+    "datetime": "2023-11-28T08:40:16.577859",
     "characters": [
         {
             "name": "Fischl",
@@ -136,7 +136,7 @@
         {
             "name": "Jean",
             "progress": {
-                "value": 75,
+                "value": 80,
                 "exact": 80.0,
                 "color": "indigo-600"
             },
@@ -266,7 +266,7 @@
         {
             "name": "Keqing",
             "progress": {
-                "value": 100,
+                "value": 90,
                 "exact": 90.0,
                 "color": "indigo-600"
             },
@@ -396,7 +396,7 @@
         {
             "name": "Kujou Sara",
             "progress": {
-                "value": 50,
+                "value": 60,
                 "exact": 60.0,
                 "color": "indigo-600"
             },
@@ -526,7 +526,7 @@
         {
             "name": "Mona",
             "progress": {
-                "value": 50,
+                "value": 40,
                 "exact": 40.0,
                 "color": "indigo-600"
             },
@@ -786,7 +786,7 @@
         {
             "name": "Raiden Shogun",
             "progress": {
-                "value": 50,
+                "value": 40,
                 "exact": 40.0,
                 "color": "indigo-600"
             },
@@ -916,7 +916,7 @@
         {
             "name": "Yae Miko",
             "progress": {
-                "value": 75,
+                "value": 70,
                 "exact": 70.0,
                 "color": "indigo-600"
             },

@@ -1,7 +1,7 @@
 {
     "uid": "700392142",
     "nickname": "Terra",
-    "datetime": "2023-11-27T23:13:13.190572",
+    "datetime": "2023-11-28T08:46:45.820263",
     "characters": [
         {
             "name": "Cyno",
@@ -866,23 +866,23 @@
                     },
                     "substats": [
                         {
-                            "name": "ATK%",
-                            "value": 9.3,
-                            "rolls": 2
+                            "name": "Crit RATE",
+                            "value": 10.9,
+                            "rolls": 3
                         },
                         {
-                            "name": "Crit RATE",
-                            "value": 7,
-                            "rolls": 2
+                            "name": "Flat ATK",
+                            "value": 18,
+                            "rolls": 1
                         },
                         {
                             "name": "Crit DMG",
-                            "value": 14,
+                            "value": 12.4,
                             "rolls": 2
                         },
                         {
-                            "name": "Elemental Mastery",
-                            "value": 40,
+                            "name": "ATK%",
+                            "value": 9.9,
                             "rolls": 2
                         }
                     ]
@@ -896,22 +896,22 @@
                     "substats": [
                         {
                             "name": "Energy Recharge",
-                            "value": 5.2,
-                            "rolls": 1
-                        },
-                        {
-                            "name": "Elemental Mastery",
-                            "value": 37,
+                            "value": 9.7,
                             "rolls": 2
                         },
                         {
-                            "name": "Crit DMG",
-                            "value": 7.8,
+                            "name": "Elemental Mastery",
+                            "value": 21,
                             "rolls": 1
                         },
                         {
-                            "name": "ATK%",
-                            "value": 22.2,
+                            "name": "Flat HP",
+                            "value": 239,
+                            "rolls": 1
+                        },
+                        {
+                            "name": "Crit DMG",
+                            "value": 27.2,
                             "rolls": 4
                         }
                     ]

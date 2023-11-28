@@ -7,7 +7,7 @@ urlpatterns = [
     re_path("^" + "uid/(?P<uid>[0-9]{9})/" + "$", views.inspect),
     re_path("^" + "uid/(?P<uid1>[0-9]{9})/(?P<uid2>[0-9]{9})/" + "$", views.duel),
     path("how/", views.how),
-    path("char/<str:name>", views.char),
+    path("char/<str:name>/", views.char),
 
     # -------------------------
     # /!\ Easter eggs below /!\

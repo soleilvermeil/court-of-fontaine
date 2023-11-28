@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.shortcuts import redirect
 import scripts
 
 def home(request):
@@ -102,30 +103,49 @@ def how(request):
     })
 
 def char(request, name):
+    # TODO: Remove this in the future
+    if " " in name:
+        return redirect(f"/char/{name.replace(' ', '_')}/")
     ratings, infos = scripts.get_ratings_of_character(name)
     print(ratings)
     print(infos)
     users = [r["nickname"] for r in ratings]
 
     substats = ["ATK%", "DEF%", "HP%", "Energy Recharge", "Elemental Mastery", "Crit DMG", "Crit RATE"]
+    
+    data = [
+        {
+            "uid": user['uid'],
+            "nickname": user['nickname'],
+            "progress": user['characters'][0]['progress'],
+            "stats": {
+                stat: 0
+            for stat in substats},
+        }
+        for user in ratings
+    ]
+    
     artifact_types = ["flower", "feather", "sands", "goblet", "circlet"]
 
-    for rating, info in zip(ratings, infos):
+    for i, (rating, info) in enumerate(zip(ratings, infos)):
         print(info['nickname'])
         for substat in substats:
             x = 0
             for artifact_type in artifact_types:
-                dx = scripts.get_substat_value(substat_name=substat, artifact_substats=info['characters'][0]['artifacts'][artifact_type]['substats'])
-                x += dx
-                if info['characters'][0]['artifacts'][artifact_type]['mainstat']['name'] == substat:
-                    x += info['characters'][0]['artifacts'][artifact_type]['mainstat']['value']
-            print(f"{substat}: {x:.1f}")
+                try:
+                    dx = scripts.get_substat_value(substat_name=substat, artifact_substats=info['characters'][0]['artifacts'][artifact_type]['substats'])
+                    x += dx
+                    if info['characters'][0]['artifacts'][artifact_type]['mainstat']['name'] == substat:
+                        x += info['characters'][0]['artifacts'][artifact_type]['mainstat']['value']
+                except KeyError:
+                    pass
+            # print(f"{substat}: {x:.1f}")
+            x = round(x, 1)
+            data[i]['stats'][substat] = f"{x:.1f}"
+    
+    print(data)
 
-
-    return render(request, "base_page_simpletext.html", {
-        "title": f"And the best {name.title()}s are...",
-        "body": f"You'll know soon enough... {users}",
-    })
+    return render(request, "base_table_leaderboard.html", {"players": data})
 
 
 # -------------------------

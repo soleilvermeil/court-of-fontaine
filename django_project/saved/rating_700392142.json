@@ -1,7 +1,7 @@
 {
     "uid": "700392142",
     "nickname": "Terra",
-    "datetime": "2023-11-27T23:13:13.190572",
+    "datetime": "2023-11-28T08:46:45.820263",
     "characters": [
         {
             "name": "Cyno",
@@ -786,27 +786,27 @@
         {
             "name": "Wriothesley",
             "progress": {
-                "value": 50,
-                "exact": 50.0,
+                "value": 20,
+                "exact": 20.0,
                 "color": "indigo-600"
             },
             "artifacts": {
                 "flower": {
                     "rating": {
-                        "text": "Excellent",
-                        "textcolor": "white",
-                        "bgcolor": "green-600"
+                        "text": "Decent",
+                        "textcolor": "black",
+                        "bgcolor": "transparent"
                     },
                     "tooltips": [
                         {
-                            "text": "Excellent substats",
-                            "textcolor": "green-700",
-                            "textweight": "bold"
+                            "text": "Decent substats",
+                            "textcolor": "black",
+                            "textweight": "normal"
                         },
                         {
-                            "text": "Excellent rolls",
+                            "text": "Good rolls",
                             "textcolor": "green-700",
-                            "textweight": "bold"
+                            "textweight": "normal"
                         },
                         {
                             "text": "Decent crit value",
@@ -817,25 +817,25 @@
                 },
                 "feather": {
                     "rating": {
-                        "text": "Good",
-                        "textcolor": "green-700",
-                        "bgcolor": "green-200"
+                        "text": "Decent",
+                        "textcolor": "black",
+                        "bgcolor": "transparent"
                     },
                     "tooltips": [
                         {
-                            "text": "Good substats",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Good rolls",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Terrible crit value",
+                            "text": "Terrible substats",
                             "textcolor": "red-700",
                             "textweight": "bold"
+                        },
+                        {
+                            "text": "Decent rolls",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Decent crit value",
+                            "textcolor": "black",
+                            "textweight": "normal"
                         }
                     ]
                 },

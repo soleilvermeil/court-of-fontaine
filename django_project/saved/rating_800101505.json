@@ -1,12 +1,12 @@
 {
     "uid": "800101505",
     "nickname": "Tenha",
-    "datetime": "2023-11-27T22:47:36.322791",
+    "datetime": "2023-11-28T08:34:17.531380",
     "characters": [
         {
             "name": "Alhaitham",
             "progress": {
-                "value": 75,
+                "value": 70,
                 "exact": 70.0,
                 "color": "indigo-600"
             },
@@ -136,7 +136,7 @@
         {
             "name": "Diluc",
             "progress": {
-                "value": 75,
+                "value": 70,
                 "exact": 70.0,
                 "color": "indigo-600"
             },
@@ -396,7 +396,7 @@
         {
             "name": "Kaedehara Kazuha",
             "progress": {
-                "value": 25,
+                "value": 30,
                 "exact": 30.0,
                 "color": "indigo-600"
             },
@@ -656,7 +656,7 @@
         {
             "name": "Mona",
             "progress": {
-                "value": 75,
+                "value": 70,
                 "exact": 70.0,
                 "color": "indigo-600"
             },
@@ -786,7 +786,7 @@
         {
             "name": "Raiden Shogun",
             "progress": {
-                "value": 75,
+                "value": 70,
                 "exact": 70.0,
                 "color": "indigo-600"
             },
@@ -916,7 +916,7 @@
         {
             "name": "Tartaglia",
             "progress": {
-                "value": 25,
+                "value": 20,
                 "exact": 20.0,
                 "color": "indigo-600"
             },
