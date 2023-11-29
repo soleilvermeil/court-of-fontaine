@@ -102,18 +102,27 @@
                     }
                     console.log("Adding " + stringList[i])
                     let row = table.insertRow(rows);
-                    rows++;
                     row.className = 'hover:bg-gray-200';
                     let cell = row.insertCell(0);
                     let link = document.createElement('a');
                     link.setAttribute('onclick', `hide_searchbar_history('${stringList[i]}')`);
-                    // link.setAttribute('href', '/uid/' + stringList[i]);
                     let paragraph = document.createElement('p');
                     paragraph.className = 'p-2 cursor-pointer';
                     paragraph.style.display = 'block';
                     paragraph.textContent = stringList[i];
                     link.appendChild(paragraph);
                     cell.appendChild(link);
+                    let deletebuttonparagraph = document.createElement('p');
+                    deletebuttonparagraph.className = 'p-2 cursor-pointer';
+                    deletebuttonparagraph.style.display = 'block';
+                    deletebuttonparagraph.textContent = 'X';
+                    deletebuttonparagraph.setAttribute('onclick', `delete_from_search_history('${stringList[i]}')`);
+                    // TODO: implement this
+                    // cell.appendChild(deletebuttonparagraph);
+
+
+
+                    rows++;
                 }
                 // Append the table to the body or any other container element
                 let tableContainer = document.getElementById('searchbar_history_display');
@@ -157,6 +166,62 @@
             searchbar.value = uid;
             search()
         }
+
+        function sortTable(n) {
+            var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementById("mytable");
+            switching = true;
+            // Set the sorting direction to ascending:
+            dir = "asc"; 
+            /* Make a loop that will continue until
+            no switching has been done: */
+            while (switching) {
+              // Start by saying: no switching is done:
+              switching = false;
+              rows = table.rows;
+              /* Loop through all table rows (except the
+              first, which contains table headers): */
+              for (i = 1; i < (rows.length - 1); i++) {
+                // Start by saying there should be no switching:
+                shouldSwitch = false;
+                /* Get the two elements you want to compare,
+                one from current row and one from the next: */
+                x = rows[i].getElementsByTagName("TD")[n];
+                y = rows[i + 1].getElementsByTagName("TD")[n];
+                /* Check if the two rows should switch place,
+                based on the direction, asc or desc: */
+                if (dir == "asc") {
+                  if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                  }
+                } else if (dir == "desc") {
+                  if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                    // If so, mark as a switch and break the loop:
+                    shouldSwitch = true;
+                    break;
+                  }
+                }
+              }
+              if (shouldSwitch) {
+                /* If a switch has been marked, make the switch
+                and mark that a switch has been done: */
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+                // Each time a switch is done, increase this count by 1:
+                switchcount ++; 
+              } else {
+                /* If no switching has been done AND the direction is "asc",
+                set the direction to "desc" and run the while loop again. */
+                if (switchcount == 0 && dir == "asc") {
+                  dir = "desc";
+                  switching = true;
+                }
+              }
+            }
+          }
+          
     </script>
     <style>
         body {
