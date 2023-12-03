@@ -1,13 +1,13 @@
 {
     "uid": "703047530",
     "nickname": "Soleil",
-    "datetime": "2023-11-28T15:57:34.983891",
+    "datetime": "2023-12-01T10:26:15.147115",
     "characters": [
         {
             "name": "Diluc",
             "progress": {
-                "value": 20,
-                "exact": 20.0,
+                "value": 70,
+                "exact": 70.0,
                 "color": "indigo-600"
             },
             "artifacts": {
@@ -37,9 +37,9 @@
                 },
                 "feather": {
                     "rating": {
-                        "text": "Terrible",
-                        "textcolor": "white",
-                        "bgcolor": "red-600"
+                        "text": "Decent",
+                        "textcolor": "black",
+                        "bgcolor": "transparent"
                     },
                     "tooltips": [
                         {
@@ -48,14 +48,14 @@
                             "textweight": "normal"
                         },
                         {
-                            "text": "Terrible rolls",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
+                            "text": "Decent rolls",
+                            "textcolor": "black",
+                            "textweight": "normal"
                         },
                         {
-                            "text": "Terrible crit value",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
+                            "text": "Decent crit value",
+                            "textcolor": "black",
+                            "textweight": "normal"
                         }
                     ]
                 },
@@ -109,24 +109,24 @@
                 },
                 "circlet": {
                     "rating": {
-                        "text": "Terrible",
-                        "textcolor": "white",
-                        "bgcolor": "red-600"
+                        "text": "Good",
+                        "textcolor": "green-700",
+                        "bgcolor": "green-200"
                     },
                     "tooltips": [
                         {
-                            "text": "Bad substats",
-                            "textcolor": "red-700",
+                            "text": "Decent substats",
+                            "textcolor": "black",
                             "textweight": "normal"
                         },
                         {
-                            "text": "Terrible rolls",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
+                            "text": "Good rolls",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
                         },
                         {
-                            "text": "Terrible crit value",
-                            "textcolor": "red-700",
+                            "text": "Excellent crit value",
+                            "textcolor": "green-700",
                             "textweight": "bold"
                         }
                     ]
@@ -656,8 +656,8 @@
         {
             "name": "Keqing",
             "progress": {
-                "value": 30,
-                "exact": 30.0,
+                "value": 10,
+                "exact": 10.0,
                 "color": "indigo-600"
             },
             "artifacts": {
@@ -759,25 +759,25 @@
                 },
                 "circlet": {
                     "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
+                        "text": "Terrible",
+                        "textcolor": "white",
+                        "bgcolor": "red-600"
                     },
                     "tooltips": [
                         {
-                            "text": "Decent substats",
-                            "textcolor": "black",
+                            "text": "Bad substats",
+                            "textcolor": "red-700",
                             "textweight": "normal"
                         },
                         {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
-                            "textweight": "normal"
+                            "text": "Terrible rolls",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         },
                         {
-                            "text": "Good crit value",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
+                            "text": "Terrible crit value",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         }
                     ]
                 }

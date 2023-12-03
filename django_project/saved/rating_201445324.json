@@ -1,17 +1,65 @@
 {
-    "uid": "606062036",
-    "nickname": "Eiko",
-    "datetime": "2023-11-30T09:24:38.785625",
+    "uid": "201445324",
+    "nickname": "\u7c73\u52d2",
+    "datetime": "2023-11-30T09:52:17.492673",
     "characters": [
         {
-            "name": "Fischl",
+            "name": "Hu Tao",
             "progress": {
-                "value": 90,
-                "exact": 90.0,
+                "value": 80,
+                "exact": 80.0,
                 "color": "indigo-600"
             },
             "artifacts": {
                 "flower": {
+                    "rating": {
+                        "text": "Excellent",
+                        "textcolor": "white",
+                        "bgcolor": "green-600"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Good substats",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Excellent rolls",
+                            "textcolor": "green-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Excellent crit value",
+                            "textcolor": "green-700",
+                            "textweight": "bold"
+                        }
+                    ]
+                },
+                "feather": {
+                    "rating": {
+                        "text": "Good",
+                        "textcolor": "green-700",
+                        "bgcolor": "green-200"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Decent substats",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Good rolls",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Good crit value",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "sands": {
                     "rating": {
                         "text": "Excellent",
                         "textcolor": "white",
@@ -29,80 +77,32 @@
                             "textweight": "bold"
                         },
                         {
-                            "text": "Good crit value",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
-                "feather": {
-                    "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Good rolls",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        },
-                        {
                             "text": "Decent crit value",
                             "textcolor": "black",
                             "textweight": "normal"
                         }
                     ]
                 },
-                "sands": {
-                    "rating": {
-                        "text": "Good",
-                        "textcolor": "green-700",
-                        "bgcolor": "green-200"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Good substats",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Good rolls",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Good crit value",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
                 "goblet": {
                     "rating": {
-                        "text": "Good",
-                        "textcolor": "green-700",
-                        "bgcolor": "green-200"
+                        "text": "Terrible",
+                        "textcolor": "white",
+                        "bgcolor": "red-600"
                     },
                     "tooltips": [
                         {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
+                            "text": "Terrible substats",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         },
                         {
-                            "text": "Good rolls",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
+                            "text": "Terrible rolls",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         },
                         {
-                            "text": "Good crit value",
-                            "textcolor": "green-700",
+                            "text": "Bad crit value",
+                            "textcolor": "red-700",
                             "textweight": "normal"
                         }
                     ]
@@ -125,71 +125,23 @@
                             "textweight": "normal"
                         },
                         {
-                            "text": "Excellent crit value",
+                            "text": "Good crit value",
                             "textcolor": "green-700",
-                            "textweight": "bold"
+                            "textweight": "normal"
                         }
                     ]
                 }
             }
         },
         {
-            "name": "Furina",
+            "name": "Kaedehara Kazuha",
             "progress": {
-                "value": 50,
-                "exact": 50.0,
+                "value": 0,
+                "exact": 0,
                 "color": "indigo-600"
             },
             "artifacts": {
                 "flower": {
-                    "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Decent crit value",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
-                "feather": {
-                    "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Good rolls",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Bad crit value",
-                            "textcolor": "red-700",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
-                "sands": {
                     "rating": {
                         "text": "Good",
                         "textcolor": "green-700",
@@ -202,76 +154,18 @@
                             "textweight": "normal"
                         },
                         {
-                            "text": "Good rolls",
+                            "text": "Excellent rolls",
                             "textcolor": "green-700",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Decent crit value",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
-                "goblet": {
-                    "rating": {
-                        "text": "Bad",
-                        "textcolor": "red-700",
-                        "bgcolor": "red-200"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Terrible substats",
-                            "textcolor": "red-700",
                             "textweight": "bold"
                         },
                         {
-                            "text": "Bad rolls",
+                            "text": "Terrible crit value",
                             "textcolor": "red-700",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Bad crit value",
-                            "textcolor": "red-700",
-                            "textweight": "normal"
+                            "textweight": "bold"
                         }
                     ]
                 },
-                "circlet": {
-                    "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Decent crit value",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "name": "Hu Tao",
-            "progress": {
-                "value": 30,
-                "exact": 30.0,
-                "color": "indigo-600"
-            },
-            "artifacts": {
-                "flower": {
+                "feather": {
                     "rating": {
                         "text": "Terrible",
                         "textcolor": "white",
@@ -295,75 +189,51 @@
                         }
                     ]
                 },
-                "feather": {
-                    "rating": {
-                        "text": "Excellent",
-                        "textcolor": "white",
-                        "bgcolor": "green-600"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Excellent substats",
-                            "textcolor": "green-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Excellent rolls",
-                            "textcolor": "green-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Decent crit value",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
                 "sands": {
                     "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
+                        "text": "Terrible",
+                        "textcolor": "white",
+                        "bgcolor": "red-600"
                     },
                     "tooltips": [
                         {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
+                            "text": "Terrible substats",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         },
                         {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
-                            "textweight": "normal"
+                            "text": "Terrible rolls",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         },
                         {
-                            "text": "Decent crit value",
-                            "textcolor": "black",
-                            "textweight": "normal"
+                            "text": "Terrible crit value",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         }
                     ]
                 },
                 "goblet": {
                     "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
+                        "text": "Terrible",
+                        "textcolor": "white",
+                        "bgcolor": "red-600"
                     },
                     "tooltips": [
                         {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
+                            "text": "Terrible substats",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         },
                         {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
-                            "textweight": "normal"
+                            "text": "Terrible rolls",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         },
                         {
-                            "text": "Decent crit value",
-                            "textcolor": "black",
-                            "textweight": "normal"
+                            "text": "Terrible crit value",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         }
                     ]
                 },
@@ -385,8 +255,8 @@
                             "textweight": "bold"
                         },
                         {
-                            "text": "Good crit value",
-                            "textcolor": "green-700",
+                            "text": "Bad crit value",
+                            "textcolor": "red-700",
                             "textweight": "normal"
                         }
                     ]
@@ -394,33 +264,33 @@
             }
         },
         {
-            "name": "Lynette",
+            "name": "Kamisato Ayaka",
             "progress": {
-                "value": 20,
-                "exact": 20.0,
+                "value": 10,
+                "exact": 10.0,
                 "color": "indigo-600"
             },
             "artifacts": {
                 "flower": {
                     "rating": {
-                        "text": "Good",
-                        "textcolor": "green-700",
-                        "bgcolor": "green-200"
+                        "text": "Terrible",
+                        "textcolor": "white",
+                        "bgcolor": "red-600"
                     },
                     "tooltips": [
                         {
-                            "text": "Good substats",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Good rolls",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Bad crit value",
+                            "text": "Terrible substats",
                             "textcolor": "red-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Terrible rolls",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Decent crit value",
+                            "textcolor": "black",
                             "textweight": "normal"
                         }
                     ]
@@ -438,8 +308,8 @@
                             "textweight": "normal"
                         },
                         {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
+                            "text": "Good rolls",
+                            "textcolor": "green-700",
                             "textweight": "normal"
                         },
                         {
@@ -451,39 +321,39 @@
                 },
                 "sands": {
                     "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
+                        "text": "Good",
+                        "textcolor": "green-700",
+                        "bgcolor": "green-200"
                     },
                     "tooltips": [
                         {
-                            "text": "Terrible substats",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
+                            "text": "Good substats",
+                            "textcolor": "green-700",
                             "textweight": "normal"
                         },
                         {
-                            "text": "Decent crit value",
-                            "textcolor": "black",
+                            "text": "Excellent rolls",
+                            "textcolor": "green-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Good crit value",
+                            "textcolor": "green-700",
                             "textweight": "normal"
                         }
                     ]
                 },
                 "goblet": {
                     "rating": {
-                        "text": "Terrible",
-                        "textcolor": "white",
-                        "bgcolor": "red-600"
+                        "text": "Bad",
+                        "textcolor": "red-700",
+                        "bgcolor": "red-200"
                     },
                     "tooltips": [
                         {
-                            "text": "Terrible substats",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
+                            "text": "Decent substats",
+                            "textcolor": "black",
+                            "textweight": "normal"
                         },
                         {
                             "text": "Terrible rolls",
@@ -526,27 +396,27 @@
         {
             "name": "Nahida",
             "progress": {
-                "value": 50,
-                "exact": 50.0,
+                "value": 20,
+                "exact": 20.0,
                 "color": "indigo-600"
             },
             "artifacts": {
                 "flower": {
                     "rating": {
-                        "text": "Terrible",
-                        "textcolor": "white",
-                        "bgcolor": "red-600"
+                        "text": "Good",
+                        "textcolor": "green-700",
+                        "bgcolor": "green-200"
                     },
                     "tooltips": [
                         {
-                            "text": "Terrible substats",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
+                            "text": "Good substats",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
                         },
                         {
-                            "text": "Terrible rolls",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
+                            "text": "Good rolls",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
                         },
                         {
                             "text": "Terrible crit value",
@@ -563,27 +433,27 @@
                     },
                     "tooltips": [
                         {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Good rolls",
+                            "text": "Good substats",
                             "textcolor": "green-700",
                             "textweight": "normal"
                         },
                         {
-                            "text": "Good crit value",
+                            "text": "Excellent rolls",
                             "textcolor": "green-700",
-                            "textweight": "normal"
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Terrible crit value",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         }
                     ]
                 },
                 "sands": {
                     "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
+                        "text": "Terrible",
+                        "textcolor": "white",
+                        "bgcolor": "red-600"
                     },
                     "tooltips": [
                         {
@@ -592,9 +462,9 @@
                             "textweight": "bold"
                         },
                         {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
-                            "textweight": "normal"
+                            "text": "Terrible rolls",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         },
                         {
                             "text": "Decent crit value",
@@ -604,64 +474,6 @@
                     ]
                 },
                 "goblet": {
-                    "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Good crit value",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
-                "circlet": {
-                    "rating": {
-                        "text": "Good",
-                        "textcolor": "green-700",
-                        "bgcolor": "green-200"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Excellent substats",
-                            "textcolor": "green-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Good rolls",
-                            "textcolor": "green-700",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Decent crit value",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "name": "Traveler",
-            "progress": {
-                "value": 0,
-                "exact": 0,
-                "color": "indigo-600"
-            },
-            "artifacts": {
-                "flower": {
                     "rating": {
                         "text": "Terrible",
                         "textcolor": "white",
@@ -682,208 +494,6 @@
                             "text": "Terrible crit value",
                             "textcolor": "red-700",
                             "textweight": "bold"
-                        }
-                    ]
-                },
-                "feather": {
-                    "rating": {
-                        "text": "Terrible",
-                        "textcolor": "white",
-                        "bgcolor": "red-600"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Terrible substats",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Terrible rolls",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Decent crit value",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
-                "sands": {
-                    "rating": {
-                        "text": "Terrible",
-                        "textcolor": "white",
-                        "bgcolor": "red-600"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Terrible substats",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Terrible rolls",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Decent crit value",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
-                "goblet": {
-                    "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Bad crit value",
-                            "textcolor": "red-700",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
-                "circlet": {
-                    "rating": {
-                        "text": "Terrible",
-                        "textcolor": "white",
-                        "bgcolor": "red-600"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Terrible substats",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Terrible rolls",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Terrible crit value",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
-                        }
-                    ]
-                }
-            }
-        },
-        {
-            "name": "Yae Miko",
-            "progress": {
-                "value": 30,
-                "exact": 30.0,
-                "color": "indigo-600"
-            },
-            "artifacts": {
-                "flower": {
-                    "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Bad crit value",
-                            "textcolor": "red-700",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
-                "feather": {
-                    "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Bad rolls",
-                            "textcolor": "red-700",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Decent crit value",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
-                "sands": {
-                    "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Bad crit value",
-                            "textcolor": "red-700",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
-                "goblet": {
-                    "rating": {
-                        "text": "Bad",
-                        "textcolor": "red-700",
-                        "bgcolor": "red-200"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
-                        },
-                        {
-                            "text": "Terrible rolls",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Bad crit value",
-                            "textcolor": "red-700",
-                            "textweight": "normal"
                         }
                     ]
                 },
@@ -905,6 +515,266 @@
                             "textweight": "normal"
                         },
                         {
+                            "text": "Decent crit value",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Raiden Shogun",
+            "progress": {
+                "value": 100,
+                "exact": 100.0,
+                "color": "indigo-600"
+            },
+            "artifacts": {
+                "flower": {
+                    "rating": {
+                        "text": "Good",
+                        "textcolor": "green-700",
+                        "bgcolor": "green-200"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Decent substats",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Good rolls",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Good crit value",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "feather": {
+                    "rating": {
+                        "text": "Excellent",
+                        "textcolor": "white",
+                        "bgcolor": "green-600"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Excellent substats",
+                            "textcolor": "green-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Excellent rolls",
+                            "textcolor": "green-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Good crit value",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "sands": {
+                    "rating": {
+                        "text": "Excellent",
+                        "textcolor": "white",
+                        "bgcolor": "green-600"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Excellent substats",
+                            "textcolor": "green-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Excellent rolls",
+                            "textcolor": "green-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Good crit value",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "goblet": {
+                    "rating": {
+                        "text": "Decent",
+                        "textcolor": "black",
+                        "bgcolor": "transparent"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Decent substats",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Decent rolls",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Good crit value",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "circlet": {
+                    "rating": {
+                        "text": "Decent",
+                        "textcolor": "black",
+                        "bgcolor": "transparent"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Bad substats",
+                            "textcolor": "red-700",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Decent rolls",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Good crit value",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Yelan",
+            "progress": {
+                "value": 80,
+                "exact": 80.0,
+                "color": "indigo-600"
+            },
+            "artifacts": {
+                "flower": {
+                    "rating": {
+                        "text": "Good",
+                        "textcolor": "green-700",
+                        "bgcolor": "green-200"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Good substats",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Excellent rolls",
+                            "textcolor": "green-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Good crit value",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "feather": {
+                    "rating": {
+                        "text": "Excellent",
+                        "textcolor": "white",
+                        "bgcolor": "green-600"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Excellent substats",
+                            "textcolor": "green-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Excellent rolls",
+                            "textcolor": "green-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Decent crit value",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "sands": {
+                    "rating": {
+                        "text": "Bad",
+                        "textcolor": "red-700",
+                        "bgcolor": "red-200"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Terrible substats",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Bad rolls",
+                            "textcolor": "red-700",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Good crit value",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "goblet": {
+                    "rating": {
+                        "text": "Decent",
+                        "textcolor": "black",
+                        "bgcolor": "transparent"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Decent substats",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Good rolls",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Decent crit value",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "circlet": {
+                    "rating": {
+                        "text": "Good",
+                        "textcolor": "green-700",
+                        "bgcolor": "green-200"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Decent substats",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Good rolls",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        },
+                        {
                             "text": "Excellent crit value",
                             "textcolor": "green-700",
                             "textweight": "bold"
@@ -914,7 +784,137 @@
             }
         },
         {
-            "name": "Yelan",
+            "name": "Yoimiya",
+            "progress": {
+                "value": 50,
+                "exact": 50.0,
+                "color": "indigo-600"
+            },
+            "artifacts": {
+                "flower": {
+                    "rating": {
+                        "text": "Decent",
+                        "textcolor": "black",
+                        "bgcolor": "transparent"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Decent substats",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Bad rolls",
+                            "textcolor": "red-700",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Decent crit value",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "feather": {
+                    "rating": {
+                        "text": "Good",
+                        "textcolor": "green-700",
+                        "bgcolor": "green-200"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Good substats",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Good rolls",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Good crit value",
+                            "textcolor": "green-700",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "sands": {
+                    "rating": {
+                        "text": "Decent",
+                        "textcolor": "black",
+                        "bgcolor": "transparent"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Decent substats",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Decent rolls",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Decent crit value",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "goblet": {
+                    "rating": {
+                        "text": "Decent",
+                        "textcolor": "black",
+                        "bgcolor": "transparent"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Decent substats",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Decent rolls",
+                            "textcolor": "black",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Bad crit value",
+                            "textcolor": "red-700",
+                            "textweight": "normal"
+                        }
+                    ]
+                },
+                "circlet": {
+                    "rating": {
+                        "text": "Bad",
+                        "textcolor": "red-700",
+                        "bgcolor": "red-200"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Bad substats",
+                            "textcolor": "red-700",
+                            "textweight": "normal"
+                        },
+                        {
+                            "text": "Terrible rolls",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Bad crit value",
+                            "textcolor": "red-700",
+                            "textweight": "normal"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Zhongli",
             "progress": {
                 "value": 0,
                 "exact": 0,
@@ -947,20 +947,44 @@
                 },
                 "feather": {
                     "rating": {
-                        "text": "Decent",
-                        "textcolor": "black",
-                        "bgcolor": "transparent"
+                        "text": "Terrible",
+                        "textcolor": "white",
+                        "bgcolor": "red-600"
                     },
                     "tooltips": [
                         {
-                            "text": "Decent substats",
-                            "textcolor": "black",
-                            "textweight": "normal"
+                            "text": "Terrible substats",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         },
                         {
-                            "text": "Decent rolls",
-                            "textcolor": "black",
-                            "textweight": "normal"
+                            "text": "Terrible rolls",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Terrible crit value",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
+                        }
+                    ]
+                },
+                "sands": {
+                    "rating": {
+                        "text": "Terrible",
+                        "textcolor": "white",
+                        "bgcolor": "red-600"
+                    },
+                    "tooltips": [
+                        {
+                            "text": "Terrible substats",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
+                        },
+                        {
+                            "text": "Terrible rolls",
+                            "textcolor": "red-700",
+                            "textweight": "bold"
                         },
                         {
                             "text": "Decent crit value",
@@ -969,7 +993,7 @@
                         }
                     ]
                 },
-                "sands": {
+                "goblet": {
                     "rating": {
                         "text": "Terrible",
                         "textcolor": "white",
@@ -993,46 +1017,22 @@
                         }
                     ]
                 },
-                "goblet": {
-                    "rating": {
-                        "text": "Terrible",
-                        "textcolor": "white",
-                        "bgcolor": "red-600"
-                    },
-                    "tooltips": [
-                        {
-                            "text": "Terrible substats",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Terrible rolls",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
-                        },
-                        {
-                            "text": "Bad crit value",
-                            "textcolor": "red-700",
-                            "textweight": "normal"
-                        }
-                    ]
-                },
                 "circlet": {
                     "rating": {
-                        "text": "Terrible",
-                        "textcolor": "white",
-                        "bgcolor": "red-600"
+                        "text": "Bad",
+                        "textcolor": "red-700",
+                        "bgcolor": "red-200"
                     },
                     "tooltips": [
                         {
-                            "text": "Terrible substats",
+                            "text": "Bad substats",
                             "textcolor": "red-700",
-                            "textweight": "bold"
+                            "textweight": "normal"
                         },
                         {
-                            "text": "Terrible rolls",
-                            "textcolor": "red-700",
-                            "textweight": "bold"
+                            "text": "Decent rolls",
+                            "textcolor": "black",
+                            "textweight": "normal"
                         },
                         {
                             "text": "Terrible crit value",
