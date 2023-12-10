@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from .models import *
 import random
-from . import scriptsv2
+from . import scripts
+
 
 def home(request):
     return render(request, "base_page_simpletext.html", {
@@ -10,14 +11,12 @@ def home(request):
         "body": "Enter your UID to be judged!"
     })
 
+
 def inspect(request, uid):
-    infos = scriptsv2.add_player(uid)
-    obj = scriptsv2.get_player(uid, include_rating=True)
+    scripts.add_player(uid)
+    obj = scripts.get_player(uid, include_rating=True)
     print(obj)
-
     return render(request, "base_table.html", obj)
-
-
 
 
 def inspectrandom(request):
@@ -27,8 +26,8 @@ def inspectrandom(request):
     uid = int(uid)
     return inspect(request, uid)
 
-def duel(request, uid1, uid2):
 
+def duel(request, uid1, uid2):
     return render(request, "base_page_simpletext.html", {
         "title": "You made Furina sad T-T",
         "body": f"Coming soon...",

@@ -135,7 +135,7 @@ def interrogate_enka(uid: int) -> dict:
     return data
 
 
-def add_player(uid: int, save: bool = True) -> dict:
+def add_player(uid: int, save: bool = True) -> None:
     """Get the informations in a human-readable format"""
     raw_data = interrogate_enka(uid)
     nickname = raw_data['playerInfo']['nickname']
@@ -187,7 +187,7 @@ def get_substat_value(substat_name: str, artifact_substats: list) -> int:
     return 0
 
 
-def rate_artifact(artifact: Artifact) -> float:
+def rate_artifact(artifact: Artifact) -> dict:
     substats = Substat.objects.filter(owner=artifact)
     equiptype = artifact.equiptype
     # ----------------
@@ -198,11 +198,12 @@ def rate_artifact(artifact: Artifact) -> float:
     good_substats_count = len(substats.filter(name__in=GOOD_SUBSTATS))
     substats_score = map_range(
         x=good_substats_count + min(1, average_substats_count) - bad_substats_count,
-        x1=0,
+        x1=-4,
         x2=4 if equiptype != 'Circlet' else 3,
         y1=0,
         y2=1,
     )
+    substats_score = round_to_multiple(float(substats_score), 0.1)
     # ----------------
     bad_substats_rolls = sum([0] + [
         substats.filter(name=substat_name).first().rolls for substat_name in BAD_SUBSTATS
@@ -223,50 +224,62 @@ def rate_artifact(artifact: Artifact) -> float:
         y1=0,
         y2=1,
     )
+    rolls_score = round_to_multiple(float(rolls_score), 0.1)
     # ----------------
     cd = substats.filter(name="Crit DMG").first().value if substats.filter(name="Crit DMG").exists() else 0
     cr = substats.filter(name="Crit RATE").first().value if substats.filter(name="Crit RATE").exists() else 0
     cv = cd + 2 * cr
     cv_score = map_range(cv, 0, 50 if equiptype != 'Circlet' else 25, 0, 1)
+    cv_score = round_to_multiple(float(cv_score), 0.1)
     # ----------------
-    # score = 1 / 3 * (substats_score + rolls_score + cv_score)
     score = median([substats_score, rolls_score, cv_score])
-    # score = 0
-    # score += sum([2 if s >= RATINGS[-1] else 0 for s in [substats_score, rolls_score, cv_score]])
-    # score += sum([1 if RATINGS[-1] > s >= RATINGS[-2] else 0 for s in [substats_score, rolls_score, cv_score]])
-    # score -= sum([1 if RATINGS[0] <= s < RATINGS[1] else 0 for s in [substats_score, rolls_score, cv_score]])
-    # score -= sum([2 if s < RATINGS[0] else 0 for s in [substats_score, rolls_score, cv_score]])
-    # score = map_range(score, -6, 6, 0, 1, True)
-
     # ----------------
     # Writing tooltips
     # ----------------
     tooltips = []
     if rating2colors(substats_score)["tttextcolor"] is not None:
         tooltips.append({
+            "value": substats_score,
             "text": f"{rating2str(substats_score).capitalize()} substats",
             "textcolor": rating2colors(substats_score)["tttextcolor"],
             "textweight": rating2colors(substats_score)["tttextweight"],
         })
     if rating2colors(rolls_score)["tttextcolor"] is not None:
         tooltips.append({
+            "value": rolls_score,
             "text": f"{rating2str(rolls_score).capitalize()} rolls",
             "textcolor": rating2colors(rolls_score)["tttextcolor"],
             "textweight": rating2colors(rolls_score)["tttextweight"],
         })
     if rating2colors(cv_score)["tttextcolor"] is not None:
         tooltips.append({
+            "value": cv_score,
             "text": f"{rating2str(cv_score).capitalize()} crit value",
             "textcolor": rating2colors(cv_score)["tttextcolor"],
             "textweight": rating2colors(cv_score)["tttextweight"],
         })
     rating = {
+        "value": score,
         "text": rating2str(score).capitalize(),
         "textcolor": rating2colors(score)["textcolor"],
         "bgcolor": rating2colors(score)["bgcolor"],
         "tooltips": tooltips,
     }
     return rating
+
+def rate_character(scores: list) -> dict:
+    progress = 0
+    progress += sum([2 if score >= RATINGS[-1] else 0 for score in scores])
+    progress += sum([1 if RATINGS[-1] > score >= RATINGS[-2] else 0 for score in scores])
+    progress -= sum([1 if RATINGS[0] <= score < RATINGS[1] else 0 for score in scores])
+    progress -= sum([2 if score < RATINGS[0] else 0 for score in scores])
+    progress = map_range(progress, -5, 5, 0, 100, True)
+    progress = {
+        "value": round_to_multiple(progress, 10),
+        "exact": progress,
+        "color": "indigo-600",
+    }
+    return progress
 
 def get_player(uid: int, include_rating: bool = False) -> dict:
     obj = {}
@@ -276,8 +289,10 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
     obj["characters"] = []
     characters = Character.objects.filter(owner=player)
     for character in characters:
+        scores = []
         obj["characters"].append({
             "name": character.name,
+            "progress": {},
             "artifacts": {},
         })
         artifacts = Artifact.objects.filter(owner=character)
@@ -288,7 +303,9 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                 "substats": [],
             }
             if include_rating:
-                obj["characters"][-1]["artifacts"][equiptype]["rating"] = rate_artifact(artifact)
+                rating = rate_artifact(artifact)
+                obj["characters"][-1]["artifacts"][equiptype]["rating"] = rating
+                scores.append(rating["value"])
             mainstat = Substat.objects.filter(owner=artifact, ismainstat=True)[0]
             obj["characters"][-1]["artifacts"][equiptype]["mainstat"] = {
                 "name": mainstat.name,
@@ -301,4 +318,6 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                     "value": substat.value,
                     "rolls": substat.rolls,
                 })
+        print(scores)
+        obj["characters"][-1]["progress"] = rate_character(scores)
     return obj
