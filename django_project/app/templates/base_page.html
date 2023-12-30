@@ -140,15 +140,17 @@
                 return array.indexOf(value) === index;
             }
             function save_to_search_history(query) {
-                console.log("Saving " + query + " to search history.")
-                let search_history = JSON.parse(localStorage.getItem('search_history')) || [];
-                if (search_history.includes(query)) {
-                    let index = search_history.indexOf(query)
-                    search_history.splice(index, 1)
+                if (query >= 100000000 && query <= 999999999) {
+                    console.log("Saving " + query + " to search history.")
+                    let search_history = JSON.parse(localStorage.getItem('search_history')) || [];
+                    if (search_history.includes(query)) {
+                        let index = search_history.indexOf(query)
+                        search_history.splice(index, 1)
+                    }
+                    search_history.push(query); // add the new query to the beginning of the array
+                    // search_history = search_history.filter(unique)
+                    localStorage.setItem('search_history', JSON.stringify(search_history));
                 }
-                search_history.push(query); // add the new query to the beginning of the array
-                // search_history = search_history.filter(unique)
-                localStorage.setItem('search_history', JSON.stringify(search_history));
             }
             const query = document.getElementById("uid").value
             if (query !== "") {

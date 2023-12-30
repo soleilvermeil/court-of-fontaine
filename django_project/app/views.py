@@ -13,17 +13,22 @@ def home(request):
 
 
 def inspect(request, uid):
-    scripts.add_player(uid)
+    try:
+        avatar = scripts.add_player(uid, return_avatar=True)
+    except AssertionError as e:
+        return notfound(request, e)
     obj = scripts.get_player(uid, include_rating=True)
-    print(obj)
-    return render(request, "base_table.html", obj)
+    nickname = obj["nickname"]
+    return render(request, "base_table.html", obj | {
+        'title': nickname,
+        'body': uid,
+        'image_url': avatar,
+        'imagewidth': '32',
+    })
 
 
 def inspectrandom(request):
-    uid = random.randint(100000000, 999999999)
-    uid = str(uid)
-    uid = uid[0] + "0" + uid[2:]
-    uid = int(uid)
+    uid = random.randint(1e8, 1e9 - 1)
     return inspect(request, uid)
 
 
@@ -32,68 +37,27 @@ def duel(request, uid1, uid2):
         "title": "You made Furina sad T-T",
         "body": f"Coming soon...",
         "image": "sad.webp",
-        "imagewidth": "1/10",
+        "imagewidth": "32",
     })
 
 
-    # infos_1 = scripts.get_infos(uid1)
-    # infos_2 = scripts.get_infos(uid2)
-    # ratings = {"player_1": {}, "player_2": {}}
-    # nicknames = [None] * 2
-    # for i, infos_ in enumerate([infos_1, infos_2]):
-    #     try:
-    #         nickname = infos_["playerInfo"]["nickname"]
-    #         uid = infos_["uid"]
-    #         nicknames[i] = nickname
-    #         infos = scripts.reformat_infos(infos_)
-    #         infos = scripts.combine_infos(infos)
-    #         rating = scripts.rate(infos)
-    #     except KeyError:
-    #         return render(request, "base_page_simpletext.html", {
-    #             "title": "You made Furina sad T-T",
-    #             "body": f"It seems that '{uid}' don't want to be judged.",
-    #             "image": "sad.webp",
-    #             "imagewidth": "1/10",
-    #         })
-    #     except TypeError:
-    #         return render(request, "base_page_simpletext.html", {
-    #             "title": "You made Furina sad T-T",
-    #             "body": f"It seems that '{uid}' doesn't exist.",
-    #             "image": "sad.webp",
-    #             "imagewidth": "1/10",
-    #         })
-    #     else:
-    #         scripts.save(infos, "infos")
-    #         scripts.save(rating, "rating")
-    #         ratings[f"player_{i + 1}"] = rating
-    # names_1 = [character["name"] for character in ratings["player_1"]["characters"]]
-    # names_2 = [character["name"] for character in ratings["player_2"]["characters"]]
-    # names_intersection = list(set(names_1) & set(names_2))
-    # ratings["player_1"]["characters"] = [character for character in ratings["player_1"]["characters"] if character["name"] in names_intersection]
-    # ratings["player_2"]["characters"] = [character for character in ratings["player_2"]["characters"] if character["name"] in names_intersection]
-    # if len(names_intersection) > 0:
-    #     return render(request, "base_table_duel.html", {
-    #         "characters": zip(ratings["player_1"]["characters"], ratings["player_2"]["characters"]),
-    #         "nickname_1": nicknames[0],
-    #         "nickname_2": nicknames[1],
-    #         "uid_1": uid1,
-    #         "uid_2": uid2,
-    #     })
-    # else:
-    #     return render(request, "base_page_simpletext.html", {
-    #         "title": "You made Furina sad T-T",
-    #         "body": "The two players have no characters in common.",
-    #         "image": "sad.webp",
-    #         "imagewidth": "1/10",
-    #     })
-    
+def notfound(request, query = None):
+    if query is None:
+        query = "Could not find the page you were looking for."
+    return render(request, "base_page_simpletext.html", {
+        "title": "You made Furina sad T-T",
+        "body": query,
+        "image": "sad.webp",
+        "imagewidth": "32",
+    })
+
 
 def badquery(request, query):
     return render(request, "base_page_simpletext.html", {
         "title": "Furina is making fun of you >v<",
         "body": "Please learn how to use a computer.",
         "image": "lol.webp",
-        "imagewidth": "1/10",
+        "imagewidth": "32",
     })
 
 def how(request):
@@ -101,60 +65,16 @@ def how(request):
         "title": "How are we judged?",
         "body": "You'll know soon enough...",
         "image": "knife.webp",
-        "imagewidth": "1/10",
+        "imagewidth": "32",
     })
 
 def char(request, name):
-
     return render(request, "base_page_simpletext.html", {
         "title": "You made Furina sad T-T",
         "body": f"Coming soon...",
         "image": "sad.webp",
-        "imagewidth": "1/10",
+        "imagewidth": "32",
     })
-    # TODO: Remove this in the future
-    # if " " in name:
-    #     return redirect(f"/char/{name.replace(' ', '_')}/")
-    # ratings, infos = scripts.get_ratings_of_character(name)
-    # print(ratings)
-    # print(infos)
-    # users = [r["nickname"] for r in ratings]
-
-    # substats = ["ATK%", "DEF%", "HP%", "Energy Recharge", "Elemental Mastery", "Crit DMG", "Crit RATE"]
-    
-    # data = [
-    #     {
-    #         "uid": user['uid'],
-    #         "nickname": user['nickname'],
-    #         "progress": user['characters'][0]['progress'],
-    #         "stats": {
-    #             stat: 0
-    #         for stat in substats},
-    #     }
-    #     for user in ratings
-    # ]
-    
-    # artifact_types = ["flower", "feather", "sands", "goblet", "circlet"]
-
-    # for i, (rating, info) in enumerate(zip(ratings, infos)):
-    #     print(info['nickname'])
-    #     for substat in substats:
-    #         x = 0
-    #         for artifact_type in artifact_types:
-    #             try:
-    #                 dx = scripts.get_substat_value(substat_name=substat, artifact_substats=info['characters'][0]['artifacts'][artifact_type]['substats'])
-    #                 x += dx
-    #                 if info['characters'][0]['artifacts'][artifact_type]['mainstat']['name'] == substat:
-    #                     x += info['characters'][0]['artifacts'][artifact_type]['mainstat']['value']
-    #             except KeyError:
-    #                 pass
-    #         # print(f"{substat}: {x:.1f}")
-    #         x = round(x, 1)
-    #         data[i]['stats'][substat] = f"{x:.1f}"
-    
-    # print(data)
-
-    # return render(request, "base_table_leaderboard.html", {"players": data})
 
 
 # -------------------------

@@ -3,9 +3,13 @@
 
 {% block content %}
 <div class="flex space-x-10">
-    {% if image %}
+    {% if image or image_url %}
     <div class="w-{{ imagewidth }} relative">
-        <img class="rounded-md w-full" src={% get_static_prefix %}{{ image }} />
+        {% if image %}
+            <img class="rounded-md w-full" src={% get_static_prefix %}{{ image }} />
+        {% elif image_url %}
+            <img class="rounded-md w-full" src="{{ image_url }}" />
+        {% endif %}
         {%  if nsfw %}
             <div id="overlay" class="rounded-md absolute top-0 left-0 w-full h-full bg-black bg-opacity-20 text-white flex justify-center items-center text-center text-lg font-bold" style="backdrop-filter: blur(50px)">
                 SENSITIVE CONTENT<br>CLICK TO REVEAL
@@ -18,8 +22,10 @@
         <div class="font-bold text-3xl">{{ title }}</div>
         <div>{{ body }}</div>
     </div>
-    {% endif %}
 </div>
+{% endif %}
+{% block subcontent %}
+{% endblock %}
 <script>
     document.getElementById('overlay').addEventListener('click', function() {
         this.style.display = 'none'; // Hide the overlay on click
