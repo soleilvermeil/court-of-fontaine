@@ -1,9 +1,6 @@
 import json
 import requests
 import logging
-import datetime
-import os
-import glob
 from .models import *
 
 
@@ -15,8 +12,8 @@ RATINGS = [0.30, 0.50, 0.70, 0.90]
 SAVE_FOLDER = "saved"
 LANG = "en"
 BAD_SUBSTATS = ["Flat HP", "Flat ATK", "Flat DEF"]
-AVERAGE_SUBSTATS = ["HP%", "DEF%", "Elemental Mastery", "Energy Recharge"]
-GOOD_SUBSTATS = ["ATK%", "Crit DMG", "Crit RATE"]
+AVERAGE_SUBSTATS = ["HP%", "DEF%", "ATK%", "Elemental Mastery", "Energy Recharge"]
+GOOD_SUBSTATS = ["Crit DMG", "Crit RATE"]
 BASE_URL = "https://enka.network/api/uid"
 
 
@@ -54,6 +51,11 @@ def median(l: list) -> float:
         return (sorted(l)[len(l) // 2 - 1] + sorted(l)[len(l) // 2]) / 2
 
 
+def average(l: list) -> float:
+    """Return the average of a list"""
+    return sum(l) / len(l)
+
+
 def round_to_multiple(x, multiple):
     """Round a value to the nearest multiple"""
     return multiple * round(x / multiple)
@@ -71,7 +73,7 @@ def rating2str(rating: float) -> str:
     elif rating < RATINGS[2]:
         return "decent"
     elif rating < RATINGS[3]:
-        return ("good")
+        return "good"
     else:
         return "excellent"
 
@@ -129,15 +131,17 @@ def rating2colors(rating: float) -> dict:
 
 def interrogate_enka(uid: int) -> dict:
     """Get the informations from Enka.Network"""
-    logging.debug(f"Asking Enka.Network for UID {uid}...")
+    print(f"Asking Enka.Network for UID {uid}...")
     data = requests.get(f"{BASE_URL}/{uid}").json()
     logging.debug(f"Informations received!")
     return data
 
 
-def add_player(uid: int, save: bool = True) -> None:
+def add_player(uid: int, return_avatar: bool = False) -> None:
     """Get the informations in a human-readable format"""
     raw_data = interrogate_enka(uid)
+    assert "playerInfo" in raw_data, f"No player seems to have the UID '{uid}'."
+    assert "avatarInfoList" in raw_data and isinstance(raw_data["avatarInfoList"], list), f"It seems that the player with UID '{uid}' don't want to be judged."
     nickname = raw_data['playerInfo']['nickname']
     db_player = Player.objects.update_or_create(
         uid=uid,
@@ -145,11 +149,17 @@ def add_player(uid: int, save: bool = True) -> None:
     )[0]
     for character_index in range(len(raw_data["avatarInfoList"])):  # NOTE: usually 8
         character_obj: dict = raw_data["avatarInfoList"][character_index]
-        db_character = Character.objects.update_or_create(
-            name=LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])],
-            owner=db_player
-        )[0]
+        try:
+            db_character = Character.objects.update_or_create(
+                name=LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])],
+                owner=db_player
+            )[0]
+        except KeyError:  # Should only happen after a new character is released
+            print(f"Character {character_obj['avatarId']} not found in constants/characters.json. Skipping.")
+            continue
         artifacts: list = character_obj["equipList"]
+        # Delete old artifacts
+        Artifact.objects.filter(owner=db_character).delete()
         for artifact_index in range(len(artifacts)):  # NOTE: usually 5
             artifact_obj = artifacts[artifact_index]["flat"]
             if "equipType" not in artifact_obj:
@@ -178,6 +188,23 @@ def add_player(uid: int, save: bool = True) -> None:
                     rolls=len([roll for roll in rolls if roll == substat_name]),
                     owner=db_artifact
                 )[0]
+    if return_avatar:
+        if "playerInfo" not in raw_data:
+            return None
+        if "profilePicture" not in raw_data["playerInfo"]:
+            return None
+        if "id" in raw_data["playerInfo"]["profilePicture"]:
+            avatar_id = str(raw_data["playerInfo"]["profilePicture"]["id"])
+            avatar_name = PFPS[avatar_id]["iconPath"]
+            avatar_name = avatar_name.replace("_Circle", "")
+            return f"https://enka.network/ui/{avatar_name}.png"
+        elif "avatarId" in raw_data["playerInfo"]["profilePicture"]:
+            # TODO: Currently not working.
+            avatar_id = str(raw_data["playerInfo"]["profilePicture"]["avatarId"])
+            avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")[-1]
+            return f"https://enka.network/ui/UI_AvatarIcon_{avatar_name}.png"
+        else:
+            return None
 
 def get_substat_value(substat_name: str, artifact_substats: list) -> int:
     """Get the value of a substat from a list of substats"""
@@ -194,12 +221,12 @@ def rate_artifact(artifact: Artifact) -> dict:
     # Computing scores
     # ----------------
     bad_substats_count = len(substats.filter(name__in=BAD_SUBSTATS))
-    average_substats_count = len(substats.filter(name__in=AVERAGE_SUBSTATS))
+    average_substats_count = min(1, len(substats.filter(name__in=AVERAGE_SUBSTATS))) # Only at most 1 average substat is counted
     good_substats_count = len(substats.filter(name__in=GOOD_SUBSTATS))
     substats_score = map_range(
-        x=good_substats_count + min(1, average_substats_count) - bad_substats_count,
-        x1=-4,
-        x2=4 if equiptype != 'Circlet' else 3,
+        x=good_substats_count-bad_substats_count,
+        x1=-3 if equiptype not in ['Flower', 'Feather'] else -3,  # Min when 3 bad substats and 2 average substats
+        x2=2 if equiptype not in ['Flower', 'Feather'] else 1,  # Max when 2 good substats and no bad substats (or 1 for flowers and feathers, ie. the main stat)
         y1=0,
         y2=1,
     )
@@ -212,27 +239,37 @@ def rate_artifact(artifact: Artifact) -> dict:
     average_substats_rolls = max([0] + [
         substats.filter(name=substat_name).first().rolls for substat_name in AVERAGE_SUBSTATS
         if substats.filter(name=substat_name).exists()
-    ])
+    ])  # Counting only the substat with the most rolls
     good_substats_rolls = sum([0] + [
         substats.filter(name=substat_name).first().rolls for substat_name in GOOD_SUBSTATS
         if substats.filter(name=substat_name).exists()
     ])
     rolls_score = map_range(
-        x=good_substats_rolls + average_substats_rolls - bad_substats_rolls,
-        x1=0,
-        x2=8,
+        x=good_substats_rolls-bad_substats_rolls,
+        x1=-7 if equiptype not in ['Flower', 'Feather'] else -6,  # Min when 8 rolls went to bad substats and 1 to average substats
+        x2=8 if equiptype not in ['Flower', 'Feather'] else 8,  # Max when 7 rolls went to good substats and 2 to average substats (only one counting): 8 = 7 + 1
         y1=0,
         y2=1,
     )
+    # NOTE: Each substat has always at least one roll.
     rolls_score = round_to_multiple(float(rolls_score), 0.1)
     # ----------------
     cd = substats.filter(name="Crit DMG").first().value if substats.filter(name="Crit DMG").exists() else 0
     cr = substats.filter(name="Crit RATE").first().value if substats.filter(name="Crit RATE").exists() else 0
-    cv = cd + 2 * cr
-    cv_score = map_range(cv, 0, 50 if equiptype != 'Circlet' else 25, 0, 1)
+    cv = float(cd + 2 * cr)
+    cv_score = map_range(
+        x=cv,
+        x1= 0,
+        x2=50 if equiptype != 'Circlet' else 100, # For circlets, the substat can go up to 38.8% CD or ~19.4% CR, and mainstat up to 62.2% CD or 31.1% CR, which gives ~100 CV
+        y1= 0,
+        y2= 1,
+    )
     cv_score = round_to_multiple(float(cv_score), 0.1)
     # ----------------
     score = median([substats_score, rolls_score, cv_score])
+    # score = min([substats_score, rolls_score, cv_score])
+    # score = average([substats_score, rolls_score, cv_score])
+    # score = cv_score
     # ----------------
     # Writing tooltips
     # ----------------
@@ -267,6 +304,7 @@ def rate_artifact(artifact: Artifact) -> dict:
     }
     return rating
 
+
 def rate_character(scores: list) -> dict:
     progress = 0
     progress += sum([2 if score >= RATINGS[-1] else 0 for score in scores])
@@ -275,11 +313,34 @@ def rate_character(scores: list) -> dict:
     progress -= sum([2 if score < RATINGS[0] else 0 for score in scores])
     progress = map_range(progress, -5, 5, 0, 100, True)
     progress = {
-        "value": round_to_multiple(progress, 10),
+        "value": round_to_multiple(progress, 25),
         "exact": progress,
         "color": "indigo-600",
     }
     return progress
+
+
+def get_avatar(uid: int) -> str:
+    """Get the avatar of a player from Enka.Network"""
+    print(f"Getting avatar for UID {uid}...")
+    raw_data = interrogate_enka(uid)
+    if "playerInfo" not in raw_data:
+        return None
+    if "profilePicture" not in raw_data["playerInfo"]:
+        return None
+    if "id" in raw_data["playerInfo"]["profilePicture"]:
+        avatar_id = str(raw_data["playerInfo"]["profilePicture"]["id"])
+        avatar_name = PFPS[avatar_id]["iconPath"]
+        avatar_name = avatar_name.replace("_Circle", "")
+        return f"https://enka.network/ui/{avatar_name}.png"
+    elif "avatarId" in raw_data["playerInfo"]["profilePicture"]:
+        # TODO: Currently not working.
+        avatar_id = str(raw_data["playerInfo"]["profilePicture"]["avatarId"])
+        avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")[-1]
+        return f"https://enka.network/ui/UI_AvatarIcon_{avatar_name}.png"
+    else:
+        return None
+
 
 def get_player(uid: int, include_rating: bool = False) -> dict:
     obj = {}
@@ -289,15 +350,24 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
     obj["characters"] = []
     characters = Character.objects.filter(owner=player)
     for character in characters:
+        logging.debug(f"Getting infos for {character.name}...")
         scores = []
         obj["characters"].append({
             "name": character.name,
             "progress": {},
             "artifacts": {},
         })
-        artifacts = Artifact.objects.filter(owner=character)
-        for artifact in artifacts:
+        for equiptype in EQUIPTYPE.values():
+            logging.debug(f"Getting infos for {equiptype}...")
+            artifact = Artifact.objects.filter(owner=character, equiptype=equiptype).first()
+            if artifact is None:
+                obj["characters"][-1]["artifacts"][equiptype] = {
+                    "mainstat": {},
+                    "substats": [],
+                }
+                continue
             equiptype = artifact.equiptype.lower()
+            logging.debug(f"Getting infos for {equiptype}...")
             obj["characters"][-1]["artifacts"][equiptype] = {
                 "mainstat": {},
                 "substats": [],
@@ -318,6 +388,5 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                     "value": substat.value,
                     "rolls": substat.rolls,
                 })
-        print(scores)
         obj["characters"][-1]["progress"] = rate_character(scores)
     return obj
