@@ -21,7 +21,12 @@ You can then access the website at http://127.0.0.1:8000 **altough the terminal 
 
 ### Run directly
 
-If you know what you are doing, you can run the server directly. Go into the `django_project` folder. From there, run the following commands:
+If you know what you are doing, you can run the server directly. Go into the `django_project` folder. From there, if it is the first time, you will have to build the data base using the two very simple commands:
+```
+python manage.py makemigrations
+python manage.py migrate
+```
+You can then run the server:
 ```
 python manage.py runserver
 ```
