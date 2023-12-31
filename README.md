@@ -1,6 +1,7 @@
 # Court of Fontaine
 
 > Let yourself be judged.
+
 A website that judges your artifacts, characters and your entire life.
 
 ## How to use
