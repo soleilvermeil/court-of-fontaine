@@ -220,18 +220,47 @@ def rate_artifact(artifact: Artifact) -> dict:
     # ----------------
     # Computing scores
     # ----------------
+    # bad_substats_count = len(substats.filter(name__in=BAD_SUBSTATS))
+    # average_substats_count = min(1, len(substats.filter(name__in=AVERAGE_SUBSTATS))) # Only at most 1 average substat is counted
+    # good_substats_count = len(substats.filter(name__in=GOOD_SUBSTATS))
+    # substats_score = map_range(
+    #     x=good_substats_count-bad_substats_count,
+    #     x1=-3 if equiptype not in ['Flower', 'Feather'] else -3,  # Min when 3 bad substats and 2 average substats
+    #     x2=2 if equiptype not in ['Flower', 'Feather'] else 1,  # Max when 2 good substats and no bad substats (or 1 for flowers and feathers, ie. the main stat)
+    #     y1=0,
+    #     y2=1,
+    # )
     bad_substats_count = len(substats.filter(name__in=BAD_SUBSTATS))
     average_substats_count = min(1, len(substats.filter(name__in=AVERAGE_SUBSTATS))) # Only at most 1 average substat is counted
     good_substats_count = len(substats.filter(name__in=GOOD_SUBSTATS))
     substats_score = map_range(
-        x=good_substats_count-bad_substats_count,
-        x1=-3 if equiptype not in ['Flower', 'Feather'] else -3,  # Min when 3 bad substats and 2 average substats
-        x2=2 if equiptype not in ['Flower', 'Feather'] else 1,  # Max when 2 good substats and no bad substats (or 1 for flowers and feathers, ie. the main stat)
+        x=2*good_substats_count+average_substats_count,
+        x1=1,  # Min when 3 bad substats and 2 average substats
+        x2=5,  # Max when 2 good substats and no bad substats (or 1 for flowers and feathers, ie. the main stat)
         y1=0,
         y2=1,
     )
     substats_score = round_to_multiple(float(substats_score), 0.1)
     # ----------------
+    # bad_substats_rolls = sum([0] + [
+    #     substats.filter(name=substat_name).first().rolls for substat_name in BAD_SUBSTATS
+    #     if substats.filter(name=substat_name).exists()
+    # ])
+    # average_substats_rolls = max([0] + [
+    #     substats.filter(name=substat_name).first().rolls for substat_name in AVERAGE_SUBSTATS
+    #     if substats.filter(name=substat_name).exists()
+    # ])  # Counting only the substat with the most rolls
+    # good_substats_rolls = sum([0] + [
+    #     substats.filter(name=substat_name).first().rolls for substat_name in GOOD_SUBSTATS
+    #     if substats.filter(name=substat_name).exists()
+    # ])
+    # rolls_score = map_range(
+    #     x=good_substats_rolls-bad_substats_rolls,
+    #     x1=-8 if equiptype not in ['Flower', 'Feather'] else -7,  # Min when 8/9 rolls went to bad substats
+    #     x2=7 if equiptype not in ['Flower', 'Feather'] else 7,  # Max when 7/9 rolls went to good substat
+    #     y1=0,
+    #     y2=1,
+    # )
     bad_substats_rolls = sum([0] + [
         substats.filter(name=substat_name).first().rolls for substat_name in BAD_SUBSTATS
         if substats.filter(name=substat_name).exists()
@@ -245,9 +274,9 @@ def rate_artifact(artifact: Artifact) -> dict:
         if substats.filter(name=substat_name).exists()
     ])
     rolls_score = map_range(
-        x=good_substats_rolls-bad_substats_rolls,
-        x1=-8 if equiptype not in ['Flower', 'Feather'] else -7,  # Min when 8/9 rolls went to bad substats
-        x2=7 if equiptype not in ['Flower', 'Feather'] else 7,  # Max when 7/9 rolls went to good substat
+        x=2*good_substats_rolls+average_substats_rolls,
+        x1=1,  # Min when 8/9 rolls went to bad substats
+        x2=15 if equiptype != 'Circlet' else 13,  # Max when 7/9 rolls went to good substat
         y1=0,
         y2=1,
     )
