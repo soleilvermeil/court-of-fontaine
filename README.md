@@ -13,6 +13,11 @@ You can use [Docker](https://www.docker.com) to compile all the files into an im
 docker build -t court-of-fontaine .
 ```
 
+Optionally, you can retrieve freshly built image via
+```
+docker save -o court-of-fontaine.tar court-of-fontaine
+```
+
 You can then run the image:
 ```
 docker run -p 8000:8000 court-of-fontaine
