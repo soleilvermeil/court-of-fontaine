@@ -7,7 +7,7 @@ A website that judges your artifacts, characters and your entire life.
 
 ### Using Docker
 
-You can use the Docker to compile all the files into an image (might take a few minutes):
+You can use [Docker](https://www.docker.com) to compile all the files into an image (might take a few minutes):
 ```
 docker build -t court-of-fontaine .
 ```
