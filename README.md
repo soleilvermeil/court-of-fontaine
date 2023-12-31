@@ -1,5 +1,7 @@
 # Court of Fontaine
-A website that judges your artifacts.
+
+> Let yourself be judged.
+A website that judges your artifacts, characters and your entire life.
 
 ## How to use
 
@@ -15,7 +17,7 @@ You can then run the image:
 docker run -p 8000:8000 court-of-fontaine
 ```
 
-You can then access the website at http://127.0.0.1:8000 **altough the terminal may indicate another URL**.
+You can then access the website at http://127.0.0.1:8000 **altough the terminal may indicate another URL** (this issue has still to be adressed; go to https://github.com/SoleilVermeil/court-of-fontaine/issues/1 to see if it has already been resolved).
 
 ### Run directly
 
