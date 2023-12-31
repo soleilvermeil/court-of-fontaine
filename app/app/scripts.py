@@ -246,8 +246,8 @@ def rate_artifact(artifact: Artifact) -> dict:
     ])
     rolls_score = map_range(
         x=good_substats_rolls-bad_substats_rolls,
-        x1=-7 if equiptype not in ['Flower', 'Feather'] else -6,  # Min when 8 rolls went to bad substats and 1 to average substats
-        x2=8 if equiptype not in ['Flower', 'Feather'] else 8,  # Max when 7 rolls went to good substats and 2 to average substats (only one counting): 8 = 7 + 1
+        x1=-8 if equiptype not in ['Flower', 'Feather'] else -7,  # Min when 8/9 rolls went to bad substats
+        x2=7 if equiptype not in ['Flower', 'Feather'] else 7,  # Max when 7/9 rolls went to good substat
         y1=0,
         y2=1,
     )
