@@ -15,7 +15,7 @@
             &zwnj;
         </button>
         <div id="popover-{{ character.name|lower }}-{{ artifacttype }}"
-            class="POPOVER popover rounded-md shadow-xl text-s text-left p-2 w-32 lg:w-48 absolute bottom-7 left-1/2 transform -translate-x-1/2 text-xs">
+            class="POPOVER popover rounded-md shadow-xl text-s text-left p-2 w-32 lg:w-48 absolute bottom-7 left-1/2 transform -translate-x-1/2">
             <ul>
                 {% for tooltip in artifact.rating.tooltips %}
                 {% include "base_tooltip.html" %}
