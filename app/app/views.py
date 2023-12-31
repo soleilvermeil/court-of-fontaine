@@ -59,14 +59,16 @@ def badquery(request, query):
         "image": "lol.webp",
         "imagewidth": "32",
     })
+    
 
 def how(request):
     return render(request, "base_page_simpletext.html", {
-        "title": "How are we judged?",
-        "body": "You'll know soon enough...",
+        "title": "What determines the judgment?",
+        "body": "We don't care about your skills or your builds, only your luck matters.",
         "image": "knife.webp",
         "imagewidth": "32",
     })
+    
 
 def char(request, name):
     return render(request, "base_page_simpletext.html", {
@@ -80,6 +82,7 @@ def char(request, name):
 # -------------------------
 # /!\ Easter eggs below /!\
 # -------------------------
+
 
 def easteregg_53x(request):
     return render(request, "base_page_simpletext.html", {
@@ -99,6 +102,7 @@ def easteregg_nuk3(request):
         "imagewidth": "1/3",
     })
 
+
 def easteregg_k0n4m1(request):
     return render(request, "base_page_simpletext.html", {
         "title": "You are a true gamer!",
@@ -117,5 +121,3 @@ def easteregg_b1rth(request):
         "imagewidth": "1/3",
         "nsfw": True,
     })
-
-
