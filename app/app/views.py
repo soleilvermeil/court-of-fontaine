@@ -3,6 +3,7 @@ from django.shortcuts import redirect
 from .models import *
 import random
 from . import scripts
+import json
 
 
 def home(request):
@@ -14,18 +15,20 @@ def home(request):
 
 def inspect(request, uid):
     try:
-        scripts.add_player(uid, return_avatar=True)
+        scripts.add_player(uid)
     except AssertionError as e:
         return notfound(request, e)
     obj = scripts.get_player(uid, include_rating=True)
     nickname = obj["nickname"]
-    avatar = obj["avatar"]
+    if uid != '703047530':
+        avatar_dict = {'image_url': obj["avatar"]}
+    else:
+        avatar_dict = {'image': 'eastereggs/soleil.png'}
     return render(request, "base_table.html", obj | {
         'title': nickname,
         'body': uid,
-        'image_url': avatar,
         'imagewidth': '32',
-    })
+    } | avatar_dict)
 
 
 def inspectrandom(request):
