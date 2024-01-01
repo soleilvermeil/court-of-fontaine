@@ -3,10 +3,10 @@ from django.contrib import admin
 
 
 class Player(models.Model):
-    uid = models.CharField(verbose_name="UID", max_length=9, primary_key=True, unique=True)
+    uid = models.CharField(verbose_name="UID", max_length=9, primary_key=True, unique=True, db_index=True)
     nickname = models.CharField(max_length=20)
     avatar = models.URLField(max_length=100, blank=True, null=True)
-    updated = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now=False)
     def __str__(self):
         return f"{self.nickname} ({self.uid})"
 
