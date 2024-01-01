@@ -79,8 +79,8 @@ function generateTable(must_contain = "") {
     stringList = load_search_history()
     // Create a table element
     let table = document.createElement('table');
-    table.className = 'table-fixed w-full border border-1';
-    table.style.borderColor = 'rgba(255, 255, 255, 0.8)';
+    table.className = 'table-fixed w-full' // border border-1';
+    //table.style.borderColor = 'rgba(255, 255, 255, 0.8)';
     // Iterate over the stringList and create a row for each string
     let rows = 0
     for (let i = 0; i < stringList.length && rows < max_elements_to_display; i++) {
