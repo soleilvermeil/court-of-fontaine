@@ -170,15 +170,25 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
     else:
         avatar = None
 
-    db_player, created = Player.objects.update_or_create(
-        defaults={"nickname": nickname, "avatar": avatar},
-        uid=uid,
-    )
+    # db_player, created = Player.objects.update_or_create(
+    #     defaults={"nickname": nickname, "avatar": avatar},
+    #     uid=uid,
+    # )
+    if db_player is None:
+        db_player = Player.objects.create(
+            uid=uid,
+            nickname=nickname,
+            avatar=avatar,
+        )
+    else:
+        db_player.nickname = nickname
+        db_player.avatar = avatar
+        db_player.save()
     for character_index in range(len(raw_data["avatarInfoList"])):  # NOTE: usually 8
         print(f"[{datetime.datetime.now()}] Investigating character no. {character_index}") # DEBUG
         character_obj: dict = raw_data["avatarInfoList"][character_index]
         try:
-            db_character = Character.objects.update_or_create(
+            db_character = Character.objects.get_or_create(
                 name=LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])],
                 owner=db_player
             )[0]
@@ -386,6 +396,7 @@ def get_avatar(uid: int) -> str:
 
 
 def get_player(uid: int, include_rating: bool = False) -> dict:
+    print(f"[{datetime.datetime.now()}] Getting infos for UID {uid}...") # DEBUG
     obj = {}
     player = Player.objects.filter(uid=uid)[0]
     obj["nickname"] = player.nickname
@@ -395,7 +406,7 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
     obj["characters"] = []
     characters = Character.objects.filter(owner=player)
     for character in characters:
-        logging.debug(f"Getting infos for {character.name}...")
+        print(f"[{datetime.datetime.now()}] Getting infos for {character.name}...") # DEBUG
         scores = []
         obj["characters"].append({
             "name": character.name,
