@@ -14,11 +14,12 @@ def home(request):
 
 def inspect(request, uid):
     try:
-        avatar = scripts.add_player(uid, return_avatar=True)
+        scripts.add_player(uid, return_avatar=True)
     except AssertionError as e:
         return notfound(request, e)
     obj = scripts.get_player(uid, include_rating=True)
     nickname = obj["nickname"]
+    avatar = obj["avatar"]
     return render(request, "base_table.html", obj | {
         'title': nickname,
         'body': uid,

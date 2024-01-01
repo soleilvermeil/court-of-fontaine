@@ -1,6 +1,7 @@
 import json
 import requests
 import logging
+import datetime
 from .models import *
 
 
@@ -139,15 +140,42 @@ def interrogate_enka(uid: int) -> dict:
 
 def add_player(uid: int, return_avatar: bool = False) -> None:
     """Get the informations in a human-readable format"""
+    print(f"[{datetime.datetime.now()}] Interrogating Enka") # DEBUG
+    db_player = Player.objects.filter(uid=uid).first()
+    if db_player is not None and db_player.updated > datetime.datetime.now(tz=datetime.timezone.utc) - datetime.timedelta(seconds=60):
+        print(f"[{datetime.datetime.now()}] Player already in database and updated recently. Skipping.") # DEBUG
+        return
     raw_data = interrogate_enka(uid)
+    print(f"[{datetime.datetime.now()}] Response received") # DEBUG
     assert "playerInfo" in raw_data, f"No player seems to have the UID '{uid}'."
     assert "avatarInfoList" in raw_data and isinstance(raw_data["avatarInfoList"], list), f"It seems that the player with UID '{uid}' don't want to be judged."
     nickname = raw_data['playerInfo']['nickname']
-    db_player = Player.objects.update_or_create(
+
+    # Get avatar
+    avatar = None
+    if "playerInfo" not in raw_data:
+        avatar = None
+    if "profilePicture" not in raw_data["playerInfo"]:
+        avatar = None
+    if "id" in raw_data["playerInfo"]["profilePicture"]:
+        avatar_id = str(raw_data["playerInfo"]["profilePicture"]["id"])
+        avatar_name = PFPS[avatar_id]["iconPath"]
+        avatar_name = avatar_name.replace("_Circle", "")
+        avatar = f"https://enka.network/ui/{avatar_name}.png"
+    elif "avatarId" in raw_data["playerInfo"]["profilePicture"]:
+        # TODO: Currently not working.
+        avatar_id = str(raw_data["playerInfo"]["profilePicture"]["avatarId"])
+        avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")[-1]
+        avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name}.png"
+    else:
+        avatar = None
+
+    db_player, created = Player.objects.update_or_create(
+        defaults={"nickname": nickname, "avatar": avatar},
         uid=uid,
-        nickname=nickname
-    )[0]
+    )
     for character_index in range(len(raw_data["avatarInfoList"])):  # NOTE: usually 8
+        print(f"[{datetime.datetime.now()}] Investigating character no. {character_index}") # DEBUG
         character_obj: dict = raw_data["avatarInfoList"][character_index]
         try:
             db_character = Character.objects.update_or_create(
@@ -159,22 +187,24 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
             continue
         artifacts: list = character_obj["equipList"]
         # Delete old artifacts
+        print(f"[{datetime.datetime.now()}] Deleting previous artifacts") # DEBUG
         Artifact.objects.filter(owner=db_character).delete()
+        print(f"[{datetime.datetime.now()}] Adding new artifacts") # DEBUG
         for artifact_index in range(len(artifacts)):  # NOTE: usually 5
             artifact_obj = artifacts[artifact_index]["flat"]
             if "equipType" not in artifact_obj:
                 continue  # NOTE: weapons are stored as artifacts 
-            db_artifact = Artifact.objects.update_or_create(
+            db_artifact = Artifact.objects.get_or_create(
                 equiptype=EQUIPTYPE[artifact_obj["equipType"]],
                 # level=artifact_obj["rankLevel"] * 4,
                 owner=db_character
             )[0]
-            db_mainstat = Substat.objects.update_or_create(
+            Substat.objects.create(
                 name=APPENDPROP[artifact_obj["reliquaryMainstat"]["mainPropId"]],
                 value=artifact_obj["reliquaryMainstat"]["statValue"],
                 ismainstat=True,
                 owner=db_artifact
-            )[0]
+            )
             rolls = []
             for roll_id in artifacts[artifact_index]['reliquary']['appendPropIdList']:
                 prop_type = [roll for roll in RELIQUARYAFFIXEXCELCONFIGDATA if roll['id'] == roll_id][0]['propType']
@@ -182,29 +212,13 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
                 rolls.append(prop_name)
             for artifact_substat_index in range(len(artifact_obj["reliquarySubstats"])):  # NOTE: usually 4
                 substat_name = APPENDPROP[artifact_obj["reliquarySubstats"][artifact_substat_index]["appendPropId"]]
-                db_substat = Substat.objects.update_or_create(
+                Substat.objects.create(
                     name=substat_name,
                     value=artifact_obj["reliquarySubstats"][artifact_substat_index]["statValue"],
                     rolls=len([roll for roll in rolls if roll == substat_name]),
                     owner=db_artifact
-                )[0]
-    if return_avatar:
-        if "playerInfo" not in raw_data:
-            return None
-        if "profilePicture" not in raw_data["playerInfo"]:
-            return None
-        if "id" in raw_data["playerInfo"]["profilePicture"]:
-            avatar_id = str(raw_data["playerInfo"]["profilePicture"]["id"])
-            avatar_name = PFPS[avatar_id]["iconPath"]
-            avatar_name = avatar_name.replace("_Circle", "")
-            return f"https://enka.network/ui/{avatar_name}.png"
-        elif "avatarId" in raw_data["playerInfo"]["profilePicture"]:
-            # TODO: Currently not working.
-            avatar_id = str(raw_data["playerInfo"]["profilePicture"]["avatarId"])
-            avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")[-1]
-            return f"https://enka.network/ui/UI_AvatarIcon_{avatar_name}.png"
-        else:
-            return None
+                )
+
 
 def get_substat_value(substat_name: str, artifact_substats: list) -> int:
     """Get the value of a substat from a list of substats"""
@@ -376,6 +390,8 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
     player = Player.objects.filter(uid=uid)[0]
     obj["nickname"] = player.nickname
     obj["uid"] = player.uid
+    obj["avatar"] = player.avatar
+    obj["updated"] = player.updated
     obj["characters"] = []
     characters = Character.objects.filter(owner=player)
     for character in characters:
