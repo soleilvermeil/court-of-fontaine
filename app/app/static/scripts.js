@@ -2,7 +2,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     const clickable_tooltips = false
-    const max_elements_to_display = 5
     // ------------------
     // Popovers show/hide
     // ------------------
@@ -39,13 +38,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const searchbar = document.getElementById("uid");
 
     searchbar.addEventListener("keyup", function (event) {
+        // check if the key was enter, and stop if it was
+        if (event.key === "Enter") {
+            // remove focus from searchbar
+            searchbar.blur()
+            console.log('Detected enter keypress')
+            return;
+        }
         let searchbar_content = searchbar.value;
-        console.log("Searchbar content: " + searchbar_content)
-        generateTable(stringList, searchbar_content)
+        // console.log("Searchbar content: " + searchbar_content)
+        generateTable(searchbar_content)
     });
 
     const searchbar_history_display = document.getElementById("searchbar_history_display");
     searchbar.addEventListener("focus", function () {
+        generateTable()
         searchbar_history_display.style.display = "block";
     });
     searchbar.addEventListener("blur", function () {
@@ -56,69 +63,78 @@ document.addEventListener('DOMContentLoaded', function () {
     // ------------------------
     // Search history load/save
     // ------------------------
-    function load_search_history() {
-        let history = JSON.parse(localStorage.getItem('search_history')) || []
-        history.reverse()
-        return history
-    }
+
     // --------------
     // Generate table
     // --------------
-    function generateTable(stringList, must_contain = "") {
-        // Create a table element
-        let table = document.createElement('table');
-        table.className = 'table-fixed w-full border border-1';
-        table.style.borderColor = 'rgba(255, 255, 255, 0.8)';
-        // Iterate over the stringList and create a row for each string
-        rows = 0
-        for (let i = 0; i < stringList.length && i < max_elements_to_display; i++) {
-            console.log("Checking " + stringList[i])
-            if (must_contain !== "" && !stringList[i].includes(must_contain)) {
-                console.log("Skipping " + stringList[i])
-                continue
-            }
-            console.log("Adding " + stringList[i])
-            let row = table.insertRow(rows);
-            row.className = 'hover:bg-gray-200';
-            let cell = row.insertCell(0);
-            let link = document.createElement('a');
-            link.setAttribute('onclick', `hide_searchbar_history('${stringList[i]}')`);
-            let paragraph = document.createElement('p');
-            paragraph.className = 'p-2 cursor-pointer';
-            paragraph.style.display = 'block';
-            paragraph.textContent = stringList[i];
-            link.appendChild(paragraph);
-            cell.appendChild(link);
-            let deletebuttonparagraph = document.createElement('p');
-            deletebuttonparagraph.className = 'p-2 cursor-pointer';
-            deletebuttonparagraph.style.display = 'block';
-            deletebuttonparagraph.textContent = 'X';
-            deletebuttonparagraph.setAttribute('onclick', `delete_from_search_history('${stringList[i]}')`);
-            // TODO: implement this
-            // cell.appendChild(deletebuttonparagraph);
 
-
-
-            rows++;
-        }
-        // Append the table to the body or any other container element
-        let tableContainer = document.getElementById('searchbar_history_display');
-        tableContainer.innerHTML = '';
-        tableContainer.appendChild(table);
-    }
-    const stringList = load_search_history();
-    generateTable(stringList);
+    
 });
 // ------------------------
 // Functions called by HTML
 // ------------------------
+
+const max_elements_to_display = 5
+function generateTable(must_contain = "") {
+    stringList = load_search_history()
+    // Create a table element
+    let table = document.createElement('table');
+    table.className = 'table-fixed w-full border border-1';
+    table.style.borderColor = 'rgba(255, 255, 255, 0.8)';
+    // Iterate over the stringList and create a row for each string
+    let rows = 0
+    for (let i = 0; i < stringList.length && rows < max_elements_to_display; i++) {
+        // console.log("Checking " + stringList[i])
+        if (must_contain !== "" && !stringList[i].includes(must_contain)) {
+            // console.log("Skipping " + stringList[i])
+            continue
+        }
+        // console.log("Adding " + stringList[i])
+        let row = table.insertRow(rows);
+        row.className = 'hover:bg-gray-200';
+        let cell = row.insertCell(0);
+        cell.setAttribute('class', 'w-5/6')
+        let link = document.createElement('a');
+        link.setAttribute('onclick', `hide_searchbar_history('${stringList[i]}')`);
+        let paragraph = document.createElement('p');
+        paragraph.className = 'p-2 cursor-pointer';
+        paragraph.style.display = 'block';
+        paragraph.textContent = stringList[i];
+        link.appendChild(paragraph);
+        cell.appendChild(link);
+        let deletebuttoncell = row.insertCell(1);
+        deletebuttoncell.setAttribute('class', 'w-1/6 text-right font-light')
+        let deletebuttonparagraph = document.createElement('p');
+        deletebuttonparagraph.className = 'p-2 cursor-pointer';
+        deletebuttonparagraph.style.display = 'block';
+        deletebuttonparagraph.textContent = 'X';
+        deletebuttonparagraph.setAttribute('onclick', `delete_from_search_history('${stringList[i]}')`);
+        deletebuttoncell.appendChild(deletebuttonparagraph);
+
+        // TODO: implement this
+        // cell.appendChild(deletebuttonparagraph);
+
+        rows++;
+    }
+    // Append the table to the body or any other container element
+    let tableContainer = document.getElementById('searchbar_history_display');
+    tableContainer.innerHTML = '';
+    tableContainer.appendChild(table);
+}
+
+function load_search_history() {
+    let history = JSON.parse(localStorage.getItem('search_history')) || []
+    history.reverse()
+    return history
+}
+
 function search() {
     function unique(value, index, array) {
         return array.indexOf(value) === index;
     }
     function save_to_search_history(query) {
         if (query >= 100000000 && query <= 999999999) {
-            console.log("Saving " + query + " to search history.")
+            // console.log("Saving " + query + " to search history.")
             let search_history = JSON.parse(localStorage.getItem('search_history')) || [];
             if (search_history.includes(query)) {
                 let index = search_history.indexOf(query)
@@ -138,7 +154,7 @@ function search() {
 }
 
 function hide_searchbar_history(uid) {
-    console.log("Clicked on " + uid)
+    // console.log("Clicked on " + uid)
     const searchbar_history_display = document.getElementById("searchbar_history_display");
     searchbar_history_display.style.display = 'none';
     const searchbar = document.getElementById("uid");
@@ -199,4 +215,18 @@ function sortTable(n) {
             }
         }
     }
+}
+
+function delete_from_search_history(query) {
+    document.getElementById("uid").focus()
+    console.log("Deleting " + query + " from search history.")
+    let search_history = JSON.parse(localStorage.getItem('search_history')) || [];
+    if (search_history.includes(query)) {
+        let index = search_history.indexOf(query)
+        search_history.splice(index, 1)
+    }
+    localStorage.setItem('search_history', JSON.stringify(search_history));
+    const stringList = load_search_history();
+    generateTable(stringList);
+    console.log("Displaying again the search history.")
 }
