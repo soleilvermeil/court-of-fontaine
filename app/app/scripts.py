@@ -2,6 +2,8 @@ import json
 import requests
 import logging
 import datetime
+from django.db.models import Prefetch
+
 from .models import *
 
 
@@ -204,16 +206,19 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
             artifact_obj = artifacts[artifact_index]["flat"]
             if "equipType" not in artifact_obj:
                 continue  # NOTE: weapons are stored as artifacts 
-            db_artifact = Artifact.objects.get_or_create(
+            db_artifact = Artifact.objects.create(
                 equiptype=EQUIPTYPE[artifact_obj["equipType"]],
                 # level=artifact_obj["rankLevel"] * 4,
                 owner=db_character
-            )[0]
-            Substat.objects.create(
-                name=APPENDPROP[artifact_obj["reliquaryMainstat"]["mainPropId"]],
-                value=artifact_obj["reliquaryMainstat"]["statValue"],
-                ismainstat=True,
-                owner=db_artifact
+            )
+            substats = []
+            substats.append(
+                Substat(
+                    name=APPENDPROP[artifact_obj["reliquaryMainstat"]["mainPropId"]],
+                    value=artifact_obj["reliquaryMainstat"]["statValue"],
+                    ismainstat=True,
+                    owner=db_artifact
+                )
             )
             rolls = []
             for roll_id in artifacts[artifact_index]['reliquary']['appendPropIdList']:
@@ -222,24 +227,28 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
                 rolls.append(prop_name)
             for artifact_substat_index in range(len(artifact_obj["reliquarySubstats"])):  # NOTE: usually 4
                 substat_name = APPENDPROP[artifact_obj["reliquarySubstats"][artifact_substat_index]["appendPropId"]]
-                Substat.objects.create(
-                    name=substat_name,
-                    value=artifact_obj["reliquarySubstats"][artifact_substat_index]["statValue"],
-                    rolls=len([roll for roll in rolls if roll == substat_name]),
-                    owner=db_artifact
+                substats.append(
+                    Substat(
+                        name=substat_name,
+                        value=artifact_obj["reliquarySubstats"][artifact_substat_index]["statValue"],
+                        rolls=len([roll for roll in rolls if roll == substat_name]),
+                        owner=db_artifact
+                    )
                 )
+            Substat.objects.bulk_create(substats)
 
 
 def get_substat_value(substat_name: str, artifact_substats: list) -> int:
     """Get the value of a substat from a list of substats"""
     for element in artifact_substats:
-        if element['name'] == substat_name:
-            return element["value"]
+        if element.name == substat_name:
+            return element.value
     return 0
 
 
-def rate_artifact(artifact: Artifact) -> dict:
-    substats = Substat.objects.filter(owner=artifact)
+def rate_artifact(artifact: Artifact, substats: list[Substat] | None = None) -> dict:
+    if substats is None:
+        substats = Substat.objects.filter(owner=artifact)
     equiptype = artifact.equiptype
     # ----------------
     # Computing scores
@@ -254,9 +263,9 @@ def rate_artifact(artifact: Artifact) -> dict:
     #     y1=0,
     #     y2=1,
     # )
-    bad_substats_count = len(substats.filter(name__in=BAD_SUBSTATS))
-    average_substats_count = min(1, len(substats.filter(name__in=AVERAGE_SUBSTATS))) # Only at most 1 average substat is counted
-    good_substats_count = len(substats.filter(name__in=GOOD_SUBSTATS))
+    bad_substats_count = len([substat for substat in substats if substat.name in BAD_SUBSTATS])
+    average_substats_count = min(1, len([substat for substat in substats if substat.name in AVERAGE_SUBSTATS])) # Only at most 1 average substat is counted
+    good_substats_count = len([substat for substat in substats if substat.name in GOOD_SUBSTATS])
     substats_score = map_range(
         x=2*good_substats_count+average_substats_count,
         x1=1,  # Min when 3 bad substats and 2 average substats
@@ -285,17 +294,17 @@ def rate_artifact(artifact: Artifact) -> dict:
     #     y1=0,
     #     y2=1,
     # )
-    bad_substats_rolls = sum([0] + [
-        substats.filter(name=substat_name).first().rolls for substat_name in BAD_SUBSTATS
-        if substats.filter(name=substat_name).exists()
+    bad_substats_rolls = sum([
+        sum([substat.rolls for substat in substats if substat.name == substat_name])
+        for substat_name in BAD_SUBSTATS
     ])
-    average_substats_rolls = max([0] + [
-        substats.filter(name=substat_name).first().rolls for substat_name in AVERAGE_SUBSTATS
-        if substats.filter(name=substat_name).exists()
+    average_substats_rolls = max([
+        sum([substat.rolls for substat in substats if substat.name == substat_name])
+        for substat_name in AVERAGE_SUBSTATS
     ])  # Counting only the substat with the most rolls
-    good_substats_rolls = sum([0] + [
-        substats.filter(name=substat_name).first().rolls for substat_name in GOOD_SUBSTATS
-        if substats.filter(name=substat_name).exists()
+    good_substats_rolls = sum([
+        sum([substat.rolls for substat in substats if substat.name == substat_name])
+        for substat_name in GOOD_SUBSTATS
     ])
     rolls_score = map_range(
         x=2*good_substats_rolls+average_substats_rolls,
@@ -307,8 +316,8 @@ def rate_artifact(artifact: Artifact) -> dict:
     # NOTE: Each substat has always at least one roll.
     rolls_score = round_to_multiple(float(rolls_score), 0.1)
     # ----------------
-    cd = substats.filter(name="Crit DMG").first().value if substats.filter(name="Crit DMG").exists() else 0
-    cr = substats.filter(name="Crit RATE").first().value if substats.filter(name="Crit RATE").exists() else 0
+    cd = sum([substat.value for substat in substats if substat.name == 'Crit DMG'])
+    cr = sum([substat.value for substat in substats if substat.name == 'Crit RATE'])
     cv = float(cd + 2 * cr)
     cv_score = map_range(
         x=cv,
@@ -398,13 +407,16 @@ def get_avatar(uid: int) -> str:
 def get_player(uid: int, include_rating: bool = False) -> dict:
     print(f"[{datetime.datetime.now()}] Getting infos for UID {uid}...") # DEBUG
     obj = {}
+
     player = Player.objects.filter(uid=uid)[0]
+
     obj["nickname"] = player.nickname
     obj["uid"] = player.uid
     obj["avatar"] = player.avatar
     obj["updated"] = player.updated
     obj["characters"] = []
-    characters = Character.objects.filter(owner=player)
+
+    characters = list(Character.objects.filter(owner=player))
     for character in characters:
         print(f"[{datetime.datetime.now()}] Getting infos for {character.name}...") # DEBUG
         scores = []
@@ -413,31 +425,37 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
             "progress": {},
             "artifacts": {},
         })
+        artifacts = list(Artifact.objects.filter(owner=character))
         for equiptype in EQUIPTYPE.values():
             logging.debug(f"Getting infos for {equiptype}...")
-            artifact = Artifact.objects.filter(owner=character, equiptype=equiptype).first()
-            if artifact is None:
+            # artifact = Artifact.objects.filter(owner=character, equiptype=equiptype).first()
+            artifacts_ = [a for a in artifacts if a.equiptype == equiptype]
+            if len(artifacts_) == 0:
                 obj["characters"][-1]["artifacts"][equiptype] = {
                     "mainstat": {},
                     "substats": [],
                 }
                 continue
+            artifact = artifacts_[0]
             equiptype = artifact.equiptype.lower()
             logging.debug(f"Getting infos for {equiptype}...")
             obj["characters"][-1]["artifacts"][equiptype] = {
                 "mainstat": {},
                 "substats": [],
             }
+            stats = list(Substat.objects.filter(owner=artifact))
+            # mainstat = stats.filter(ismainstat=True)[0]
+            # substats = stats.filter(ismainstat=False).select_related('owner')
+            mainstat = [stat for stat in stats if stat.ismainstat][0]
+            substats = [stat for stat in stats if not stat.ismainstat]
             if include_rating:
-                rating = rate_artifact(artifact)
+                rating = rate_artifact(artifact, [mainstat] + substats)
                 obj["characters"][-1]["artifacts"][equiptype]["rating"] = rating
                 scores.append(rating["value"])
-            mainstat = Substat.objects.filter(owner=artifact, ismainstat=True)[0]
             obj["characters"][-1]["artifacts"][equiptype]["mainstat"] = {
                 "name": mainstat.name,
                 "value": mainstat.value,
             }
-            substats = Substat.objects.filter(owner=artifact, ismainstat=False)
             for substat in substats:
                 obj["characters"][-1]["artifacts"][equiptype]["substats"].append({
                     "name": substat.name,
