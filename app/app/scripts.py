@@ -149,10 +149,12 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
     assert "playerInfo" in raw_data, f"No player seems to have the UID '{uid}'."
     assert "avatarInfoList" in raw_data and isinstance(raw_data["avatarInfoList"], list), f"It seems that the player with UID '{uid}' don't want to be judged."
     nickname = raw_data['playerInfo']['nickname']
+    names = []
     characters_to_insert = []
     artifacts_to_insert = []
     substats_to_insert = []
     artifacts_to_drop = []
+    characters_to_drop = []
     # Get avatar
     avatar = None
     if "playerInfo" not in raw_data:
@@ -183,9 +185,12 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
         db_player.save()
     for character_index in range(len(raw_data["avatarInfoList"])):  # NOTE: usually 8
         character_obj: dict = raw_data["avatarInfoList"][character_index]
+        character_name = LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])]
+        names.append(character_name)
+        # characters_to_drop.append(Character.objects.filter(owner=db_player, name=character_name))
         try:
             db_character = Character(
-                name=LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])],
+                name=character_name,
                 owner=db_player
             )
             characters_to_insert.append(db_character)
@@ -229,7 +234,8 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
                     )
                 )
     
-    Artifact.objects.filter(owner__in=characters_to_insert).delete()
+    # Artifact.objects.filter(owner__in=characters_to_insert).delete()
+    Character.objects.filter(owner=db_player, name__in=names).delete()
     Character.objects.bulk_create(characters_to_insert)
     Artifact.objects.bulk_create(artifacts_to_insert)
     Substat.objects.bulk_create(substats_to_insert)
@@ -379,7 +385,7 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
     obj["nickname"] = player.nickname
     obj["uid"] = player.uid
     obj["avatar"] = player.avatar
-    obj["updated"] = player.updated
+    # obj["updated"] = player.updated
     obj["characters"] = []
     characters = Character.objects.filter(owner=player).select_related("owner")
     artifacts = Artifact.objects.filter(owner__in=characters).select_related("owner")
