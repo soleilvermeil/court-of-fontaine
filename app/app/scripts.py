@@ -149,7 +149,10 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
     assert "playerInfo" in raw_data, f"No player seems to have the UID '{uid}'."
     assert "avatarInfoList" in raw_data and isinstance(raw_data["avatarInfoList"], list), f"It seems that the player with UID '{uid}' don't want to be judged."
     nickname = raw_data['playerInfo']['nickname']
-
+    characters_to_insert = []
+    artifacts_to_insert = []
+    substats_to_insert = []
+    artifacts_to_drop = []
     # Get avatar
     avatar = None
     if "playerInfo" not in raw_data:
@@ -181,27 +184,28 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
     for character_index in range(len(raw_data["avatarInfoList"])):  # NOTE: usually 8
         character_obj: dict = raw_data["avatarInfoList"][character_index]
         try:
-            db_character = Character.objects.get_or_create(
+            db_character = Character(
                 name=LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])],
                 owner=db_player
-            )[0]
+            )
+            characters_to_insert.append(db_character)
         except KeyError:  # Should only happen after a new character is released
             print(f"Character {character_obj['avatarId']} not found in constants/characters.json. Skipping.")
             continue
         artifacts: list = character_obj["equipList"]
         # Delete old artifacts
-        Artifact.objects.filter(owner=db_character).delete()
+        # artifacts_to_drop += Artifact.objects.filter(owner=db_character)
         for artifact_index in range(len(artifacts)):  # NOTE: usually 5
             artifact_obj = artifacts[artifact_index]["flat"]
             if "equipType" not in artifact_obj:
                 continue  # NOTE: weapons are stored as artifacts 
-            db_artifact = Artifact.objects.create(
+            db_artifact = Artifact(
                 equiptype=EQUIPTYPE[artifact_obj["equipType"]],
                 level=artifact_obj["rankLevel"] * 4,
                 owner=db_character
             )
-            substats = []
-            substats.append(
+            artifacts_to_insert.append(db_artifact)
+            substats_to_insert.append(
                 Substat(
                     name=APPENDPROP[artifact_obj["reliquaryMainstat"]["mainPropId"]],
                     value=artifact_obj["reliquaryMainstat"]["statValue"],
@@ -216,7 +220,7 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
                 rolls.append(prop_name)
             for artifact_substat_index in range(len(artifact_obj["reliquarySubstats"])):  # NOTE: usually 4
                 substat_name = APPENDPROP[artifact_obj["reliquarySubstats"][artifact_substat_index]["appendPropId"]]
-                substats.append(
+                substats_to_insert.append(
                     Substat(
                         name=substat_name,
                         value=artifact_obj["reliquarySubstats"][artifact_substat_index]["statValue"],
@@ -224,7 +228,11 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
                         owner=db_artifact
                     )
                 )
-            Substat.objects.bulk_create(substats)
+    
+    Artifact.objects.filter(owner__in=characters_to_insert).delete()
+    Character.objects.bulk_create(characters_to_insert)
+    Artifact.objects.bulk_create(artifacts_to_insert)
+    Substat.objects.bulk_create(substats_to_insert)
 
 
 def get_substat_value(substat_name: str, artifact_substats: list) -> int:
@@ -373,7 +381,9 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
     obj["avatar"] = player.avatar
     obj["updated"] = player.updated
     obj["characters"] = []
-    characters = list(Character.objects.filter(owner=player))
+    characters = Character.objects.filter(owner=player).select_related("owner")
+    artifacts = Artifact.objects.filter(owner__in=characters).select_related("owner")
+    stats = Substat.objects.filter(owner__in=artifacts).select_related("owner")
     for character in characters:
         scores = []
         obj["characters"].append({
@@ -381,9 +391,11 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
             "progress": {},
             "artifacts": {},
         })
-        artifacts = list(Artifact.objects.filter(owner=character))
+        characters_artifacts = [a for a in artifacts if a.owner == character]
+        characters_substats = [s for s in stats if s.owner in characters_artifacts]
+        # print("CHARACTER'S SUBSTATS", characters_substats)
         for equiptype in EQUIPTYPE.values():
-            artifacts_ = [a for a in artifacts if a.equiptype == equiptype]
+            artifacts_ = [a for a in characters_artifacts if a.equiptype == equiptype]
             if len(artifacts_) == 0:
                 obj["characters"][-1]["artifacts"][equiptype] = {
                     "mainstat": {},
@@ -391,14 +403,16 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                 }
                 continue
             artifact = artifacts_[0]
+            # print("ARTIFACT", artifact)
+            artifacts_stats = [s for s in characters_substats if s.owner == artifact]
+            # print("ARTIFACT'S SUBSTATS", artifacts_stats)
             equiptype = artifact.equiptype.lower()
             obj["characters"][-1]["artifacts"][equiptype] = {
                 "mainstat": {},
                 "substats": [],
             }
-            stats = list(Substat.objects.filter(owner=artifact))
-            mainstat = [stat for stat in stats if stat.ismainstat][0]
-            substats = [stat for stat in stats if not stat.ismainstat]
+            mainstat = [stat for stat in artifacts_stats if stat.ismainstat][0]
+            substats = [stat for stat in artifacts_stats if not stat.ismainstat]
             if include_rating:
                 rating = rate_artifact(artifact=artifact, mainstat=mainstat, substats=substats)
                 obj["characters"][-1]["artifacts"][equiptype]["rating"] = rating
