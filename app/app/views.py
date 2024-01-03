@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.http import JsonResponse
 from .models import *
 import random
 from . import scripts
-import json
 
 
 def home(request):
@@ -31,9 +31,25 @@ def inspect(request, uid):
     } | avatar_dict)
 
 
+def inspectapi(request, uid):
+    try:
+        scripts.add_player(uid)
+    except AssertionError as e:
+        return JsonResponse({})
+    obj = scripts.get_player(uid, include_rating=False)
+    return JsonResponse(obj)
+
 def inspectrandom(request):
     uid = random.randint(1e8, 1e9 - 1)
-    return inspect(request, uid)
+    uid = str(uid)
+    uid = uid[0] + "0" + uid[2:]
+    uid = int(uid)
+    summary = scripts.interrogate_enka(uid, summary_only=True)
+    if "playerInfo" in summary and "showAvatarInfoList" in summary["playerInfo"]:
+        obj = scripts.interrogate_enka(uid)
+        if "avatarInfoList" in obj and isinstance(obj["avatarInfoList"], list):
+            return inspect(request, uid)
+    return inspectrandom(request)
 
 
 def duel(request, uid1, uid2):
