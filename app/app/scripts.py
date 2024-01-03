@@ -132,12 +132,18 @@ def rating2colors(rating: float) -> dict:
         }
 
 
-def interrogate_enka(uid: int) -> dict:
+def interrogate_enka(uid: int, summary_only: bool = False) -> dict:
     """Get the informations from Enka.Network"""
     print(f"Asking Enka.Network for UID {uid}...")
-    data = requests.get(f"{BASE_URL}/{uid}").json()
-    print(f"Response received")
-    return data
+    if not summary_only:
+        data = requests.get(f"{BASE_URL}/{uid}").json()
+        print(f"Response received")
+        return data
+    else:
+        data = requests.get(f"{BASE_URL}/{uid}?info").json()
+        print(f"Response received")
+        return data
+
 
 
 def add_player(uid: int, return_avatar: bool = False) -> None:
@@ -385,7 +391,7 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
     obj["nickname"] = player.nickname
     obj["uid"] = player.uid
     obj["avatar"] = player.avatar
-    # obj["updated"] = player.updated
+    obj["updated"] = player.updated
     obj["characters"] = []
     characters = Character.objects.filter(owner=player).select_related("owner")
     artifacts = Artifact.objects.filter(owner__in=characters).select_related("owner")
@@ -394,7 +400,6 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
         scores = []
         obj["characters"].append({
             "name": character.name,
-            "progress": {},
             "artifacts": {},
         })
         characters_artifacts = [a for a in artifacts if a.owner == character]
@@ -433,5 +438,7 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                     "value": substat.value,
                     "rolls": substat.rolls,
                 })
-        obj["characters"][-1]["progress"] = rate_character(scores)
+        if include_rating:
+            obj["characters"][-1]["progress"] = rate_character(scores)
+    obj["characters"].sort(key=lambda x: x["name"])
     return obj
