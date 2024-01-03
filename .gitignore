@@ -154,3 +154,4 @@ cython_debug/
 # Custom
 .DS_Store
 *.tar
+app/static/
