@@ -84,7 +84,7 @@ WSGI_APPLICATION = "django_project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR.parent / "db" / "db.sqlite3" if not os.environ.get('RUNNING_IN_DOCKER') else "/db/db.sqlite3"
     }
 }
 
@@ -132,5 +132,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': lambda request: True,
+    'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
 }

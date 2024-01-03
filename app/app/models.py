@@ -6,7 +6,7 @@ class Player(models.Model):
     uid = models.CharField(verbose_name="UID", max_length=9, primary_key=True, unique=True, db_index=True)
     nickname = models.CharField(max_length=20)
     avatar = models.URLField(max_length=100, blank=True, null=True)
-    updated = models.DateTimeField(auto_now=False)
+    updated = models.DateTimeField(auto_now=True)
     def __str__(self):
         return f"{self.nickname} ({self.uid})"
 
@@ -26,7 +26,7 @@ class Artifact(models.Model):
         ("EQUIP_RING", "Goblet"),
         ("EQUIP_DRESS", "Circlet"),
     ])
-    level = models.IntegerField(max_length=2, default=0)
+    level = models.IntegerField(default=0)
     # equiptype = models.CharField(max_length=20, choices=[
     #     ("Flower", "Flower"),
     #     ("Feather", "Feather"),
@@ -63,7 +63,7 @@ class Substat(models.Model):
         ("FIGHT_PROP_GRASS_ADD_HURT", "Dendro DMG Bonus"),
     ])
     value = models.DecimalField(max_digits=5, decimal_places=1)
-    rolls = models.IntegerField(max_length=1, default=0)
+    rolls = models.IntegerField(default=0)
     ismainstat = models.BooleanField(default=False)
     owner = models.ForeignKey(Artifact, related_name="substats", on_delete=models.CASCADE)
     def __str__(self):
