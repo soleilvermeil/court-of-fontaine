@@ -7,11 +7,11 @@ assignees: ''
 
 ---
 
+**What happened?**
+A clear and concise description of what unexpected did actually happen.
+
 **What was expected?**
 A clear and concise description of what you expected to happen.
-
-**What happened?""
-A clear and concise description of what unexpected did actually happen.
 
 **How to reproduce the issue?**
 Steps to reproduce the behavior:
