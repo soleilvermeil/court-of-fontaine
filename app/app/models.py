@@ -13,6 +13,7 @@ class Player(models.Model):
 
 class Character(models.Model):
     name = models.CharField(max_length=20)
+    icon=models.URLField(max_length=100, blank=True, null=True)
     owner = models.ForeignKey(Player, on_delete=models.CASCADE)
     def __str__(self):
         return f"[{self.owner}] {self.name}"

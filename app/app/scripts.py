@@ -192,11 +192,15 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
     for character_index in range(len(raw_data["avatarInfoList"])):  # NOTE: usually 8
         character_obj: dict = raw_data["avatarInfoList"][character_index]
         character_name = LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])]
+        character_icon = "https://enka.network/ui/{}.png".format(
+            str(CHARACTERS[str(character_obj["avatarId"])]["SideIconName"]))
+        print(character_icon)
         names.append(character_name)
         # characters_to_drop.append(Character.objects.filter(owner=db_player, name=character_name))
         try:
             db_character = Character(
                 name=character_name,
+                icon=character_icon,
                 owner=db_player
             )
             characters_to_insert.append(db_character)
@@ -400,6 +404,7 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
         scores = []
         obj["characters"].append({
             "name": character.name,
+            "icon": character.icon,
             "artifacts": {},
         })
         characters_artifacts = [a for a in artifacts if a.owner == character]
