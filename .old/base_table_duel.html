@@ -1,0 +1,37 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+    {% if image %}
+    <img src="{{ image }}">
+    {% endif %}
+    <div class="text-white flex-auto mb-5">
+        <div class="font-bold text-3xl">{{ title }}</div>
+        <div>{{ body }}</div>
+    </div>
+    <table class="table-fixed w-full text-s text-left outline outline-1 shadow-xl rounded-t-md" style="outline-color: rgba(255, 255, 255, 0.8);">
+        <thead class="rounded-md">
+            <tr style="background-color: rgba(255, 255, 255, 0.8); ">
+                <th class="p-2 truncate text-center rounded-tl-md">
+                    <a href="/uid/{{ uid_1 }}" class="underline underline-offset-4">{{ nickname_1 }}</a>
+                </th>
+                <th class="p-2 truncate text-center rounded-tr-md">
+                    <a href="/uid/{{ uid_2 }}" class="underline underline-offset-4">{{ nickname_2 }}</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="bg-white" style="background-color: rgba(255, 255, 255, 0.3);">
+            {% for char1, char2 in characters %}
+            {% include "base_row_duel.html" %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <!--
+    <div class="text-white flex-auto mt-5">
+        <a class="underline underline-offset-4" href="https://enka.network/u/{{ body }}/" target=”_blank”>Open in Enka.Network</a>
+        &middot;
+        <a class="underline underline-offset-4" href="https://akasha.cv/profile/{{ body }}/" target=”_blank”>Open in Akasha</a>
+        &middot;
+        <a class="underline underline-offset-4" href="#">Open in Eikonomiya</a>
+    </div>
+    -->
+{% endblock %}
