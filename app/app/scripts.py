@@ -192,11 +192,14 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
     for character_index in range(len(raw_data["avatarInfoList"])):  # NOTE: usually 8
         character_obj: dict = raw_data["avatarInfoList"][character_index]
         character_name = LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])]
+        character_icon = "https://enka.network/ui/{}.png".format(
+            str(CHARACTERS[str(character_obj["avatarId"])]["SideIconName"]))
         names.append(character_name)
         # characters_to_drop.append(Character.objects.filter(owner=db_player, name=character_name))
         try:
             db_character = Character(
                 name=character_name,
+                icon=character_icon,
                 owner=db_player
             )
             characters_to_insert.append(db_character)
@@ -225,6 +228,8 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
                 )
             )
             rolls = []
+            if "appendPropIdList" not in artifacts[artifact_index]['reliquary']:
+                continue # NOTE: This happens when a low quality artifact has no substats.
             for roll_id in artifacts[artifact_index]['reliquary']['appendPropIdList']:
                 prop_type = [roll for roll in RELIQUARYAFFIXEXCELCONFIGDATA if roll['id'] == roll_id][0]['propType']
                 prop_name = APPENDPROP[prop_type]
@@ -400,6 +405,7 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
         scores = []
         obj["characters"].append({
             "name": character.name,
+            "icon": character.icon,
             "artifacts": {},
         })
         characters_artifacts = [a for a in artifacts if a.owner == character]
@@ -433,10 +439,35 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                 "value": mainstat.value,
             }
             for substat in substats:
+                is_percent = "%" in substat.name or "Crit" in substat.name
+                text_name = (
+                    substat.name
+                    .replace('Flat ', '')
+                    .replace('%', '')
+                    .replace('Energy Recharge', 'ER')
+                    .replace('Elemental Mastery', 'EM')
+                )
+                textstyle = ''
+                if substat.name in GOOD_SUBSTATS:
+                    textstyle = 'font-bold'
+                elif substat.name in AVERAGE_SUBSTATS:
+                    textstyle = ''
+                elif substat.name in BAD_SUBSTATS:
+                    textstyle = 'italic text-opacity-30 text-black'
                 obj["characters"][-1]["artifacts"][equiptype]["substats"].append({
                     "name": substat.name,
                     "value": substat.value,
                     "rolls": substat.rolls,
+                    "text": f"{text_name}+{substat.value}{'%' if is_percent else ''}",
+                    "textstyle": textstyle,
+                })
+            for _ in range(4 - len(substats)):
+                obj["characters"][-1]["artifacts"][equiptype]["substats"].append({
+                    "name": None,
+                    "value": None,
+                    "rolls": 0,
+                    "text": "-",
+                    "textstyle": 'italic text-opacity-0 text-black',
                 })
         if include_rating:
             obj["characters"][-1]["progress"] = rate_character(scores)

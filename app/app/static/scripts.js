@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
 
     const clickable_tooltips = false
@@ -229,4 +228,20 @@ function delete_from_search_history(query) {
     const stringList = load_search_history();
     generateTable(stringList);
     console.log("Displaying again the search history.")
+}
+
+function toggleRows(rowId) {
+    let row_simple = document.getElementById(rowId + "_simple");
+    console.log(rowId + "_simple")
+    let row_detailed = document.getElementById(rowId + "_detailed");
+    if (row_simple.style.display === 'none') {
+        row_simple.style.display = '';
+    } else {
+        row_simple.style.display = 'none';
+    }
+    if (row_detailed.style.display === 'none') {
+        row_detailed.style.display = '';
+    } else {
+        row_detailed.style.display = 'none';
+    }
 }
