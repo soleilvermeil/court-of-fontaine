@@ -2,9 +2,15 @@
 
 <tr style="border-top-width: 1px; border-color: rgba(255, 255, 255, 0.5)">
     <th class="p-2 truncate">
+        <!--
         <div class="flex">
             <div class="h-8 w-8 flex-none overflow-hidden relative mr-3">
                 <img src="{{ character.icon }}" class="absolute h-12 w-12 absolute object-cover bottom-0"/>
+            </div>
+        -->
+        <div class="flex flex-col">
+            <div class="h-16 w-16 flex-none overflow-hidden relative mr-3 justify-center">
+                <img src="{{ character.icon }}" class="absolute h-24 w-24 absolute object-cover bottom-0"/>
             </div>
             <div class="hidden lg:block flex-1 overflow-masked">
                 <a href="/char/{{ character.name|lower|strreplace:" |_" }}/">

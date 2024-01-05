@@ -457,8 +457,16 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                     "name": substat.name,
                     "value": substat.value,
                     "rolls": substat.rolls,
-                    "text": f"{text_name} {substat.value}{'%' if is_percent else ''}",
-                    "textstyle": textstyle
+                    "text": f"{text_name}+{substat.value}{'%' if is_percent else ''}",
+                    "textstyle": textstyle,
+                })
+            for _ in range(4 - len(substats)):
+                obj["characters"][-1]["artifacts"][equiptype]["substats"].append({
+                    "name": None,
+                    "value": None,
+                    "rolls": 0,
+                    "text": "",
+                    "textstyle": '',
                 })
         if include_rating:
             obj["characters"][-1]["progress"] = rate_character(scores)
