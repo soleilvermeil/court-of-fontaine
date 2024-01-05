@@ -1,8 +1,8 @@
 {% load app_tags %}
 
-<td class="p-2 text-center" style="vertical-align: top;">
-    <div class="relative mb-2" name="badgeDiv">
-        <button class="BADGE bg-{{ artifact.rating.bgcolor }} rounded px-1 py-0 text-{{ artifact.rating.textcolor }} popover-button cursor-default hidden md:inline-block" style="white-space: nowrap;" data-popover-target="popover-{{ character.name|lower }}-{{ artifacttype }}">
+<td class="p-2 text-center" style="vertical-align: center;">
+    <div class="relative" name="badgeDiv">
+        <button class="BADGE bg-{{ artifact.rating.bgcolor }} rounded px-1 py-0 text-{{ artifact.rating.textcolor }} popover-button cursor-help hidden md:inline-block" style="white-space: nowrap;" data-popover-target="popover-{{ character.name|lower }}-{{ artifacttype }}">
             {{ artifact.rating.text }}
         </button>
         <div id="popover-{{ character.name|lower }}-{{ artifacttype }}"
@@ -13,7 +13,7 @@
                 {% endfor %}
             </ul>
         </div>
-        <button class="BADGE bg-{{ artifact.rating.bgcolor }} rounded-full px-3 py-0 text-{{ artifact.rating.textcolor }} popover-button cursor-default inline-block md:hidden" style="white-space: nowrap;" data-popover-target="popover-{{ character.name|lower }}-{{ artifacttype }}">
+        <button class="BADGE bg-{{ artifact.rating.bgcolor }} rounded-full px-3 py-0 text-{{ artifact.rating.textcolor }} popover-button cursor-help inline-block md:hidden" style="white-space: nowrap;" data-popover-target="popover-{{ character.name|lower }}-{{ artifacttype }}">
             &zwnj;
         </button>
         <div id="popover-{{ character.name|lower }}-{{ artifacttype }}"
