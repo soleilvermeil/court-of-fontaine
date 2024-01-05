@@ -14,7 +14,8 @@
         </thead>
         <tbody class="bg-white" style="background-color: rgba(255, 255, 255, 0.3);">
             {% for character in characters %}
-            {% include "base_row.html" %}
+            {% include "base_row_simple.html" %}
+            {% include "base_row_detailed.html" %}
             {% endfor %}
         </tbody>
     </table>
