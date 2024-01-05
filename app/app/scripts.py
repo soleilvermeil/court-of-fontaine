@@ -452,7 +452,7 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                 elif substat.name in AVERAGE_SUBSTATS:
                     textstyle = ''
                 elif substat.name in BAD_SUBSTATS:
-                    textstyle = 'italic text-opacity-50 text-black'
+                    textstyle = 'italic text-opacity-30 text-black'
                 obj["characters"][-1]["artifacts"][equiptype]["substats"].append({
                     "name": substat.name,
                     "value": substat.value,
