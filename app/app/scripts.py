@@ -194,7 +194,6 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
         character_name = LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])]
         character_icon = "https://enka.network/ui/{}.png".format(
             str(CHARACTERS[str(character_obj["avatarId"])]["SideIconName"]))
-        print(character_icon)
         names.append(character_name)
         # characters_to_drop.append(Character.objects.filter(owner=db_player, name=character_name))
         try:
@@ -229,6 +228,8 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
                 )
             )
             rolls = []
+            if "appendPropIdList" not in artifacts[artifact_index]['reliquary']:
+                continue # NOTE: This happens when a low quality artifact has no substats.
             for roll_id in artifacts[artifact_index]['reliquary']['appendPropIdList']:
                 prop_type = [roll for roll in RELIQUARYAFFIXEXCELCONFIGDATA if roll['id'] == roll_id][0]['propType']
                 prop_name = APPENDPROP[prop_type]
@@ -465,8 +466,8 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                     "name": None,
                     "value": None,
                     "rolls": 0,
-                    "text": "",
-                    "textstyle": '',
+                    "text": "-",
+                    "textstyle": 'italic text-opacity-0 text-black',
                 })
         if include_rating:
             obj["characters"][-1]["progress"] = rate_character(scores)
