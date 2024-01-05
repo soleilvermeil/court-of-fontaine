@@ -1,3 +1,5 @@
+{% load app_tags %}
+
 <tr style="border-top-width: 1px; border-color: rgba(255, 255, 255, 0.5)">
     <th class="p-2 truncate">
         <div class="flex">
@@ -5,7 +7,7 @@
                 <img src="{{ character.icon }}" class="absolute h-12 w-12 absolute object-cover bottom-0"/>
             </div>
             <div class="hidden lg:block flex-1 overflow-masked">
-                <a href="/char/{{ character.name|lower }}/"><!-- TODO: replace spaces with underscores -->
+                <a href="/char/{{ character.name|lower|strreplace:" |_" }}/">
                     {{ character.name }}
                 </a>
                 <div class="w-full rounded-full h-1.5" style="background-color: rgba(255, 255, 255, 0.5)">

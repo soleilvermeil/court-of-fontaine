@@ -438,10 +438,27 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                 "value": mainstat.value,
             }
             for substat in substats:
+                is_percent = "%" in substat.name or "Crit" in substat.name
+                text_name = (
+                    substat.name
+                    .replace('Flat ', '')
+                    .replace('%', '')
+                    .replace('Energy Recharge', 'ER')
+                    .replace('Elemental Mastery', 'EM')
+                )
+                textstyle = ''
+                if substat.name in GOOD_SUBSTATS:
+                    textstyle = 'font-bold'
+                elif substat.name in AVERAGE_SUBSTATS:
+                    textstyle = ''
+                elif substat.name in BAD_SUBSTATS:
+                    textstyle = 'italic text-opacity-50 text-black'
                 obj["characters"][-1]["artifacts"][equiptype]["substats"].append({
                     "name": substat.name,
                     "value": substat.value,
                     "rolls": substat.rolls,
+                    "text": f"{text_name} {substat.value}{'%' if is_percent else ''}",
+                    "textstyle": textstyle
                 })
         if include_rating:
             obj["characters"][-1]["progress"] = rate_character(scores)

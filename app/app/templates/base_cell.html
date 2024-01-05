@@ -1,5 +1,7 @@
+{% load app_tags %}
+
 <td class="p-2 text-center">
-    <div class="relative">
+    <div class="relative my-3" name="badgeDiv">
         <button class="BADGE bg-{{ artifact.rating.bgcolor }} rounded px-1 py-0 text-{{ artifact.rating.textcolor }} popover-button cursor-default hidden md:inline-block" style="white-space: nowrap;" data-popover-target="popover-{{ character.name|lower }}-{{ artifacttype }}">
             {{ artifact.rating.text }}
         </button>
@@ -22,5 +24,12 @@
                 {% endfor %}
             </ul>
         </div>
+    </div>
+    <div class="text-left">
+        <ul>
+        {% for substat in artifact.substats %}
+        <li class="{{ substat.textstyle }}">{{ substat.text }}</li>
+        {% endfor %}
+        </ul>
     </div>
 </td>
