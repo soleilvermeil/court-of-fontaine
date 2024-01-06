@@ -8,31 +8,35 @@ A website that judges your artifacts, characters and your entire life.
 
 ### Using Docker (recommended)
 
-You can use [Docker](https://www.docker.com) to compile all the files into an image:
+You can use [Docker](https://www.docker.com) to run the container containing all necessary files. To do so, you will need an image which you can either [download](https://github.com/SoleilVermeil/court-of-fontaine/releases/latest) or build yourself using
 ```
 docker build -t court-of-fontaine .
 ```
-Optionally, you can retrieve the freshly built image:
+If you decide to build it yourself, you can optionaly retrieve the freshly built image using
 ```
 docker save -o court-of-fontaine.tar court-of-fontaine
 ```
-You can then run the image, specifying the (absolute) path of the folder where the database will be stored:
+Once the image has been downloaded or built, you have to run a container from this image using the following command, while specifying the (absolute !) path of the folder where the database shall be stored, using
 ```
-docker run -v {absolute path to db folder}:/db -p 8000:8000 court-of-fontaine
+docker run -v <database folder>:/db -p 8000:8000 court-of-fontaine
 ```
 
-You can then access the website at http://127.0.0.1:8000 altough the terminal may indicate another URL (this issue has still to be adressed; see [this issue](https://github.com/SoleilVermeil/court-of-fontaine/issues/1) to check for updates).
+You can then access the website at `http://<ip address>:8000` (or `http://localhost:8000` if you are running the container from your computer).
 
-### Run directly (not recommended)
+### Using Python (not recommended)
 
-If you know what you are doing, you can run the server directly. Go into the `app` folder (the same in which there is `manage.py`). From there, if it is the first time, you will have to build the database and some other stuff:
+If you know what you are doing, you can run the server directly from source code. Note that this project has been developped in [Python `3.11.7`](https://www.python.org/downloads/release/python-3117/). To run the application, you will first need to install some modules. You can install them all at once by going into the project's root folder (in which there is `requirements.txt`) and run
+```
+pip install -r requirements.txt
+```
+Once this is done, you should be able to run the application. To do so, go into the `app` folder (in which there is `manage.py`). From there, if it is your first time executing this code, you will have to build the database and some other stuff using
 ```
 python manage.py makemigrations
 python manage.py migrate
 python manage.py collectstatic --noinput
 ```
-You can then run the server:
+You can then run the server using
 ```
 python manage.py runserver
 ```
-You can then access the website at http://127.0.0.1:8000.
+You can then access the website at `http://localhost:8000`.
