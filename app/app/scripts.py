@@ -472,4 +472,4 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
         if include_rating:
             obj["characters"][-1]["progress"] = rate_character(scores)
     obj["characters"].sort(key=lambda x: x["name"])
-    return obj
+    # return obj
