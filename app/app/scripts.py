@@ -359,10 +359,13 @@ def rate_character(scores: list) -> dict:
     progress += sum([1 if RATINGS[-1] > score >= RATINGS[-2] else 0 for score in scores])
     progress -= sum([1 if RATINGS[0] <= score < RATINGS[1] else 0 for score in scores])
     progress -= sum([2 if score < RATINGS[0] else 0 for score in scores])
-    progress = map_range(progress, -5, 5, 0, 100, True)
+    if len(scores) == 0:
+        progress = -2 * 5
+    truevalue = map_range(progress, -5, 5, 0, 100, clamp=False)
+    progress = map_range(progress, -5, 5, 0, 100, clamp=True)
     progress = {
         "value": round_to_multiple(progress, 25),
-        "exact": progress,
+        "truevalue": truevalue,
         "color": "indigo-600",
     }
     return progress
@@ -430,37 +433,47 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
             }
             mainstat = [stat for stat in artifacts_stats if stat.ismainstat][0]
             substats = [stat for stat in artifacts_stats if not stat.ismainstat]
-            if include_rating:
-                rating = rate_artifact(artifact=artifact, mainstat=mainstat, substats=substats)
-                obj["characters"][-1]["artifacts"][equiptype]["rating"] = rating
-                scores.append(rating["value"])
-            obj["characters"][-1]["artifacts"][equiptype]["mainstat"] = {
-                "name": mainstat.name,
-                "value": mainstat.value,
-            }
-            for substat in substats:
-                is_percent = "%" in substat.name or "Crit" in substat.name
+            rating = rate_artifact(artifact=artifact, mainstat=mainstat, substats=substats)
+            obj["characters"][-1]["artifacts"][equiptype]["rating"] = rating
+            scores.append(rating["value"])
+            # obj["characters"][-1]["artifacts"][equiptype]["mainstat"] = {
+            #     "name": mainstat.name,
+            #     "value": mainstat.value,
+            # }
+            for i, stat in enumerate([mainstat] + substats):
+                is_percent = "%" in stat.name or "Crit" in stat.name
                 text_name = (
-                    substat.name
+                    stat.name
                     .replace('Flat ', '')
                     .replace('%', '')
                     .replace('Energy Recharge', 'ER')
                     .replace('Elemental Mastery', 'EM')
+                    .replace('Crit DMG', 'CD')
+                    .replace('Crit RATE', 'CR')
                 )
                 textstyle = ''
-                if substat.name in GOOD_SUBSTATS:
+                if stat.name in GOOD_SUBSTATS:
                     textstyle = 'font-bold'
-                elif substat.name in AVERAGE_SUBSTATS:
+                elif stat.name in AVERAGE_SUBSTATS:
                     textstyle = ''
-                elif substat.name in BAD_SUBSTATS:
+                elif stat.name in BAD_SUBSTATS:
                     textstyle = 'italic text-opacity-30 text-black'
-                obj["characters"][-1]["artifacts"][equiptype]["substats"].append({
-                    "name": substat.name,
-                    "value": substat.value,
-                    "rolls": substat.rolls,
-                    "text": f"{text_name}+{substat.value}{'%' if is_percent else ''}",
-                    "textstyle": textstyle,
-                })
+                text = f"{text_name}+{stat.value:.{0 if 'Flat' in stat.name else 1}f}{'%' if is_percent else ''}"
+                if i == 0: # Main stat
+                    obj["characters"][-1]["artifacts"][equiptype]["mainstat"] = {
+                        "name": stat.name,
+                        "value": stat.value,
+                        "text": text,
+                        "textstyle": textstyle,
+                    }
+                else:
+                    obj["characters"][-1]["artifacts"][equiptype]["substats"].append({
+                        "name": stat.name,
+                        "value": stat.value,
+                        "rolls": stat.rolls,
+                        "text": text,
+                        "textstyle": textstyle,
+                    })
             for _ in range(4 - len(substats)):
                 obj["characters"][-1]["artifacts"][equiptype]["substats"].append({
                     "name": None,
@@ -469,7 +482,7 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                     "text": "-",
                     "textstyle": 'italic text-opacity-0 text-black',
                 })
-        if include_rating:
-            obj["characters"][-1]["progress"] = rate_character(scores)
-    obj["characters"].sort(key=lambda x: x["name"])
+        obj["characters"][-1]["progress"] = rate_character(scores)
+    # obj["characters"].sort(key=lambda x: x["name"])
+    obj["characters"].sort(key=lambda x: x["progress"]["truevalue"], reverse=True)
     return obj

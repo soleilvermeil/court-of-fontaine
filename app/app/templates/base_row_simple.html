@@ -13,7 +13,7 @@
                 </a>
                 -->
                 {{ character.name }}
-                <div class="w-full rounded-full h-1.5" style="background-color: rgba(255, 255, 255, 0.5)">
+                <div class="w-full rounded-full h-1.5" style="background-color: rgba(255, 255, 255, 0.5)"  title="{{ character.progress.truevalue }}%">
                     <div class="bg-{{ character.progress.color }} h-1.5 rounded-full" style="width: {{ character.progress.value }}%;"></div>
                 </div>
             </div>

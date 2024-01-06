@@ -27,9 +27,10 @@
     </div>
     <div class="text-left overflow-hidden ellipsis" style="white-space: nowrap;">
         <ul>
-        {% for substat in artifact.substats %}
-        <li class="{{ substat.textstyle }}" title="{{ substat.name }}">{{ substat.text }}</li>
-        {% endfor %}
+            <li class="{{ artifact.mainstat.textstyle }}" title="{{ artifact.mainstat.name }}">{{ artifact.mainstat.text }}</li>
+            {% for substat in artifact.substats %}
+            <li class="{{ substat.textstyle }}" title="{{ substat.name }}">{{ substat.text }}</li>
+            {% endfor %}
         </ul>
     </div>
 </td>
