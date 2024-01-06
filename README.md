@@ -6,7 +6,7 @@ A website that judges your artifacts, characters and your entire life.
 
 ## How to use
 
-### Using Docker
+### Using Docker (recommended)
 
 You can use [Docker](https://www.docker.com) to compile all the files into an image:
 ```
@@ -23,9 +23,9 @@ docker run -v {absolute path to db folder}:/db -p 8000:8000 court-of-fontaine
 
 You can then access the website at http://127.0.0.1:8000 altough the terminal may indicate another URL (this issue has still to be adressed; see [this issue](https://github.com/SoleilVermeil/court-of-fontaine/issues/1) to check for updates).
 
-### Run directly
+### Run directly (not recommended)
 
-If you know what you are doing, you can run the server directly. Go into the `django_project` folder. From there, if it is the first time, you will have to build the data base using the two very simple commands:
+If you know what you are doing, you can run the server directly. Go into the `app` folder (the same in which there is `manage.py`). From there, if it is the first time, you will have to build the database and some other stuff:
 ```
 python manage.py makemigrations
 python manage.py migrate
