@@ -141,12 +141,15 @@ def interrogate_enka(uid: int, summary_only: bool = False) -> dict:
             print(f"Response code {response.status_code}.")
             return None
         data = response.json()
-        print(f"Response received:")
-        print(data)
+        print(f"Response received!")
         return data
     else:
-        data = requests.get(f"{BASE_URL}/{uid}?info").json()
-        print(f"Response received")
+        response = requests.get(f"{BASE_URL}/{uid}?info")
+        if response.status_code != 200:
+            print(f"Response code {response.status_code}.")
+            return None
+        data = response.json()
+        print(f"Response received!")
         return data
 
 
