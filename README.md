@@ -1,8 +1,8 @@
 # Court of Fontaine
 
-> Let yourself be judged.
+Let yourself be judged!
 
-A website that judges your artifacts, characters and your entire life.
+![Website overview](https://github.com/SoleilVermeil/court-of-fontaine/assets/100100316/9cf40331-6113-49be-9b2e-40d34e3565e2)
 
 ## How to use
 
