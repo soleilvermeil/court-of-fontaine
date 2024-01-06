@@ -136,8 +136,13 @@ def interrogate_enka(uid: int, summary_only: bool = False) -> dict:
     """Get the informations from Enka.Network"""
     print(f"Asking Enka.Network for UID {uid}...")
     if not summary_only:
-        data = requests.get(f"{BASE_URL}/{uid}").json()
-        print(f"Response received")
+        response = requests.get(f"{BASE_URL}/{uid}")
+        if response.status_code != 200:
+            print(f"Response code {response.status_code}.")
+            return None
+        data = response.json()
+        print(f"Response received:")
+        print(data)
         return data
     else:
         data = requests.get(f"{BASE_URL}/{uid}?info").json()
@@ -472,4 +477,4 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
         if include_rating:
             obj["characters"][-1]["progress"] = rate_character(scores)
     obj["characters"].sort(key=lambda x: x["name"])
-    # return obj
+    return obj
