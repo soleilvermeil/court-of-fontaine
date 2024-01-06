@@ -4,7 +4,9 @@ import time
 import json
 import unittest
 
-TARGET_URL = "http://127.0.0.1:8000/api/703047530"
+TARGET_DOMAIN = "http://127.0.0.1:8000"
+TARGET_URL = TARGET_DOMAIN + "/uid/703047530"
+TARGET_URL_API = TARGET_DOMAIN + "/api/703047530"
 TIME_TO_WAIT = 5
 
 class DjangoServerTest(unittest.TestCase):
@@ -23,7 +25,7 @@ class DjangoServerTest(unittest.TestCase):
             cls.server_process.wait()
 
     def test_server_access(self):
-        url = TARGET_URL
+        url = TARGET_DOMAIN
         response = requests.get(url)
         self.response = response
         self.assertEqual(response.status_code, 200, "Failed to make API request")
@@ -31,13 +33,11 @@ class DjangoServerTest(unittest.TestCase):
     def test_player_access(self):
         url = TARGET_URL
         response = requests.get(url)
-        try:
-            _ = response.json()
-        except json.JSONDecodeError:
-            self.fail("Failed to parse response content as JSON")
+        self.response = response
+        self.assertEqual(response.status_code, 200, "Failed to make API request")
 
-    def test_json(self):
-        url = TARGET_URL
+    def test_api(self):
+        url = TARGET_URL_API
         response = requests.get(url)
         json_data = response.json() if response.status_code == 200 else {}
         self.assertIn("uid", json_data, "'uid' field not found in the JSON response")
