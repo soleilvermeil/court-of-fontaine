@@ -1,8 +1,18 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.http import JsonResponse
 from .models import *
+
+# For 'random' search query
 import random
+
+# For API
+from django.http import JsonResponse
+
+# For CSV export
+import csv
+from django.http import HttpResponse
+
+# For custom code
 from . import scripts
 
 
@@ -121,6 +131,29 @@ def charapi(request, name):
     characters = scripts.get_characters(name)
     return JsonResponse(characters)
 
+
+def charcsv(request, name):
+    name = name.replace("_", " ").title()
+    characters = scripts.get_characters(name)
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={"Content-Disposition": f'attachment; filename="{name}.csv"'},
+    )
+    writer = csv.writer(response)
+    writer.writerow(["owner_uid", "owner_name", "stat_hp", "stat_atk", "stat_def", "stat_er", "stat_em", "stat_cr", "stat_cd"])
+    for entry in characters['characters']:
+        writer.writerow([
+            entry['owner']['uid'],
+            entry['owner']['name'],
+            entry['stat_hp']['value'],
+            entry['stat_atk']['value'],
+            entry['stat_def']['value'],
+            entry['stat_er']['value'],
+            entry['stat_em']['value'],
+            entry['stat_cr']['value'],
+            entry['stat_cd']['value'],
+        ])
+    return response
 
 
 # -------------------------
