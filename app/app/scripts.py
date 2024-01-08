@@ -54,6 +54,34 @@ def median(l: list) -> float:
         return (sorted(l)[len(l) // 2 - 1] + sorted(l)[len(l) // 2]) / 2
 
 
+def centile(l: list, p: float) -> float:
+    """Return the pth centile of a list"""
+    # Ensure the input list is not empty
+    if not l:
+        raise ValueError("Input list cannot be empty")
+
+    # Sort the list in ascending order
+    sorted_l = sorted(l)
+
+    # Calculate the index using linear interpolation
+    index = p * (len(sorted_l) - 1)
+
+    # Find the values at the floor and ceiling indices
+    floor_index = int(index)
+    ceil_index = floor_index + 1
+
+    # If the index is a whole number, return the corresponding value
+    if index.is_integer():
+        return sorted_l[int(index)]
+
+    # Linear interpolation
+    floor_value = float(sorted_l[floor_index])
+    ceil_value = float(sorted_l[ceil_index])
+    interpolated_value = (1 - (index % 1)) * floor_value + (index % 1) * ceil_value
+
+    return interpolated_value
+
+
 def average(l: list) -> float:
     """Return the average of a list"""
     return sum(l) / len(l)
@@ -433,7 +461,7 @@ def get_avatar(uid: int) -> str:
 
 def get_player(uid: int, include_rating: bool = False) -> dict:
     obj = {}
-    player = Player.objects.filter(uid=uid)[0]
+    player = Player.objects.get(uid=uid)
     obj["nickname"] = player.nickname
     obj["uid"] = player.uid
     obj["avatar"] = player.avatar
@@ -530,4 +558,65 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
         obj["characters"][-1]["progress"] = rate_character(scores)
     # obj["characters"].sort(key=lambda x: x["name"])
     obj["characters"].sort(key=lambda x: x["progress"]["truevalue"], reverse=True)
+    return obj
+
+
+def get_characters(name: str) -> list:
+    print(f"Getting characters for name {name}...")
+    characters = Character.objects.filter(name__iexact=name.replace("_", " ")).select_related("owner")
+    obj = []
+    values_hp = [character.stat_hp for character in characters]
+    values_atk = [character.stat_atk for character in characters]
+    values_def = [character.stat_def for character in characters]
+    values_cr = [character.stat_cr for character in characters]
+    values_cd = [character.stat_cd for character in characters]
+    values_er = [character.stat_er for character in characters]
+    values_em = [character.stat_em for character in characters]
+    def get_style(value: float, values: list) -> str:
+        if value < centile(values, 0.25):
+            return "italic text-opacity-30 text-black"
+        elif value > centile(values, 0.75):
+            return "font-bold"
+        else:
+            return ""
+
+    for character in characters:
+        obj.append({
+            "owner": {
+                "name": character.owner.nickname,
+                "uid": character.owner.uid,
+                "avatar": character.owner.avatar,
+            },
+            "stat_hp": {
+                "value": character.stat_hp,
+                "style": get_style(character.stat_hp, values_hp),
+            },
+            "stat_atk": {
+                "value": character.stat_atk,
+                "style": get_style(character.stat_atk, values_atk),
+            },
+            "stat_def": {
+                "value": character.stat_def,
+                "style": get_style(character.stat_def, values_def),
+            },
+            "stat_cr": {
+                "value": character.stat_cr,
+                "style": get_style(character.stat_cr, values_cr),
+            },
+            "stat_cd": {
+                "value": character.stat_cd,
+                "style": get_style(character.stat_cd, values_cd),
+            },
+            "stat_er": {
+                "value": character.stat_er,
+                "style": get_style(character.stat_er, values_er),
+            },
+            "stat_em": {
+                "value": character.stat_em,
+                "style": get_style(character.stat_em, values_em),
+            },
+            "cv": character.stat_cd + 2 * character.stat_cr,
+        })
+    # Sort by CV
+    obj.sort(key=lambda x: x["cv"], reverse=True)
     return obj

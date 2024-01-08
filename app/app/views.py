@@ -109,11 +109,12 @@ def how(request):
     
 
 def char(request, name):
-    return render(request, "base_page_simpletext.html", {
-        "title": "You made Furina sad T-T",
-        "body": f"Coming soon...",
-        "image": "sad.webp",
-        "imagewidth": "32",
+    name = name.replace("_", " ").title()
+    characters = scripts.get_characters(name)
+    return render(request, "base_chartable.html", {
+        'title': name,
+        'body': 'Whose luck is the worst?',
+        'characters': characters
     })
 
 
