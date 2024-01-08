@@ -31,6 +31,24 @@ def inspect(request, uid):
     } | avatar_dict)
 
 
+def inspectstats(request, uid):
+    try:
+        scripts.add_player(uid)
+    except AssertionError as e:
+        return notfound(request, e)
+    obj = scripts.get_player(uid, include_rating=True)
+    nickname = obj["nickname"]
+    if uid != '703047530':
+        avatar_dict = {'image_url': obj["avatar"]}
+    else:
+        avatar_dict = {'image': 'eastereggs/soleil.png'}
+    return render(request, "base_statstable.html", obj | {
+        'title': nickname,
+        'body': uid,
+        'imagewidth': '32',
+    } | avatar_dict)
+
+
 def inspectapi(request, uid):
     try:
         scripts.add_player(uid)

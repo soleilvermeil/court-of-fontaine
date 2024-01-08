@@ -153,6 +153,29 @@ def interrogate_enka(uid: int, summary_only: bool = False) -> dict:
         return data
 
 
+def get_character_hp(fightPropMap: dict) -> float:
+    """Get the HP of a character from its fightPropMap"""
+    base_hp = fightPropMap["1"]
+    hp_flat = 0 if "2" not in fightPropMap else fightPropMap["2"]
+    hp_percent = 0 if "3" not in fightPropMap else fightPropMap["3"]
+    return base_hp * (1 + hp_percent) + hp_flat
+
+
+def get_character_atk(fightPropMap: dict) -> float:
+    """Get the ATK of a character from its fightPropMap"""
+    base_atk = fightPropMap["4"]
+    atk_flat = 0 if "5" not in fightPropMap else fightPropMap["5"]
+    atk_percent = 0 if "6" not in fightPropMap else fightPropMap["6"]
+    return base_atk * (1 + atk_percent) + atk_flat
+
+
+def get_character_def(fightPropMap: dict) -> float:
+    """Get the DEF of a character from its fightPropMap"""
+    base_def = fightPropMap["7"]
+    def_flat = 0 if "8" not in fightPropMap else fightPropMap["8"]
+    def_percent = 0 if "9" not in fightPropMap else fightPropMap["9"]
+    return base_def * (1 + def_percent) + def_flat
+
 
 def add_player(uid: int, return_avatar: bool = False) -> None:
     """Get the informations in a human-readable format"""
@@ -208,6 +231,13 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
             db_character = Character(
                 name=character_name,
                 icon=character_icon,
+                stat_hp=get_character_hp(character_obj["fightPropMap"]),
+                stat_atk=get_character_atk(character_obj["fightPropMap"]),
+                stat_def=get_character_def(character_obj["fightPropMap"]),
+                stat_cr=character_obj["fightPropMap"]["20"],
+                stat_cd=character_obj["fightPropMap"]["22"],
+                stat_er=character_obj["fightPropMap"]["23"],
+                stat_em=character_obj["fightPropMap"]["28"],
                 owner=db_player
             )
             characters_to_insert.append(db_character)
@@ -417,6 +447,13 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
         obj["characters"].append({
             "name": character.name,
             "icon": character.icon,
+            "stat_hp": character.stat_hp,
+            "stat_atk": character.stat_atk,
+            "stat_def": character.stat_def,
+            "stat_cr": character.stat_cr,
+            "stat_cd": character.stat_cd,
+            "stat_er": character.stat_er,
+            "stat_em": character.stat_em,
             "artifacts": {},
         })
         characters_artifacts = [a for a in artifacts if a.owner == character]

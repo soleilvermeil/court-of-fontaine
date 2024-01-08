@@ -15,6 +15,13 @@ class Character(models.Model):
     name = models.CharField(max_length=20)
     icon=models.URLField(max_length=100, blank=True, null=True)
     owner = models.ForeignKey(Player, on_delete=models.CASCADE)
+    stat_hp = models.IntegerField(default=0)
+    stat_atk = models.IntegerField(default=0)
+    stat_def = models.IntegerField(default=0)
+    stat_cr = models.DecimalField(default=0, max_digits=5, decimal_places=3)
+    stat_cd = models.DecimalField(default=0, max_digits=5, decimal_places=3)
+    stat_er = models.DecimalField(default=0, max_digits=5, decimal_places=3)
+    stat_em = models.IntegerField(default=0)
     updated = models.DateTimeField(auto_now=True)
     def __str__(self):
         return f"[{self.owner}] {self.name}"
@@ -29,13 +36,6 @@ class Artifact(models.Model):
         ("EQUIP_DRESS", "Circlet"),
     ])
     level = models.IntegerField(default=0)
-    # equiptype = models.CharField(max_length=20, choices=[
-    #     ("Flower", "Flower"),
-    #     ("Feather", "Feather"),
-    #     ("Sands", "Sands"),
-    #     ("Goblet", "Goblet"),
-    #     ("Circlet", "Circlet"),
-    # ])
     owner = models.ForeignKey(Character, on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.owner}'s {self.equiptype}"
