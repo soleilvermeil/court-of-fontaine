@@ -20,14 +20,11 @@ def inspect(request, uid):
         return notfound(request, e)
     obj = scripts.get_player(uid, include_rating=True)
     nickname = obj["nickname"]
-    if uid != '703047530':
-        avatar_dict = {'image_url': obj["avatar"]}
-    else:
-        avatar_dict = {'image': 'eastereggs/soleil.png'}
+    avatar_dict = {'image_url': obj["avatar"]}
     return render(request, "base_table.html", obj | {
         'title': nickname,
         'body': uid,
-        'imagewidth': '32',
+        "imagestyle": "w-32",
     } | avatar_dict)
 
 
@@ -45,7 +42,7 @@ def inspectstats(request, uid):
     return render(request, "base_statstable.html", obj | {
         'title': nickname,
         'body': uid,
-        'imagewidth': '32',
+        "imagestyle": "w-32",
     } | avatar_dict)
 
 
@@ -75,7 +72,7 @@ def duel(request, uid1, uid2):
         "title": "You made Furina sad T-T",
         "body": f"Coming soon...",
         "image": "sad.webp",
-        "imagewidth": "32",
+        "imagestyle": "w-32",
     })
 
 
@@ -86,7 +83,7 @@ def notfound(request, query = None):
         "title": "You made Furina sad T-T",
         "body": query,
         "image": "sad.webp",
-        "imagewidth": "32",
+        "imagestyle": "w-32",
     })
 
 
@@ -95,7 +92,7 @@ def badquery(request, query):
         "title": "Furina is making fun of you >v<",
         "body": "Please learn how to use a computer.",
         "image": "lol.webp",
-        "imagewidth": "32",
+        "imagestyle": "w-32",
     })
     
 
@@ -104,18 +101,26 @@ def how(request):
         "title": "What determines the judgment?",
         "body": "We don't care about your skills or your builds, only your luck matters.",
         "image": "knife.webp",
-        "imagewidth": "32",
+        "imagestyle": "w-32",
     })
     
 
 def char(request, name):
-    name = name.replace("_", " ").title()
     characters = scripts.get_characters(name)
     return render(request, "base_chartable.html", {
-        'title': name,
-        'body': 'Whose luck is the worst?',
-        'characters': characters
+        'title': characters['name'],
+        'characters': characters,
+        "image_url": characters['icon'],
+        "imagestyle": "w-32",
+        "zoom": True,
     })
+
+
+def charapi(request, name):
+    name = name.replace("_", " ").title()
+    characters = scripts.get_characters(name)
+    return JsonResponse(characters)
+
 
 
 # -------------------------
@@ -128,7 +133,7 @@ def easteregg_53x(request):
         "title": f"This one was easy...",
         "body": f"...but can you find the other ones?",
         "image": "eastereggs/53x.png",
-        "imagewidth": "1/3",
+        "imagestyle": "w-1/3",
         "nsfw": True,
     })
 
@@ -138,7 +143,7 @@ def easteregg_nuk3(request):
         "title": "Je vous laisse deux options...",
         "body": "Soit vous m'en achetez un, soit je vous nuke.",
         "image": "eastereggs/nuk3.jpg",
-        "imagewidth": "1/3",
+        "imagestyle": "w-1/3",
     })
 
 
@@ -147,7 +152,7 @@ def easteregg_k0n4m1(request):
         "title": "You are a true gamer!",
         "body": "Here's a little reward.",
         "image": "eastereggs/k0n4m1.png",
-        "imagewidth": "1/3",
+        "imagestyle": "w-1/3",
         "nsfw": True,
     })
 
@@ -157,6 +162,6 @@ def easteregg_b1rth(request):
         "title": "You remembered Furina's birthday!",
         "body": "However today's gift is for you.",
         "image": "eastereggs/b1rth.png",
-        "imagewidth": "1/3",
+        "imagestyle": "w-1/3",
         "nsfw": True,
     })

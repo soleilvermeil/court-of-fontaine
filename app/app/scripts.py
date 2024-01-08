@@ -167,7 +167,7 @@ def interrogate_enka(uid: int, summary_only: bool = False) -> dict:
         response = requests.get(f"{BASE_URL}/{uid}")
         if response.status_code != 200:
             print(f"Response code {response.status_code}.")
-            return None
+            return response.json()
         data = response.json()
         print(f"Response received!")
         return data
@@ -175,7 +175,7 @@ def interrogate_enka(uid: int, summary_only: bool = False) -> dict:
         response = requests.get(f"{BASE_URL}/{uid}?info")
         if response.status_code != 200:
             print(f"Response code {response.status_code}.")
-            return None
+            return response.json()
         data = response.json()
         print(f"Response received!")
         return data
@@ -234,15 +234,23 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
     elif "avatarId" in raw_data["playerInfo"]["profilePicture"]:
         # TODO: Currently not working.
         avatar_id = str(raw_data["playerInfo"]["profilePicture"]["avatarId"])
-        avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")[-1]
-        avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name}.png"
+        avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")
+        avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name[0]}.png"
+        request = requests.get(avatar)
+        if request.status_code != 200:
+            avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name[-1]}.png"
     else:
         avatar = None
+    print(type(uid))
+    if uid == "703047530":
+        avatar = "/static/eastereggs/soleil.png"
+    elif uid == "606062036":
+        avatar = "/static/eastereggs/eiko.png"
     if db_player is None:
         db_player = Player.objects.create(
             uid=uid,
             nickname=nickname,
-            avatar=avatar,
+            avatar=avatar
         )
     else:
         db_player.nickname = nickname
@@ -251,10 +259,9 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
     for character_index in range(len(raw_data["avatarInfoList"])):  # NOTE: usually 8
         character_obj: dict = raw_data["avatarInfoList"][character_index]
         character_name = LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])]
-        character_icon = "https://enka.network/ui/{}.png".format(
-            str(CHARACTERS[str(character_obj["avatarId"])]["SideIconName"]))
         names.append(character_name)
-        # characters_to_drop.append(Character.objects.filter(owner=db_player, name=character_name))
+        character_icon = "https://enka.network/ui/UI_AvatarIcon_{}.png".format(
+            str(CHARACTERS[str(character_obj["avatarId"])]["SideIconName"]).split("_")[-1])
         try:
             db_character = Character(
                 name=character_name,
@@ -262,9 +269,9 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
                 stat_hp=get_character_hp(character_obj["fightPropMap"]),
                 stat_atk=get_character_atk(character_obj["fightPropMap"]),
                 stat_def=get_character_def(character_obj["fightPropMap"]),
-                stat_cr=character_obj["fightPropMap"]["20"],
-                stat_cd=character_obj["fightPropMap"]["22"],
-                stat_er=character_obj["fightPropMap"]["23"],
+                stat_cr=character_obj["fightPropMap"]["20"] * 100,
+                stat_cd=character_obj["fightPropMap"]["22"] * 100,
+                stat_er=character_obj["fightPropMap"]["23"] * 100,
                 stat_em=character_obj["fightPropMap"]["28"],
                 owner=db_player
             )
@@ -431,7 +438,7 @@ def rate_character(scores: list) -> dict:
     progress = map_range(progress, -5, 5, 0, 100, clamp=True)
     progress = {
         "value": round_to_multiple(progress, 25),
-        "truevalue": truevalue,
+        "truevalue": int(truevalue),
         "color": "indigo-600",
     }
     return progress
@@ -514,7 +521,7 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
             #     "value": mainstat.value,
             # }
             for i, stat in enumerate([mainstat] + substats):
-                is_percent = "%" in stat.name or "Crit" in stat.name
+                is_percent = "%" in stat.name or "Crit" in stat.name or "Bonus" in stat.name
                 text_name = (
                     stat.name
                     .replace('Flat ', '')
@@ -523,6 +530,7 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
                     .replace('Elemental Mastery', 'EM')
                     .replace('Crit DMG', 'CD')
                     .replace('Crit RATE', 'CR')
+                    .replace(' DMG Bonus', '')
                 )
                 textstyle = ''
                 if stat.name in GOOD_SUBSTATS:
@@ -564,7 +572,13 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
 def get_characters(name: str) -> list:
     print(f"Getting characters for name {name}...")
     characters = Character.objects.filter(name__iexact=name.replace("_", " ")).select_related("owner")
-    obj = []
+    characters = [c for c in characters]
+    print(characters)
+    obj = {
+        "name": characters[0].name,
+        "icon": characters[0].icon,
+        "characters": [],
+    }
     values_hp = [character.stat_hp for character in characters]
     values_atk = [character.stat_atk for character in characters]
     values_def = [character.stat_def for character in characters]
@@ -581,7 +595,7 @@ def get_characters(name: str) -> list:
             return ""
 
     for character in characters:
-        obj.append({
+        obj["characters"].append({
             "owner": {
                 "name": character.owner.nickname,
                 "uid": character.owner.uid,
@@ -618,5 +632,5 @@ def get_characters(name: str) -> list:
             "cv": character.stat_cd + 2 * character.stat_cr,
         })
     # Sort by CV
-    obj.sort(key=lambda x: x["cv"], reverse=True)
+    obj["characters"].sort(key=lambda x: x["cv"], reverse=True)
     return obj

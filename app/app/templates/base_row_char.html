@@ -1,17 +1,14 @@
 {% load app_tags %}
 {% load static %}
 
-<tr style="border-top-width: 1px; border-color: rgba(255, 255, 255, 0.5);"
-    onClick="window.location.href = '/uid/{{character.owner.uid}}'"
-    class="hover:bg-white hover:bg-opacity-20 cursor-pointer"
->
+<tr style="border-top-width: 1px; border-color: rgba(255, 255, 255, 0.5);">
     <th class="p-2 truncate h-full">
         <div class="flex items-center">
             <div class="h-8 w-8 flex-none overflow-hidden relative mr-3">
-                <img src="{{ character.owner.avatar }}" class="absolute h-12 w-12 absolute object-cover bottom-0"/>
+                <img src="{{ character.owner.avatar }}" class="absolute object-cover bottom-0"/>
             </div>
             <div class="hidden lg:block flex-1 overflow-masked text-ellipsis align-middle"> <!-- NOT WORKING -->
-                {{ character.owner.name }}
+                <a href="/uid/{{ character.owner.uid }}" class="underline underline-offset-2">{{ character.owner.name }}</a>
             </div>
         </div>
     </th>

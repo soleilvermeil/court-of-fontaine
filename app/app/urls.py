@@ -11,6 +11,7 @@ urlpatterns = [
     path("uid/random/", views.inspectrandom),
     path("how/", views.how),
     path("char/<str:name>/", views.char),
+    path("api/<str:name>/", views.charapi),
 
     # -------------------------
     # /!\ Easter eggs below /!\

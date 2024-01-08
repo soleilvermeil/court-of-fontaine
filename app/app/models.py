@@ -18,9 +18,9 @@ class Character(models.Model):
     stat_hp = models.IntegerField(default=0)
     stat_atk = models.IntegerField(default=0)
     stat_def = models.IntegerField(default=0)
-    stat_cr = models.DecimalField(default=0, max_digits=5, decimal_places=3)
-    stat_cd = models.DecimalField(default=0, max_digits=5, decimal_places=3)
-    stat_er = models.DecimalField(default=0, max_digits=5, decimal_places=3)
+    stat_cr = models.DecimalField(default=0, max_digits=5, decimal_places=1)
+    stat_cd = models.DecimalField(default=0, max_digits=5, decimal_places=1)
+    stat_er = models.DecimalField(default=0, max_digits=5, decimal_places=1)
     stat_em = models.IntegerField(default=0)
     updated = models.DateTimeField(auto_now=True)
     def __str__(self):
