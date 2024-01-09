@@ -52,7 +52,7 @@ def inspectstats(request, uid):
         avatar_dict = {'image': 'eastereggs/soleil.png'}
     return render(request, "base_statstable.html", obj | {
         'title': nickname,
-        'body': uid,
+        'body': f"{uid}",
         "imagestyle": "w-32",
     } | avatar_dict)
 

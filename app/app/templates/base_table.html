@@ -1,10 +1,14 @@
 {% extends "base_page_simpletext.html" %}
 
 {% block subcontent %}
-    <table class="table-fixed w-full text-s text-left outline outline-1 shadow-xl rounded-t-md mt-5" style="outline-color: rgba(255, 255, 255, 0.8);">
+    <div class="text-white text-right -mt-5">
+        <a class="underline underline-offset-4" href="stats/">Go to stats view &rarr;</a>
+    </div>
+    <table class="table-fixed w-full text-s text-left outline outline-1 shadow-xl rounded-t-md mt-5"
+           style="outline-color: rgba(255, 255, 255, 0.8);">
         <thead class="rounded-md">
             <tr style="background-color: rgba(255, 255, 255, 0.8); ">
-                <th class="p-2 truncate text-center rounded-tl-md w-16 lg:w-auto"></th>
+                <th class="p-2 truncate text-center rounded-tl-md"></th>
                 <th class="p-2 truncate text-center">Flower</th>
                 <th class="p-2 truncate text-center">Feather</th>
                 <th class="p-2 truncate text-center">Sands</th>
@@ -21,10 +25,15 @@
     </table>
 
     <div class="text-white flex-auto mt-5">
-        <a class="underline underline-offset-4" href="https://enka.network/u/{{ body }}/" target="_blank">Open in Enka.Network</a>
+        <a class="underline underline-offset-4"
+           href="https://enka.network/u/{{ body }}/"
+           target="_blank">Open in Enka.Network</a>
         &middot;
-        <a class="underline underline-offset-4" href="https://akasha.cv/profile/{{ body }}/" target="_blank">Open in Akasha</a>
+        <a class="underline underline-offset-4"
+           href="https://akasha.cv/profile/{{ body }}/"
+           target="_blank">Open in Akasha</a>
         &middot;
-        <a class="underline underline-offset-4" href="#">Open in Eikonomiya</a>
+        <a class="underline underline-offset-4"
+           href="#/">Open in Eikonomiya</a>
     </div>
 {% endblock %}
