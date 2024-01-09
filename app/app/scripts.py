@@ -234,11 +234,17 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
     elif "avatarId" in raw_data["playerInfo"]["profilePicture"]:
         # TODO: Currently not working.
         avatar_id = str(raw_data["playerInfo"]["profilePicture"]["avatarId"])
-        avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")
-        avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name[0]}.png"
-        request = requests.get(avatar)
-        if request.status_code != 200:
-            avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name[-1]}.png"
+        if avatar_id == "10000052":
+            avatar_id = "3900"
+            avatar_name = PFPS[avatar_id]["iconPath"]
+            avatar_name = avatar_name.replace("_Circle", "")
+            avatar = f"https://enka.network/ui/{avatar_name}.png"
+        else:
+            avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")
+            avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name[0]}.png"
+            request = requests.get(avatar)
+            if request.status_code != 200:
+                avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name[-1]}.png"
     else:
         avatar = None
     print(type(uid))
@@ -573,6 +579,7 @@ def get_characters(name: str) -> list:
     print(f"Getting characters for name {name}...")
     characters = Character.objects.filter(name__iexact=name.replace("_", " ")).select_related("owner")
     characters = [c for c in characters]
+    assert len(characters) > 0, f"It seems that no players have '{name}' in their showcase."
     print(characters)
     obj = {
         "name": characters[0].name,

@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+from django.http import HttpResponseNotFound
 from .models import *
 
 # For 'random' search query
@@ -60,7 +61,7 @@ def inspectapi(request, uid):
     try:
         scripts.add_player(uid)
     except AssertionError as e:
-        return JsonResponse({})
+        return HttpResponseNotFound()
     obj = scripts.get_player(uid, include_rating=False)
     return JsonResponse(obj)
 
@@ -116,7 +117,10 @@ def how(request):
     
 
 def char(request, name):
-    characters = scripts.get_characters(name)
+    try:
+        characters = scripts.get_characters(name)
+    except AssertionError as e:
+        return notfound(request, e)
     return render(request, "base_chartable.html", {
         'title': characters['name'],
         'characters': characters,
@@ -127,14 +131,18 @@ def char(request, name):
 
 
 def charapi(request, name):
-    name = name.replace("_", " ").title()
-    characters = scripts.get_characters(name)
+    try:
+        characters = scripts.get_characters(name)
+    except AssertionError as e:
+        return HttpResponseNotFound()
     return JsonResponse(characters)
 
 
 def charcsv(request, name):
-    name = name.replace("_", " ").title()
-    characters = scripts.get_characters(name)
+    try:
+        characters = scripts.get_characters(name)
+    except AssertionError as e:
+        return HttpResponseNotFound()
     response = HttpResponse(
         content_type="text/csv",
         headers={"Content-Disposition": f'attachment; filename="{name}.csv"'},
