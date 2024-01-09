@@ -1,11 +1,11 @@
 {% load app_tags %}
 {% load static %}
 
-<tr style="border-top-width: 1px; border-color: rgba(255, 255, 255, 0.5); display: none;" id='{{ character.name|lower|strreplace:" |_" }}_detailed' onclick="toggleRows('{{ character.name|lower|strreplace:" |_" }}')" class="hover:bg-white hover:bg-opacity-20 cursor-pointer">
+<tr style="border-top-width: 1px; border-color: rgba(255, 255, 255, 0.5); display: none;" id='{{ character.name|lower|strreplace:" |_" }}_detailed' onclick="toggleRows('{{ character.name|lower|strreplace:" |_" }}')" class="hover:bg-white hover:bg-opacity-20 cursor-zoom-out">
     <th class="p-2 truncate h-full">
         <div class="flex flex-col justify-between">
             <div class="lg:h-24 lg:w-24 h-8 w-8 flex-none overflow-hidden relative mr-3 justify-center">
-                <img src="{{ character.icon }}" class="absolute lg:h-36 lg:w-36 h-12 w-12 absolute object-cover bottom-0"/>
+                <img src="{{ character.icon }}" class="absolute absolute object-cover bottom-0"/>
             </div>
             <div class="hidden lg:block flex-1 overflow-masked">
                 <!--
@@ -13,7 +13,7 @@
                     {{ character.name }}
                 </a>
                 -->
-                {{ character.name }}
+                <a href="/char/{{ character.name|lower|strreplace:" |_" }}" class="underline underline-offset-2">{{ character.name }}</a>
                 <div name="progressionContainer">
                     <div class="w-full rounded-full h-1.5" style="background-color: rgba(255, 255, 255, 0.5)"  title="{{ character.progress.truevalue }}%">
                         <div class="bg-{{ character.progress.color }} h-1.5 rounded-full" style="width: {{ character.progress.value }}%;"></div>

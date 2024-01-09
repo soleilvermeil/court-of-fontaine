@@ -4,7 +4,7 @@
 {% block content %}
 <div class="flex space-x-10">
     {% if image or image_url %}
-    <div class="w-{{ imagewidth }} relative">
+    <div class="{{ imagestyle }} relative">
         {% if image %}
             <img class="rounded-md w-full" src={% get_static_prefix %}{{ image }} />
         {% elif image_url %}

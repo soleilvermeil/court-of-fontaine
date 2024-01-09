@@ -1,8 +1,19 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.http import JsonResponse
+from django.http import HttpResponseNotFound
 from .models import *
+
+# For 'random' search query
 import random
+
+# For API
+from django.http import JsonResponse
+
+# For TSV export
+import csv
+from django.http import HttpResponse
+
+# For custom code
 from . import scripts
 
 
@@ -20,14 +31,29 @@ def inspect(request, uid):
         return notfound(request, e)
     obj = scripts.get_player(uid, include_rating=True)
     nickname = obj["nickname"]
+    avatar_dict = {'image_url': obj["avatar"]}
+    return render(request, "base_table.html", obj | {
+        'title': nickname,
+        'body': uid,
+        "imagestyle": "w-32",
+    } | avatar_dict)
+
+
+def inspectstats(request, uid):
+    try:
+        scripts.add_player(uid)
+    except AssertionError as e:
+        return notfound(request, e)
+    obj = scripts.get_player(uid, include_rating=True)
+    nickname = obj["nickname"]
     if uid != '703047530':
         avatar_dict = {'image_url': obj["avatar"]}
     else:
         avatar_dict = {'image': 'eastereggs/soleil.png'}
-    return render(request, "base_table.html", obj | {
+    return render(request, "base_statstable.html", obj | {
         'title': nickname,
         'body': uid,
-        'imagewidth': '32',
+        "imagestyle": "w-32",
     } | avatar_dict)
 
 
@@ -35,7 +61,7 @@ def inspectapi(request, uid):
     try:
         scripts.add_player(uid)
     except AssertionError as e:
-        return JsonResponse({})
+        return HttpResponseNotFound()
     obj = scripts.get_player(uid, include_rating=False)
     return JsonResponse(obj)
 
@@ -57,7 +83,7 @@ def duel(request, uid1, uid2):
         "title": "You made Furina sad T-T",
         "body": f"Coming soon...",
         "image": "sad.webp",
-        "imagewidth": "32",
+        "imagestyle": "w-32",
     })
 
 
@@ -68,7 +94,7 @@ def notfound(request, query = None):
         "title": "You made Furina sad T-T",
         "body": query,
         "image": "sad.webp",
-        "imagewidth": "32",
+        "imagestyle": "w-32",
     })
 
 
@@ -77,7 +103,7 @@ def badquery(request, query):
         "title": "Furina is making fun of you >v<",
         "body": "Please learn how to use a computer.",
         "image": "lol.webp",
-        "imagewidth": "32",
+        "imagestyle": "w-32",
     })
     
 
@@ -86,17 +112,56 @@ def how(request):
         "title": "What determines the judgment?",
         "body": "We don't care about your skills or your builds, only your luck matters.",
         "image": "knife.webp",
-        "imagewidth": "32",
+        "imagestyle": "w-32",
     })
     
 
 def char(request, name):
-    return render(request, "base_page_simpletext.html", {
-        "title": "You made Furina sad T-T",
-        "body": f"Coming soon...",
-        "image": "sad.webp",
-        "imagewidth": "32",
+    try:
+        characters = scripts.get_characters(name)
+    except AssertionError as e:
+        return notfound(request, e)
+    return render(request, "base_chartable.html", {
+        'title': characters['name'],
+        'characters': characters,
+        "image_url": characters['icon'],
+        "imagestyle": "w-32",
+        "zoom": True,
     })
+
+
+def charapi(request, name):
+    try:
+        characters = scripts.get_characters(name)
+    except AssertionError as e:
+        return HttpResponseNotFound()
+    return JsonResponse(characters)
+
+
+def chardownload(request, name):
+    try:
+        characters = scripts.get_characters(name)
+    except AssertionError as e:
+        return HttpResponseNotFound()
+    response = HttpResponse(
+        content_type="text/tsv",
+        headers={"Content-Disposition": f'attachment; filename="{name}.tsv"'},
+    )
+    writer = csv.writer(response, delimiter="\t")
+    writer.writerow(["owner_uid", "owner_name", "stat_hp", "stat_atk", "stat_def", "stat_er", "stat_em", "stat_cr", "stat_cd"])
+    for entry in characters['characters']:
+        writer.writerow([
+            entry['owner']['uid'],
+            entry['owner']['name'],
+            entry['stat_hp']['value'],
+            entry['stat_atk']['value'],
+            entry['stat_def']['value'],
+            entry['stat_er']['value'],
+            entry['stat_em']['value'],
+            entry['stat_cr']['value'],
+            entry['stat_cd']['value'],
+        ])
+    return response
 
 
 # -------------------------
@@ -109,7 +174,7 @@ def easteregg_53x(request):
         "title": f"This one was easy...",
         "body": f"...but can you find the other ones?",
         "image": "eastereggs/53x.png",
-        "imagewidth": "1/3",
+        "imagestyle": "w-1/3",
         "nsfw": True,
     })
 
@@ -119,7 +184,7 @@ def easteregg_nuk3(request):
         "title": "Je vous laisse deux options...",
         "body": "Soit vous m'en achetez un, soit je vous nuke.",
         "image": "eastereggs/nuk3.jpg",
-        "imagewidth": "1/3",
+        "imagestyle": "w-1/3",
     })
 
 
@@ -128,7 +193,7 @@ def easteregg_k0n4m1(request):
         "title": "You are a true gamer!",
         "body": "Here's a little reward.",
         "image": "eastereggs/k0n4m1.png",
-        "imagewidth": "1/3",
+        "imagestyle": "w-1/3",
         "nsfw": True,
     })
 
@@ -138,6 +203,6 @@ def easteregg_b1rth(request):
         "title": "You remembered Furina's birthday!",
         "body": "However today's gift is for you.",
         "image": "eastereggs/b1rth.png",
-        "imagewidth": "1/3",
+        "imagestyle": "w-1/3",
         "nsfw": True,
     })

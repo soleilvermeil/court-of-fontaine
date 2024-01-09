@@ -1,18 +1,13 @@
 {% load app_tags %}
 
-<tr style="border-top-width: 1px; border-color: rgba(255, 255, 255, 0.5)" id='{{ character.name|lower|strreplace:" |_" }}_simple' onclick="toggleRows('{{ character.name|lower|strreplace:" |_" }}')" class="hover:bg-white hover:bg-opacity-20 cursor-pointer">
+<tr style="border-top-width: 1px; border-color: rgba(255, 255, 255, 0.5)" id='{{ character.name|lower|strreplace:" |_" }}_simple' onclick="toggleRows('{{ character.name|lower|strreplace:" |_" }}')" class="hover:bg-white hover:bg-opacity-20 cursor-zoom-in">
     <th class="p-2 truncate h-full">
         <div class="flex">
             <div class="h-8 w-8 flex-none overflow-hidden relative mr-3">
-                <img src="{{ character.icon }}" class="absolute h-12 w-12 absolute object-cover bottom-0"/>
+                <img src="{{ character.icon }}" class="absolute object-cover bottom-0"/>
             </div>
             <div class="hidden lg:block flex-1 overflow-masked text-ellipsis"> <!-- NOT WORKING -->
-                <!--
-                <a href="/char/{{ character.name|lower|strreplace:" |_" }}/">
-                    {{ character.name }}
-                </a>
-                -->
-                {{ character.name }}
+                <a href="/char/{{ character.name|lower|strreplace:" |_" }}" class="underline underline-offset-2">{{ character.name }}</a>
                 <div class="w-full rounded-full h-1.5" style="background-color: rgba(255, 255, 255, 0.5)"  title="{{ character.progress.truevalue }}%">
                     <div class="bg-{{ character.progress.color }} h-1.5 rounded-full" style="width: {{ character.progress.value }}%;"></div>
                 </div>

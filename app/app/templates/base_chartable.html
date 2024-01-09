@@ -1,0 +1,26 @@
+{% extends "base_page_simpletext.html" %}
+
+{% block subcontent %}
+    <table id="mytable" class="table-fixed w-full text-s text-left outline outline-1 shadow-xl rounded-t-md mt-5" style="outline-color: rgba(255, 255, 255, 0.8);">
+        <thead class="rounded-md">
+            <tr style="background-color: rgba(255, 255, 255, 0.8); ">
+                <th class="p-2 truncate text-center rounded-tl-md w-16 lg:w-auto"></th>
+                <th class="p-2 truncate text-center" onclick="sortTable(1)">HP</th>
+                <th class="p-2 truncate text-center" onclick="sortTable(2)">ATK</th>
+                <th class="p-2 truncate text-center" onclick="sortTable(3)">DEF</th>
+                <th class="p-2 truncate text-center" onclick="sortTable(4)">ER</th>
+                <th class="p-2 truncate text-center" onclick="sortTable(5)">EM</th>
+                <th class="p-2 truncate text-center" onclick="sortTable(6)">CD</th>
+                <th class="p-2 truncate text-center rounded-tr-md" onclick="sortTable(7)">CR</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white" style="background-color: rgba(255, 255, 255, 0.3);">
+            {% for character in characters.characters %}
+            {% include "base_row_char.html" %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-white flex-auto mt-5">
+        <a class="underline underline-offset-4" href="download">Download</a>
+    </div>
+{% endblock %}

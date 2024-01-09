@@ -1,0 +1,50 @@
+{% load app_tags %}
+{% load static %}
+
+<tr style="border-top-width: 1px; border-color: rgba(255, 255, 255, 0.5);">
+    <th class="p-2 truncate h-full">
+        <div class="flex items-center">
+            <div class="h-8 w-8 flex-none overflow-hidden relative mr-3">
+                <img src="{{ character.owner.avatar }}" class="absolute object-cover bottom-0"/>
+            </div>
+            <div class="hidden lg:block flex-1 overflow-masked text-ellipsis align-middle"> <!-- NOT WORKING -->
+                <a href="/uid/{{ character.owner.uid }}" class="underline underline-offset-2">{{ character.owner.name }}</a>
+            </div>
+        </div>
+    </th>
+    <td class="p-2 text-center {{ character.stat_hp.style }}" style="vertical-align: center;">
+        <div>
+            {{ character.stat_hp.value }}
+        </div>
+    </td>
+    <td class="p-2 text-center {{ character.stat_atk.style }}" style="vertical-align: center;">
+        <div>
+            {{ character.stat_atk.value }}
+        </div>
+    </td>
+    <td class="p-2 text-center {{ character.stat_def.style }}" style="vertical-align: center;">
+        <div>
+            {{ character.stat_def.value }}
+        </div>
+    </td>
+    <td class="p-2 text-center {{ character.stat_er.style }}" style="vertical-align: center;">
+        <div>
+            {{ character.stat_er.value|percentage }}
+        </div>
+    </td>
+    <td class="p-2 text-center {{ character.stat_em.style }}" style="vertical-align: center;">
+        <div>
+            {{ character.stat_em.value }}
+        </div>
+    </td>
+    <td class="p-2 text-center {{ character.stat_cr.style }}" style="vertical-align: center;">
+        <div>
+            {{ character.stat_cr.value|percentage }}
+        </div>
+    </td>
+    <td class="p-2 text-center {{ character.stat_cd.style }}" style="vertical-align: center;">
+        <div>
+            {{ character.stat_cd.value|percentage }}
+        </div>
+    </td>
+</tr>
