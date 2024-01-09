@@ -12,7 +12,7 @@ urlpatterns = [
     path("how/", views.how),
     path("char/<str:name>/", views.char),
     path("api/<str:name>/", views.charapi),
-    path("char/<str:name>/download/", views.charcsv),
+    path("char/<str:name>/download/", views.chardownload),
 
     # -------------------------
     # /!\ Easter eggs below /!\

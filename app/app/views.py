@@ -9,7 +9,7 @@ import random
 # For API
 from django.http import JsonResponse
 
-# For CSV export
+# For TSV export
 import csv
 from django.http import HttpResponse
 
@@ -138,16 +138,16 @@ def charapi(request, name):
     return JsonResponse(characters)
 
 
-def charcsv(request, name):
+def chardownload(request, name):
     try:
         characters = scripts.get_characters(name)
     except AssertionError as e:
         return HttpResponseNotFound()
     response = HttpResponse(
-        content_type="text/csv",
-        headers={"Content-Disposition": f'attachment; filename="{name}.csv"'},
+        content_type="text/tsv",
+        headers={"Content-Disposition": f'attachment; filename="{name}.tsv"'},
     )
-    writer = csv.writer(response)
+    writer = csv.writer(response, delimiter="\t")
     writer.writerow(["owner_uid", "owner_name", "stat_hp", "stat_atk", "stat_def", "stat_er", "stat_em", "stat_cr", "stat_cd"])
     for entry in characters['characters']:
         writer.writerow([
