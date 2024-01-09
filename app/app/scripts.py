@@ -221,32 +221,7 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
     artifacts_to_drop = []
     characters_to_drop = []
     # Get avatar
-    avatar = None
-    if "playerInfo" not in raw_data:
-        avatar = None
-    if "profilePicture" not in raw_data["playerInfo"]:
-        avatar = None
-    if "id" in raw_data["playerInfo"]["profilePicture"]:
-        avatar_id = str(raw_data["playerInfo"]["profilePicture"]["id"])
-        avatar_name = PFPS[avatar_id]["iconPath"]
-        avatar_name = avatar_name.replace("_Circle", "")
-        avatar = f"https://enka.network/ui/{avatar_name}.png"
-    elif "avatarId" in raw_data["playerInfo"]["profilePicture"]:
-        # TODO: Currently not working.
-        avatar_id = str(raw_data["playerInfo"]["profilePicture"]["avatarId"])
-        if avatar_id == "10000052":
-            avatar_id = "3900"
-            avatar_name = PFPS[avatar_id]["iconPath"]
-            avatar_name = avatar_name.replace("_Circle", "")
-            avatar = f"https://enka.network/ui/{avatar_name}.png"
-        else:
-            avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")
-            avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name[0]}.png"
-            request = requests.get(avatar)
-            if request.status_code != 200:
-                avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name[-1]}.png"
-    else:
-        avatar = None
+    avatar = get_avatar(raw_data)
     print(type(uid))
     if uid == "703047530":
         avatar = "/static/eastereggs/soleil.png"
@@ -450,27 +425,38 @@ def rate_character(scores: list) -> dict:
     return progress
 
 
-def get_avatar(uid: int) -> str:
-    """Get the avatar of a player from Enka.Network"""
-    print(f"Getting avatar for UID {uid}...")
-    raw_data = interrogate_enka(uid)
+def get_avatar(raw_data: dict) -> str:
+    """Get the avatar of a player from Enka.Network's API"""
+    avatar = None
     if "playerInfo" not in raw_data:
-        return None
+        avatar = None
     if "profilePicture" not in raw_data["playerInfo"]:
-        return None
+        avatar = None
     if "id" in raw_data["playerInfo"]["profilePicture"]:
         avatar_id = str(raw_data["playerInfo"]["profilePicture"]["id"])
         avatar_name = PFPS[avatar_id]["iconPath"]
         avatar_name = avatar_name.replace("_Circle", "")
-        return f"https://enka.network/ui/{avatar_name}.png"
+        avatar = f"https://enka.network/ui/{avatar_name}.png"
     elif "avatarId" in raw_data["playerInfo"]["profilePicture"]:
         # TODO: Currently not working.
         avatar_id = str(raw_data["playerInfo"]["profilePicture"]["avatarId"])
-        avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")[-1]
-        return f"https://enka.network/ui/UI_AvatarIcon_{avatar_name}.png"
+        if avatar_id == "10000052":
+            avatar_id = "3900"
+            avatar_name = PFPS[avatar_id]["iconPath"]
+            avatar_name = avatar_name.replace("_Circle", "")
+            avatar = f"https://enka.network/ui/{avatar_name}.png"
+        else:
+            avatar_name = LOC[LANG][str(CHARACTERS[avatar_id]["NameTextMapHash"])].split(" ")
+            avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name[0]}.png"
+            request = requests.get(avatar)
+            if request.status_code != 200:
+                avatar = f"https://enka.network/ui/UI_AvatarIcon_{avatar_name[-1]}.png"
+                request = requests.get(avatar)
+                if request.status_code != 200:
+                    avatar = f"https://enka.network/ui/UI_AvatarIcon_{''.join(avatar_name).capitalize()}.png"
     else:
-        return None
-
+        avatar = None
+    return avatar
 
 def get_player(uid: int, include_rating: bool = False) -> dict:
     obj = {}
