@@ -2,7 +2,7 @@
 
 Let yourself be judged!
 
-![Website overview](https://github.com/SoleilVermeil/court-of-fontaine/assets/100100316/9cf40331-6113-49be-9b2e-40d34e3565e2)
+![image](https://github.com/SoleilVermeil/court-of-fontaine/assets/100100316/0f0b9cdd-7ddd-4806-8a12-7473e0a39ee6) 
 
 ## How to use
 
