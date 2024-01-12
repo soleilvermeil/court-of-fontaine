@@ -15,6 +15,19 @@ class Character(models.Model):
     name = models.CharField(max_length=20)
     icon=models.URLField(max_length=100, blank=True, null=True)
     owner = models.ForeignKey(Player, on_delete=models.CASCADE)
+    weapon_name = models.CharField(max_length=20, blank=True, null=True)
+    weapon_atk = models.IntegerField(default=0)
+    weapon_substat_name = models.CharField(max_length=100, choices=[
+        ("FIGHT_PROP_HP_PERCENT", "HP%"),
+        ("FIGHT_PROP_ATTACK_PERCENT", "ATK%"),
+        ("FIGHT_PROP_DEFENSE_PERCENT", "DEF%"),
+        ("FIGHT_PROP_CRITICAL", "Crit RATE"),
+        ("FIGHT_PROP_CRITICAL_HURT", "Crit DMG"),
+        ("FIGHT_PROP_CHARGE_EFFICIENCY", "Energy Recharge"),
+        ("FIGHT_PROP_ELEMENT_MASTERY", "Elemental Mastery"),
+        ("FIGHT_PROP_PHYSICAL_ADD_HURT", "Physical DMG Bonus"),
+    ], blank=True, null=True, default=None)
+    weapon_substat_value = models.DecimalField(max_digits=5, decimal_places=1, default=0)
     stat_hp = models.IntegerField(default=0)
     stat_atk = models.IntegerField(default=0)
     stat_def = models.IntegerField(default=0)
