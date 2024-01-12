@@ -1,9 +1,10 @@
 from django.shortcuts import render
-from django.shortcuts import redirect
 from django.http import HttpResponseNotFound
 from .models import *
 
 # For 'random' search query
+from django.shortcuts import redirect
+from django.urls import reverse
 import random
 
 # For API
@@ -65,6 +66,7 @@ def inspectapi(request, uid):
     obj = scripts.get_player(uid, include_rating=False)
     return JsonResponse(obj)
 
+
 def inspectrandom(request):
     uid = random.randint(1e8, 1e9 - 1)
     uid = str(uid)
@@ -74,7 +76,8 @@ def inspectrandom(request):
     if "playerInfo" in summary and "showAvatarInfoList" in summary["playerInfo"]:
         obj = scripts.interrogate_enka(uid)
         if "avatarInfoList" in obj and isinstance(obj["avatarInfoList"], list):
-            return inspect(request, uid)
+            # return inspect(request, uid)
+            return redirect(reverse("inspect", kwargs={"uid": uid}))
     return inspectrandom(request)
 
 
