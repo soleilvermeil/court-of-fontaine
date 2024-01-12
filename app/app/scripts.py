@@ -160,6 +160,17 @@ def rating2colors(rating: float) -> dict:
         }
 
 
+def get_style(value: float | str, values: list) -> str:
+    if isinstance(value, str):
+        value = float(value)
+    if value < centile(values, 0.25):
+        return "italic text-opacity-30 text-black"
+    elif value > centile(values, 0.75):
+        return "font-bold"
+    else:
+        return ""
+
+
 def interrogate_enka(uid: int, summary_only: bool = False) -> dict:
     """Get the informations from Enka.Network"""
     print(f"Asking Enka.Network for UID {uid}...")
@@ -469,18 +480,26 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
     characters = Character.objects.filter(owner=player).select_related("owner")
     artifacts = Artifact.objects.filter(owner__in=characters).select_related("owner")
     stats = Substat.objects.filter(owner__in=artifacts).select_related("owner")
+    values_hp = [character.stat_hp for character in characters]
+    values_atk = [character.stat_atk for character in characters]
+    values_def = [character.stat_def for character in characters]
+    values_cr = [character.stat_cr for character in characters]
+    values_cd = [character.stat_cd for character in characters]
+    values_er = [character.stat_er for character in characters]
+    values_em = [character.stat_em for character in characters]
+
     for character in characters:
         scores = []
         obj["characters"].append({
             "name": character.name,
             "icon": character.icon,
-            "stat_hp": character.stat_hp,
-            "stat_atk": character.stat_atk,
-            "stat_def": character.stat_def,
-            "stat_cr": character.stat_cr,
-            "stat_cd": character.stat_cd,
-            "stat_er": character.stat_er,
-            "stat_em": character.stat_em,
+            "stat_hp": {"value": character.stat_hp, "style": get_style(character.stat_hp, values_hp)},
+            "stat_atk": {"value": character.stat_atk, "style": get_style(character.stat_atk, values_atk)},
+            "stat_def": {"value": character.stat_def, "style": get_style(character.stat_def, values_def)},
+            "stat_cr": {"value": character.stat_cr, "style": get_style(character.stat_cr, values_cr)},
+            "stat_cd": {"value": character.stat_cd, "style": get_style(character.stat_cd, values_cd)},
+            "stat_er": {"value": character.stat_er, "style": get_style(character.stat_er, values_er)},
+            "stat_em": {"value": character.stat_em, "style": get_style(character.stat_em, values_em)},
             "artifacts": {},
         })
         characters_artifacts = [a for a in artifacts if a.owner == character]
@@ -579,14 +598,6 @@ def get_characters(name: str) -> list:
     values_cd = [character.stat_cd for character in characters]
     values_er = [character.stat_er for character in characters]
     values_em = [character.stat_em for character in characters]
-    def get_style(value: float, values: list) -> str:
-        if value < centile(values, 0.25):
-            return "italic text-opacity-30 text-black"
-        elif value > centile(values, 0.75):
-            return "font-bold"
-        else:
-            return ""
-
     for character in characters:
         obj["characters"].append({
             "owner": {

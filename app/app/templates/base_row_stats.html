@@ -15,38 +15,38 @@
         </div>
     </th>
     <td class="p-2 text-center" style="vertical-align: center;">
-        <div>
-            {{ character.stat_hp }}
+        <div class="{{ character.stat_hp.style }}">
+            {{ character.stat_hp.value }}
         </div>
     </td>
     <td class="p-2 text-center" style="vertical-align: center;">
-        <div>
-            {{ character.stat_atk }}
+        <div class="{{ character.stat_atk.style }}">
+            {{ character.stat_atk.value }}
         </div>
     </td>
     <td class="p-2 text-center" style="vertical-align: center;">
-        <div>
-            {{ character.stat_def }}
+        <div class="{{ character.stat_def.style }}">
+            {{ character.stat_def.value }}
         </div>
     </td>
     <td class="p-2 text-center" style="vertical-align: center;">
-        <div>
-            {{ character.stat_er|percentage }}
+        <div class="{{ character.stat_er.style }}">
+            {{ character.stat_er.value|percentage }}
         </div>
     </td>
     <td class="p-2 text-center" style="vertical-align: center;">
-        <div>
-            {{ character.stat_em }}
+        <div class="{{ character.stat_em.style }}">
+            {{ character.stat_em.value }}
         </div>
     </td>
     <td class="p-2 text-center" style="vertical-align: center;">
-        <div>
-            {{ character.stat_cr|percentage }}
+        <div class="{{ character.stat_cr.style }}">
+            {{ character.stat_cr.value|percentage }}
         </div>
     </td>
     <td class="p-2 text-center" style="vertical-align: center;">
-        <div>
-            {{ character.stat_cd|percentage }}
+        <div class="{{ character.stat_cd.style }}">
+            {{ character.stat_cd.value|percentage }}
         </div>
     </td>
 </tr>
