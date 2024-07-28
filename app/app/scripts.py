@@ -250,10 +250,16 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
         db_player.save()
     for character_index in range(len(raw_data["avatarInfoList"])):  # NOTE: usually 8
         character_obj: dict = raw_data["avatarInfoList"][character_index]
-        character_name = LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])]
+        if str(character_obj["avatarId"]) in CHARACTERS:
+            character_name = LOC[LANG][str(CHARACTERS[str(character_obj["avatarId"])]["NameTextMapHash"])]
+        else:
+            character_name = "???"
         names.append(character_name)
-        character_icon = "https://enka.network/ui/UI_AvatarIcon_{}.png".format(
-            str(CHARACTERS[str(character_obj["avatarId"])]["SideIconName"]).split("_")[-1])
+        if str(character_obj["avatarId"]) in CHARACTERS:
+            character_icon = "https://enka.network/ui/UI_AvatarIcon_{}.png".format(
+                str(CHARACTERS[str(character_obj["avatarId"])]["SideIconName"]).split("_")[-1])
+        else:
+            character_icon = "https://enka.network/ui/UI_AvatarIcon_?.png"
         try:
             db_character = Character(
                 name=character_name,
@@ -310,8 +316,12 @@ def add_player(uid: int, return_avatar: bool = False) -> None:
                     )
                 )
     
+    # Remove characters with name "???"
+    # names += ["???"]
+    # characters_to_insert = [c for c in characters_to_insert if c.name != "???"]
+
     # Artifact.objects.filter(owner__in=characters_to_insert).delete()
-    Character.objects.filter(owner=db_player, name__in=names).delete()
+    Character.objects.filter(owner=db_player, name__in=names+["???"]).delete()
     Character.objects.bulk_create(characters_to_insert)
     Artifact.objects.bulk_create(artifacts_to_insert)
     Substat.objects.bulk_create(substats_to_insert)
@@ -583,7 +593,6 @@ def get_player(uid: int, include_rating: bool = False) -> dict:
 def get_characters(name: str) -> list:
     print(f"Getting characters for name {name}...")
     characters = Character.objects.filter(name__iexact=name.replace("_", " ")).select_related("owner")
-    characters = [c for c in characters]
     assert len(characters) > 0, f"It seems that no players have '{name}' in their showcase."
     print(characters)
     obj = {

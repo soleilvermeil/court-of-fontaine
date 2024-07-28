@@ -479,7 +479,15 @@
         "NameTextMapHash": 4197635682,
         "SideIconName": "UI_AvatarIcon_Side_Xingqiu",
         "QualityType": "QUALITY_PURPLE",
-        "WeaponType": "WEAPON_SWORD_ONE_HAND"
+        "WeaponType": "WEAPON_SWORD_ONE_HAND",
+        "Costumes": {
+            "202501": {
+                "sideIconName": "UI_AvatarIcon_Side_XingqiuCostumeBamboo",
+                "icon": "UI_AvatarIcon_XingqiuCostumeBamboo",
+                "art": "UI_Costume_XingqiuCostumeBamboo",
+                "avatarId": 10000025
+            }
+        }
     },
     "10000026": {
         "Element": "Wind",
@@ -833,7 +841,15 @@
         "NameTextMapHash": 2679781122,
         "SideIconName": "UI_AvatarIcon_Side_Ganyu",
         "QualityType": "QUALITY_ORANGE",
-        "WeaponType": "WEAPON_BOW"
+        "WeaponType": "WEAPON_BOW",
+        "Costumes": {
+            "203701": {
+                "sideIconName": "UI_AvatarIcon_Side_GanyuCostumeYu",
+                "icon": "UI_AvatarIcon_GanyuCostumeYu",
+                "art": "UI_Costume_GanyuCostumeYu",
+                "avatarId": 10000037
+            }
+        }
     },
     "10000038": {
         "Element": "Rock",
@@ -1547,7 +1563,15 @@
         "NameTextMapHash": 1456643042,
         "SideIconName": "UI_AvatarIcon_Side_Momoka",
         "QualityType": "QUALITY_PURPLE",
-        "WeaponType": "WEAPON_SWORD_ONE_HAND"
+        "WeaponType": "WEAPON_SWORD_ONE_HAND",
+        "Costumes": {
+            "206101": {
+                "sideIconName": "UI_AvatarIcon_Side_MomokaCostumeErrantry",
+                "icon": "UI_AvatarIcon_MomokaCostumeErrantry",
+                "art": "UI_Costume_MomokaCostumeErrantry",
+                "avatarId": 10000061
+            }
+        }
     },
     "10000062": {
         "Element": "Ice",
@@ -1607,7 +1631,15 @@
         "NameTextMapHash": 334242634,
         "SideIconName": "UI_AvatarIcon_Side_Shenhe",
         "QualityType": "QUALITY_ORANGE",
-        "WeaponType": "WEAPON_POLE"
+        "WeaponType": "WEAPON_POLE",
+        "Costumes": {
+            "206301": {
+                "sideIconName": "UI_AvatarIcon_Side_ShenheCostumeDai",
+                "icon": "UI_AvatarIcon_ShenheCostumeDai",
+                "art": "UI_Costume_ShenheCostumeDai",
+                "avatarId": 10000063
+            }
+        }
     },
     "10000064": {
         "Element": "Rock",
@@ -1817,7 +1849,15 @@
         "NameTextMapHash": 3850149970,
         "SideIconName": "UI_AvatarIcon_Side_Nilou",
         "QualityType": "QUALITY_ORANGE",
-        "WeaponType": "WEAPON_SWORD_ONE_HAND"
+        "WeaponType": "WEAPON_SWORD_ONE_HAND",
+        "Costumes": {
+            "207001": {
+                "sideIconName": "UI_AvatarIcon_Side_NilouCostumeFairy",
+                "icon": "UI_AvatarIcon_NilouCostumeFairy",
+                "art": "UI_Costume_NilouCostumeFairy",
+                "avatarId": 10000070
+            }
+        }
     },
     "10000071": {
         "Element": "Electric",
@@ -2449,36 +2489,246 @@
         "QualityType": "QUALITY_ORANGE",
         "WeaponType": "WEAPON_CLAYMORE"
     },
-    "10000005-501": {
-        "Element": "None",
+    "10000092": {
+        "Element": "Fire",
         "Consts": [
-            "None",
-            "None",
-            "None",
-            "None",
-            "None",
-            "None"
+            "UI_Talent_S_Gaming_01",
+            "UI_Talent_S_Gaming_02",
+            "UI_Talent_U_Gaming_01",
+            "UI_Talent_S_Gaming_03",
+            "UI_Talent_U_Gaming_02",
+            "UI_Talent_S_Gaming_04"
         ],
         "SkillOrder": [
-            100540,
-            10067,
-            10068
+            10921,
+            10922,
+            10925
         ],
         "Skills": {
-            "10067": "None",
-            "10068": "None",
-            "100540": "Skill_A_01"
+            "10921": "Skill_A_04",
+            "10922": "Skill_S_Gaming_01",
+            "10925": "Skill_E_Gaming_01"
         },
-        "NameTextMapHash": 3816664530,
         "ProudMap": {
-            "10067": 732,
-            "10068": 739,
-            "100540": 731
+            "10921": 9231,
+            "10922": 9232,
+            "10925": 9239
         },
-        "SideIconName": "UI_AvatarIcon_Side_PlayerBoy",
-        "QualityType": "QUALITY_ORANGE"
+        "NameTextMapHash": 2822240322,
+        "SideIconName": "UI_AvatarIcon_Side_Gaming",
+        "QualityType": "QUALITY_PURPLE",
+        "WeaponType": "WEAPON_CLAYMORE"
     },
-    "10000005-502": {},
+    "10000093": {
+        "Element": "Wind",
+        "Consts": [
+            "UI_Talent_S_Liuyun_01",
+            "UI_Talent_S_Liuyun_02",
+            "UI_Talent_U_Liuyun_02",
+            "UI_Talent_S_Liuyun_03",
+            "UI_Talent_U_Liuyun_01",
+            "UI_Talent_S_Liuyun_04"
+        ],
+        "SkillOrder": [
+            10931,
+            10932,
+            10935
+        ],
+        "Skills": {
+            "10931": "Skill_A_Catalyst_MD",
+            "10932": "Skill_S_Liuyun_01",
+            "10935": "Skill_E_Liuyun_01"
+        },
+        "ProudMap": {
+            "10931": 9331,
+            "10932": 9332,
+            "10935": 9339
+        },
+        "NameTextMapHash": 3648220770,
+        "SideIconName": "UI_AvatarIcon_Side_Liuyun",
+        "QualityType": "QUALITY_ORANGE",
+        "WeaponType": "WEAPON_CATALYST"
+    },
+    "10000094": {
+        "Element": "Rock",
+        "Consts": [
+            "UI_Talent_S_Chiori_01",
+            "UI_Talent_S_Chiori_03",
+            "UI_Talent_U_Chiori_01",
+            "UI_Talent_S_Chiori_02",
+            "UI_Talent_U_Chiori_02",
+            "UI_Talent_S_Chiori_04"
+        ],
+        "SkillOrder": [
+            10941,
+            10942,
+            10945
+        ],
+        "Skills": {
+            "10941": "Skill_A_01",
+            "10942": "Skill_S_Chiori_01",
+            "10945": "Skill_E_Chiori_01"
+        },
+        "ProudMap": {
+            "10941": 9431,
+            "10942": 9432,
+            "10945": 9439
+        },
+        "NameTextMapHash": 1944606922,
+        "SideIconName": "UI_AvatarIcon_Side_Chiori",
+        "QualityType": "QUALITY_ORANGE",
+        "WeaponType": "WEAPON_SWORD_ONE_HAND"
+    },
+    "10000095": {
+        "Element": "Water",
+        "Consts": [
+            "UI_Talent_S_Sigewinne_01",
+            "UI_Talent_S_Sigewinne_02",
+            "UI_Talent_U_Sigewinne_01",
+            "UI_Talent_S_Sigewinne_03",
+            "UI_Talent_U_Sigewinne_02",
+            "UI_Talent_S_Sigewinne_04"
+        ],
+        "SkillOrder": [
+            10951,
+            10952,
+            10955
+        ],
+        "Skills": {
+            "10951": "Skill_A_02",
+            "10952": "Skill_S_Sigewinne_01",
+            "10955": "Skill_E_Sigewinne_01"
+        },
+        "ProudMap": {
+            "10951": 9531,
+            "10952": 9532,
+            "10955": 9539
+        },
+        "NameTextMapHash": 781488962,
+        "SideIconName": "UI_AvatarIcon_Side_Sigewinne",
+        "QualityType": "QUALITY_ORANGE",
+        "WeaponType": "WEAPON_BOW"
+    },
+    "10000096": {
+        "Element": "Fire",
+        "Consts": [
+            "UI_Talent_S_Arlecchino_01",
+            "UI_Talent_S_Arlecchino_02",
+            "UI_Talent_U_Arlecchino_01",
+            "UI_Talent_S_Arlecchino_03",
+            "UI_Talent_U_Arlecchino_02",
+            "UI_Talent_S_Arlecchino_04"
+        ],
+        "SkillOrder": [
+            10961,
+            10962,
+            10965
+        ],
+        "Skills": {
+            "10961": "Skill_A_03",
+            "10962": "Skill_S_Arlecchino_01",
+            "10965": "Skill_E_Arlecchino_01"
+        },
+        "ProudMap": {
+            "10961": 9631,
+            "10962": 9632,
+            "10965": 9639
+        },
+        "NameTextMapHash": 167199474,
+        "SideIconName": "UI_AvatarIcon_Side_Arlecchino",
+        "QualityType": "QUALITY_ORANGE",
+        "WeaponType": "WEAPON_POLE"
+    },
+    "10000097": {
+        "Element": "Electric",
+        "Consts": [
+            "UI_Talent_S_Sethos_01",
+            "UI_Talent_S_Sethos_02",
+            "UI_Talent_U_Sethos_01",
+            "UI_Talent_S_Sethos_03",
+            "UI_Talent_U_Sethos_02",
+            "UI_Talent_S_Sethos_04"
+        ],
+        "SkillOrder": [
+            10971,
+            10972,
+            10975
+        ],
+        "Skills": {
+            "10971": "Skill_A_02",
+            "10972": "Skill_S_Sethos_01",
+            "10975": "Skill_E_Sethos_01"
+        },
+        "ProudMap": {
+            "10971": 9731,
+            "10972": 9732,
+            "10975": 9739
+        },
+        "NameTextMapHash": 1431322346,
+        "SideIconName": "UI_AvatarIcon_Side_Sethos",
+        "QualityType": "QUALITY_PURPLE",
+        "WeaponType": "WEAPON_BOW"
+    },
+    "10000098": {
+        "Element": "Electric",
+        "Consts": [
+            "UI_Talent_S_Clorinde_01",
+            "UI_Talent_S_Clorinde_02",
+            "UI_Talent_U_Clorinde_02",
+            "UI_Talent_S_Clorinde_03",
+            "UI_Talent_U_Clorinde_01",
+            "UI_Talent_S_Clorinde_04"
+        ],
+        "SkillOrder": [
+            10981,
+            10982,
+            10985
+        ],
+        "Skills": {
+            "10981": "Skill_A_01",
+            "10982": "Skill_S_Clorinde_01",
+            "10985": "Skill_E_Clorinde_01"
+        },
+        "ProudMap": {
+            "10981": 9831,
+            "10982": 9832,
+            "10985": 9839
+        },
+        "NameTextMapHash": 2745369298,
+        "SideIconName": "UI_AvatarIcon_Side_Clorinde",
+        "QualityType": "QUALITY_ORANGE",
+        "WeaponType": "WEAPON_SWORD_ONE_HAND"
+    },
+    "10000099": {
+        "Element": "Grass",
+        "Consts": [
+            "UI_Talent_S_Emilie_01",
+            "UI_Talent_S_Emilie_02",
+            "UI_Talent_U_Emilie_01",
+            "UI_Talent_S_Emilie_03",
+            "UI_Talent_U_Emilie_02",
+            "UI_Talent_S_Emilie_04"
+        ],
+        "SkillOrder": [
+            10991,
+            10992,
+            10995
+        ],
+        "Skills": {
+            "10991": "Skill_A_03",
+            "10992": "Skill_S_Emilie_01",
+            "10995": "Skill_E_Emilie_01"
+        },
+        "ProudMap": {
+            "10991": 9931,
+            "10992": 9932,
+            "10995": 9939
+        },
+        "NameTextMapHash": 1705786122,
+        "SideIconName": "UI_AvatarIcon_Side_Emilie",
+        "QualityType": "QUALITY_ORANGE",
+        "WeaponType": "WEAPON_POLE"
+    },
     "10000005-503": {
         "Element": "Water",
         "Consts": [
@@ -2539,7 +2789,6 @@
         "QualityType": "QUALITY_ORANGE",
         "WeaponType": "WEAPON_SWORD_ONE_HAND"
     },
-    "10000005-505": {},
     "10000005-506": {
         "Element": "Rock",
         "Consts": [
@@ -2630,6 +2879,35 @@
         "QualityType": "QUALITY_ORANGE",
         "WeaponType": "WEAPON_SWORD_ONE_HAND"
     },
+    "10000005-501": {
+        "Element": "None",
+        "Consts": [
+            "None",
+            "None",
+            "None",
+            "None",
+            "None",
+            "None"
+        ],
+        "SkillOrder": [
+            100540,
+            10067,
+            10068
+        ],
+        "Skills": {
+            "10067": "None",
+            "10068": "None",
+            "100540": "Skill_A_01"
+        },
+        "NameTextMapHash": 3816664530,
+        "ProudMap": {
+            "10067": 732,
+            "10068": 739,
+            "100540": 731
+        },
+        "SideIconName": "UI_AvatarIcon_Side_PlayerBoy",
+        "QualityType": "QUALITY_ORANGE"
+    },
     "10000007-701": {
         "Element": "None",
         "Consts": [
@@ -2659,7 +2937,6 @@
         "SideIconName": "UI_AvatarIcon_Side_PlayerGirl",
         "QualityType": "QUALITY_ORANGE"
     },
-    "10000007-702": {},
     "10000007-703": {
         "Element": "Water",
         "Consts": [
@@ -2720,7 +2997,6 @@
         "QualityType": "QUALITY_ORANGE",
         "WeaponType": "WEAPON_SWORD_ONE_HAND"
     },
-    "10000007-705": {},
     "10000007-706": {
         "Element": "Rock",
         "Consts": [
